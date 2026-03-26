@@ -1,134 +1,251 @@
+{{ define "mainClass" }}main-content main-fog{{ end }}
+
 {{ define "main" }}
 
 <!-- ============================================================
-     HERO — 12×59 = 708px
+     FOG ZONE — initial state, radical absence
      ============================================================ -->
-<section id="hero" class="h-12u sec-pad-hero">
-  <div class="hero-inner">
-    <div class="hero-left">
-      <span class="hero-eyebrow">SYNTONIE · ASBL · BRUXELLES</span>
-      <h1 class="hero-title">The harmonic field<br>is our playground.</h1>
-      <p class="hero-sub">Démocratie, technologie, et faire appartiennent ensemble — comme pratique vivante.</p>
+<div class="fog-zone" id="fog-zone">
+  <p class="fog-tagline">Qu'est-ce que tu cherches à construire&nbsp;?</p>
+
+  <div class="fog-input-wrap">
+    <input
+      type="text"
+      id="fog-input"
+      class="fog-input"
+      placeholder="autonomie, gouvernance, fablab, inclusion…"
+      autocomplete="off"
+      aria-label="Décris ton projet ou tes besoins"
+    />
+    <div id="fog-suggestions" class="fog-suggestions" role="listbox" hidden></div>
+  </div>
+
+  <div class="fog-topics" id="fog-topics" aria-label="Sujets suggérés">
+    <button class="topic-chip" data-recipe="shelter">gouvernance</button>
+    <button class="topic-chip" data-recipe="shelter">ASBL</button>
+    <button class="topic-chip" data-recipe="inclusion">neurodiversité</button>
+    <button class="topic-chip" data-recipe="constellation">fablab</button>
+    <button class="topic-chip" data-recipe="constellation">maker</button>
+    <button class="topic-chip" data-recipe="values">open source</button>
+    <button class="topic-chip" data-recipe="about">c'est quoi Syntonie&nbsp;?</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     RECIPE: shelter
+     A — shelter-header
+     B — ownership-split
+     C — precedents-grid
+     K — cta
+     ============================================================ -->
+
+<section id="shelter-header" class="recipe-block" hidden>
+  <div class="shelter-intro">
+    <span class="fog-eyebrow">MODÈLE D'ABRI · GOUVERNANCE ASBL</span>
+    <h2 class="shelter-title">La structure est à nous.<br>Le projet est à vous.</h2>
+    <p class="shelter-sub">Syntonie est une ASBL-ombrelle : elle porte la structure légale et les actifs pendant que votre projet garde toute son autonomie créative.</p>
+  </div>
+  <div class="shelter-stats">
+    <div class="stat-item">
+      <span class="stat-num">2012</span>
+      <span class="stat-label">FONDÉE</span>
     </div>
-    <div class="def-card">
-      <span class="def-word">syntonie</span>
-      <span class="def-phon">/sɛ̃.tɔ.ni/</span>
-      <div class="def-sep"></div>
-      <p class="def-txt">État de résonance harmonique entre deux systèmes. Par extension : accord profond entre soi et son environnement.</p>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <span class="stat-num">13 ans</span>
+      <span class="stat-label">D'EXISTENCE</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <span class="stat-num">250+</span>
+      <span class="stat-label">MAKERS ACCOMPAGNÉS</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <span class="stat-num">Erasmus+</span>
+      <span class="stat-label">PARTENARIATS EU</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <span class="stat-num">Ixelles</span>
+      <span class="stat-label">BRUXELLES</span>
+    </div>
+  </div>
+</section>
+
+<section id="ownership-split" class="recipe-block" hidden>
+  <span class="fog-eyebrow">RÉPARTITION DES RÔLES</span>
+  <h3 class="fog-sec-title">Ce que Syntonie porte. Ce que vous gardez.</h3>
+  <div class="ownership-cols">
+    <div class="own-col own-col-orange">
+      <span class="own-col-head">CE QUE SYNTONIE DÉTIENT</span>
+      <div class="own-col-sep"></div>
+      <p class="own-col-item">→ La personnalité juridique ASBL</p>
+      <p class="own-col-item">→ La relation avec les financeurs institutionnels</p>
+      <p class="own-col-item">→ La conformité fiscale et administrative</p>
+      <p class="own-col-item">→ La continuité même si votre projet évolue</p>
+      <p class="own-col-item">→ L'accès aux appels d'offres européens</p>
+    </div>
+    <div class="own-col own-col-blue">
+      <span class="own-col-head">CE QUE VOTRE PROJET GARDE</span>
+      <div class="own-col-sep"></div>
+      <p class="own-col-item">→ Votre identité de marque propre</p>
+      <p class="own-col-item">→ Vos décisions créatives et pédagogiques</p>
+      <p class="own-col-item">→ Votre communauté et vos relations</p>
+      <p class="own-col-item">→ Votre liberté de méthode</p>
+      <p class="own-col-item">→ Le droit de sortir et d'évoluer</p>
+    </div>
+  </div>
+</section>
+
+<section id="precedents-grid" class="recipe-block" hidden>
+  <span class="fog-eyebrow">ILS ONT DÉJÀ FAIT ÇA</span>
+  <h3 class="fog-sec-title">Projets abrités par Syntonie</h3>
+  <div class="precedents-grid">
+    <div class="precedent-card">
+      <span class="precedent-name">Speculoos</span>
+      <span class="precedent-tag">JEUX · GOUVERNANCE PARTICIPATIVE</span>
+      <p class="precedent-desc">Expérimentation de mécaniques de jeu pour des processus de décision collective dans des espaces publics et associatifs.</p>
+    </div>
+    <div class="precedent-card">
+      <span class="precedent-name">Fabulous</span>
+      <span class="precedent-tag">ÉDUCATION · FABRICATION NUMÉRIQUE</span>
+      <p class="precedent-desc">Programme de formation à la fabrication numérique pour jeunes en décrochage scolaire. Passeport Maker, certifications, suivi long-terme.</p>
+    </div>
+    <div class="precedent-card">
+      <span class="precedent-name">Cabinet de curiosités</span>
+      <span class="precedent-tag">RECHERCHE · MÉDIATIONS CULTURELLES</span>
+      <p class="precedent-desc">Résidences artistiques hybrides mêlant making, patrimoine et enquête sociale. Financé Cocof + Communauté française.</p>
+    </div>
+    <div class="precedent-card">
+      <span class="precedent-name">Enigmaker</span>
+      <span class="precedent-tag">ÉVÉNEMENT · MAKER FAIRE BRUXELLES</span>
+      <p class="precedent-desc">Format de rencontre entre makers et public grand format. 2000+ visiteurs, 40 exposants. Sous-entité de Syntonie depuis 2019.</p>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
-     VISION — 12×59 = 708px
+     RECIPE: inclusion
+     E — project:allo-ia
+     F — project:invisible-play
+     G — value:imparfait
+     K — cta
      ============================================================ -->
-<section id="vision" class="h-12u sec-pad sec-gap" style="display:flex; flex-direction:column; justify-content:center;">
-  <div class="vision-inner">
-    <div class="vision-body">
-      <span class="eyebrow">01 · NOTRE ADN</span>
-      <h2 class="sec-title">La relation entre humains, technologie, et environnement se brisait.</h2>
-      <p class="sec-body">En 2012, nous avons fondé Syntonie — du grec syntonia, "être en résonance." Une ASBL conçue comme infrastructure de gouvernance : elle ne produit pas, elle permet. Pendant 14 ans, cette structure a abrité des projets européens (Vulca, CHIC2.0, Erasmus+), soutenu une communauté de 250+ makers, et développé une méthodologie d'inclusion par le faire.</p>
+
+<section id="project-allo-ia" class="recipe-block" hidden>
+  <span class="fog-eyebrow">PROJET EN COURS · INCLUSION PAR LE FAIRE</span>
+  <h3 class="fog-sec-title">Allo-IA</h3>
+  <p class="fog-sec-body">Accompagnement pour les personnes qui se demandent comment l'intelligence artificielle va changer leur travail. Non pas par la peur, mais par la fabrication — prendre l'outil en main, comprendre en faisant. Pour les profils atypiques qui apprennent mieux avec les mains qu'avec les slides.</p>
+  <p class="fog-sec-body" style="margin-top:8px;">Format : ateliers courts (90 min), en petit groupe, entrée permanente. Pas de prérequis techniques.</p>
+</section>
+
+<section id="project-invisible-play" class="recipe-block" hidden>
+  <span class="fog-eyebrow">RECHERCHE-ACTION · NEURODIVERGENCE ET TRAVAIL</span>
+  <h3 class="fog-sec-title">Invisible Play</h3>
+  <p class="fog-sec-body">Documentation des stratégies d'adaptation que les personnes neurodivergentes développent dans les environnements de travail standard. Jeux de rôle, récits, prototypes de mécanismes de médiation. Objectif : rendre ces stratégies visibles et transmissibles.</p>
+  <p class="fog-sec-body" style="margin-top:8px;">En co-construction avec des communautés ADHD, autistes HPI et dys de Bruxelles et Ixelles.</p>
+</section>
+
+<section id="value-imparfait" class="recipe-block" hidden>
+  <span class="fog-eyebrow">NOS VALEURS · EXTRAIT</span>
+  <div class="value-item-single">
+    <span class="value-name">Imparfait</span>
+    <p class="value-story">Nous ne présentons pas des solutions finies. Nous montrons le travail en cours, les erreurs de parcours, ce qui n'a pas fonctionné. Parce que l'imperfection affichée est un signal de confiance — elle dit que nous ne prétendons pas, que vous pouvez nous rejoindre au milieu du processus, pas seulement à la livraison.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     RECIPE: constellation
+     D — constellation-map (placeholder)
+     C — precedents-grid (reused)
+     K — cta
+     ============================================================ -->
+
+<section id="constellation-map" class="recipe-block" hidden>
+  <span class="fog-eyebrow">L'ÉCOSYSTÈME · EN CONSTRUCTION</span>
+  <h3 class="fog-sec-title">La constellation de projets</h3>
+  <p class="fog-sec-body">Une carte vivante des projets, makers et initiatives gravitant autour de Syntonie, OpenFab et Politype. Chaque nœud est un projet réel, avec ses connexions, ses dates, ses financeurs.</p>
+  <div class="constellation-placeholder">
+    <span class="constellation-placeholder-label">CARTE INTERACTIVE · À VENIR</span>
+    <p class="constellation-placeholder-sub">En attendant : <a href="mailto:contact@syntonie.be" class="fog-inline-link">contact@syntonie.be</a> pour une présentation de l'écosystème.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     RECIPE: values
+     H — values-all
+     A — shelter-header (reused)
+     K — cta
+     ============================================================ -->
+
+<section id="values-all" class="recipe-block" hidden>
+  <span class="fog-eyebrow">NOS VALEURS · 6 PRINCIPES</span>
+  <h3 class="fog-sec-title">Ce en quoi nous croyons vraiment.</h3>
+  <div class="values-list">
+    <div class="value-row">
+      <span class="value-name">Indépendant</span>
+      <p class="value-story">Pas d'actionnaires, pas d'agenda caché. Nos décisions sont guidées par la mission, pas par les financeurs. On dit non quand c'est non.</p>
     </div>
-    <div class="vision-pull">
-      <p class="pull-quote">« Syntonie ne fait pas — elle permet. »</p>
-      <span class="pull-annot">PRINCIPE FONDATEUR</span>
-      <div class="photo-placeholder">
-        <span class="photo-label">📷 Production de crise 2020 — visières &amp; masques</span>
-      </div>
-      <div class="v-badge">
-        <p class="v-badge-txt">En 2020, la communauté s'est auto-organisée : 1500 visières, 4500 masques produits en réponse à la crise.</p>
-      </div>
+    <div class="value-row">
+      <span class="value-name">Innovant</span>
+      <p class="value-story">On prototypage avant d'expliquer. On expérimente avant de certifier. Le risque d'échouer est une condition de l'apprentissage, pas un défaut de processus.</p>
+    </div>
+    <div class="value-row">
+      <span class="value-name">Belge</span>
+      <p class="value-story">Pas "belge" comme drapeau. Belge comme pragmatique, plurilingue, bricoleur, habitué des structures complexes. À 900m du Parlement européen, sans en être intimidé.</p>
+    </div>
+    <div class="value-row">
+      <span class="value-name">Imparfait</span>
+      <p class="value-story">Nous montrons le travail en cours. Les erreurs de parcours. Ce qui n'a pas fonctionné. L'imperfection affichée est un signal de confiance — vous pouvez nous rejoindre au milieu du processus.</p>
+    </div>
+    <div class="value-row">
+      <span class="value-name">Prospectif</span>
+      <p class="value-story">On pense à 5 ans minimum. Les structures légales, les méthodologies, les partenariats : conçus pour durer, pas pour la prochaine subvention.</p>
+    </div>
+    <div class="value-row">
+      <span class="value-name">Open source</span>
+      <p class="value-story">Nos méthodes sont documentées et partagées. Nos outils sont réutilisables. L'intelligence que nous développons n'appartient pas à Syntonie — elle appartient au commun.</p>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
-     ROLE — 18×59 = 1062px
+     RECIPE: about (fallback)
+     I — about-syntonie
+     J — mission
+     K — cta
      ============================================================ -->
-<section id="role" class="h-18u sec-pad sec-gap" style="display:flex; flex-direction:column; justify-content:center;">
-  <span class="eyebrow">02 · RECHERCHE &amp; MÉTHODOLOGIE</span>
-  <h2 class="sec-title" style="max-width:560px;">Le cadre. Le parapluie.<br>Ce qui permet le reste.</h2>
-  <p class="sec-lead">Syntonie développe depuis 2017 une méthodologie de recherche-action autour du jeu comme outil de gouvernance et d'engagement citoyen. Du Passeport Maker aux partenariats Erasmus+, notre approche combine prototypage rapide, évaluation terrain et documentation ouverte.</p>
 
-  <div class="role-cols">
-    <div class="do-col">
-      <span class="col-head">✓  CE QUE NOUS FAISONS</span>
-      <div class="col-sep"></div>
-      <p class="col-item">→ Penser à long terme et maintenir la cohérence stratégique</p>
-      <p class="col-item">→ Développer la recherche-action en gouvernance participative</p>
-      <p class="col-item">→ Ancrer les partenariats européens (Vulca, CHIC2.0, Erasmus+)</p>
-      <p class="col-item">→ Posséder et gérer les actifs pour l'écosystème</p>
-      <p class="col-item">→ Assurer la conformité légale et la continuité institutionnelle</p>
-    </div>
-    <div class="dont-col">
-      <span class="col-head">✕  CE QUE NOUS NE FAISONS PAS</span>
-      <div class="col-sep"></div>
-      <p class="col-item">✕ Gérer les opérations quotidiennes</p>
-      <p class="col-item">✕ Animer des ateliers directement</p>
-      <p class="col-item">✕ Fabriquer des choses (c'est OpenFab)</p>
-      <p class="col-item">✕ Prototyper la gouvernance (c'est Politype)</p>
-      <p class="col-item">✕ Microgérer les sous-entités</p>
-    </div>
-  </div>
+<section id="about-syntonie" class="recipe-block" hidden>
+  <span class="fog-eyebrow">QUI SOMMES-NOUS</span>
+  <h3 class="fog-sec-title">Syntonie, en deux paragraphes.</h3>
+  <p class="fog-sec-body">Syntonie est une ASBL bruxelloise fondée en 2012. Du grec syntonia — être en résonance. Pendant 13 ans, cette structure a servi d'infrastructure de gouvernance pour des projets à l'intersection de la technologie, de la fabrication et de la participation citoyenne.</p>
+  <p class="fog-sec-body" style="margin-top:16px;">Syntonie ne produit pas directement. Elle permet : elle porte la structure légale, les partenariats européens (Vulca, CHIC2.0, Erasmus+), les actifs matériels et numériques — pendant que les projets qu'elle abrite gardent leur identité propre.</p>
+</section>
 
-  <div class="role-images">
-    <div class="photo-placeholder" style="flex:1;">
-      <span class="photo-label">📷 L'Enigmaker — Maker Faire 2023</span>
-    </div>
-    <div class="photo-placeholder" style="flex:1;">
-      <span class="photo-label">📷 SALANBAYOU — Game design civique</span>
-    </div>
+<section id="mission" class="recipe-block" hidden>
+  <span class="fog-eyebrow">MISSION</span>
+  <div class="mission-block">
+    <p class="mission-statement">Créer les conditions pour que des projets citoyens, éducatifs et technologiques puissent exister, durer et avoir un impact — sans se noyer dans l'administratif.</p>
+    <span class="mission-tag">ASBL · Ixelles, Bruxelles · BE0844983628</span>
   </div>
 </section>
 
 <!-- ============================================================
-     TRINITY / ECOSYSTEM — 14×59 = 826px
+     CTA — always last (K)
      ============================================================ -->
-<section id="trinity" class="h-14u sec-pad sec-gap" style="display:flex; flex-direction:column; justify-content:center;">
-  <span class="eyebrow">03 · L'ÉCOSYSTÈME</span>
-  <h2 class="sec-title" style="max-width:100%;">Trois entités. Un écosystème.</h2>
-  <p class="trinity-intro">Un écosystème où chaque membre est connecté à plusieurs projets. Syntonie tient le centre — les entités opèrent.</p>
-
-  <div class="trinity-cards">
-    <div class="t-card t-card-of">
-      <span class="t-card-title">OpenFab</span>
-      <p class="t-card-body">L'espace maker de l'écosystème : outils, ateliers, communauté. 13 000 jeunes touchés depuis 2012. Fabmobile (Innoviris 2017-18), FabÉcole (2019), communauté de 250+ makers à Ixelles.</p>
-      <a href="#" class="t-card-cta">OPENFAB.BE →</a>
-      <div class="t-card-img">
-        <span class="photo-label">📷 Fabmobile / FabÉcole en action</span>
-      </div>
-    </div>
-    <div class="t-card t-card-pt">
-      <span class="t-card-title">Politype</span>
-      <p class="t-card-body">Le laboratoire de gouvernance participative. Jeux civiques, outils de démocratie, prototypage de nouvelles formes de décision collective. À 900m du Parlement européen.</p>
-      <a href="#" class="t-card-cta">POLITYPE.BE →</a>
-      <div class="t-card-img">
-        <span class="photo-label">📷 Council of Makers / session de gouvernance</span>
-      </div>
-    </div>
-  </div>
+<section id="cta" class="recipe-block" hidden>
+  <p class="cta-main">→ <a href="mailto:contact@syntonie.be">contact@syntonie.be</a></p>
+  <p class="cta-hint">Pas de formulaire. Juste un message.</p>
 </section>
 
-<!-- ============================================================
-     CONTACT — 12×59 = 708px
-     ============================================================ -->
-<section id="contact" class="h-12u sec-pad sec-gap" style="display:flex; flex-direction:column; justify-content:center;">
-  <span class="eyebrow">05 — CONTACT</span>
-  <h2 class="sec-title" style="max-width:100%;">Entrons en contact.</h2>
-  <p class="sec-lead" style="max-width:480px;">Partenariats institutionnels, co-financement de programmes, accords-cadres — une seule porte pour collaborer avec l'écosystème.</p>
-  <div class="contact-track" style="max-width:480px;">
-    <span class="track-head">☂️ Partenariats &amp; Co-financement</span>
-    <p class="track-desc">Erasmus+, programmes régionaux, conventions avec les communes, accords-cadres européens.</p>
-    <a href="mailto:contact@syntonie.be" class="track-cta">ÉCRIRE À SYNTONIE →</a>
-  </div>
-</section>
+{{ end }}
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
-<footer>
-  <span class="footer-brand">☂️ Syntonie</span>
-  <p class="footer-legal">ASBL Syntonie · BE0844983628 · Ixelles, Bruxelles<br>Mentions légales · Politique de confidentialité</p>
-</footer>
-
+{{ define "scripts" }}
+<script>
+  // Expose topics path for recipes.js
+  window.TOPICS_URL = '/js/topics.json'
+</script>
+<script src="/js/recipes.js" defer></script>
 {{ end }}

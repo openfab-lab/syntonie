@@ -55,10 +55,11 @@
   </aside>
 
   <!-- MAIN -->
-  <main class="main-content">
+  <main class="{{ block "mainClass" . }}main-content{{ end }}">
     {{ block "main" . }}{{ end }}
   </main>
 
 </div>
+{{ block "scripts" . }}{{ end }}
 </body>
 </html>
