@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ .Title }} — ASBL · Bruxelles</title>
+  <meta name="description" content="{{ .Site.Params.description }}" />
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-glyph">☂️</span>
+      <span class="brand-name">Syntonie</span>
+      <span class="brand-tag">ASBL · IXELLES, BRUXELLES</span>
+      <span class="brand-tag2">FONDÉE 2012</span>
+    </div>
+
+    <nav class="nav">
+      <a href="#hero"    class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+      <a href="#vision"  class="nav-item"><span class="nav-num">01</span><span class="nav-txt">VISION</span></a>
+      <a href="#role"    class="nav-item"><span class="nav-num">02</span><span class="nav-txt">NOTRE RÔLE</span></a>
+      <a href="#trinity" class="nav-item"><span class="nav-num">03</span><span class="nav-txt">L'ÉCOSYSTÈME</span></a>
+      <a href="#contact" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
+    </nav>
+
+    <!-- Colonnade — load-bearing metaphor, pavilion pillars in the breathing space -->
+    <div class="sidebar-spacer" aria-hidden="true">
+      <div class="pillars">
+        <span class="pillar" style="left:25%;  animation-delay:0s"></span>
+        <span class="pillar" style="left:50%;  animation-delay:1.3s"></span>
+        <span class="pillar" style="left:75%;  animation-delay:2.6s"></span>
+      </div>
+    </div>
+
+    <div class="lang-toggle">
+      <button class="lang-btn active">FR</button>
+      <button class="lang-btn">EN</button>
+    </div>
+
+    <div class="portals">
+      <span class="portals-label">ÉCOSYSTÈME</span>
+      <a href="#" class="portal-link">
+        <span class="portal-glyph">🫰</span>
+        <span class="portal-name">POLITYPE</span>
+      </a>
+      <a href="#" class="portal-link">
+        <span class="portal-glyph">🧰</span>
+        <span class="portal-name">OPENFAB</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+</div>
+</body>
+</html>

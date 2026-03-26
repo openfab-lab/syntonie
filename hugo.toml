@@ -1,0 +1,8 @@
+baseURL = "/"
+languageCode = "fr-BE"
+title = "Syntonie"
+
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  description = "ASBL · Infrastructure de gouvernance pour l'écosystème Trinity · Ixelles, Bruxelles"

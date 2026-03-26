@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .ring-blue { fill: none; stroke: #4a7fa5; }
+      .ring-amber { fill: none; stroke: #c47a2a; }
+      .axis { stroke: #4a7fa5; stroke-width: 0.5; }
+      .axis-amber { stroke: #c47a2a; stroke-width: 0.5; }
+    </style>
+  </defs>
+
+  <!-- Nodal axes — the skeleton of the standing wave -->
+  <line x1="200" y1="0" x2="200" y2="400" class="axis" opacity="0.4"/>
+  <line x1="0" y1="200" x2="400" y2="200" class="axis" opacity="0.4"/>
+  <line x1="0" y1="0" x2="400" y2="400" class="axis" opacity="0.25"/>
+  <line x1="400" y1="0" x2="0" y2="400" class="axis" opacity="0.25"/>
+
+  <!-- Secondary diagonal axes — 432Hz produces more subdivisions -->
+  <line x1="200" y1="0" x2="0" y2="200" class="axis" opacity="0.15"/>
+  <line x1="200" y1="0" x2="400" y2="200" class="axis" opacity="0.15"/>
+  <line x1="0" y1="200" x2="200" y2="400" class="axis" opacity="0.15"/>
+  <line x1="400" y1="200" x2="200" y2="400" class="axis" opacity="0.15"/>
+
+  <!-- Concentric resonance rings — outermost to core -->
+  <circle cx="200" cy="200" r="195" class="ring-blue" stroke-width="1" opacity="0.6"/>
+  <circle cx="200" cy="200" r="160" class="ring-blue" stroke-width="1.2" opacity="0.5"/>
+  <circle cx="200" cy="200" r="125" class="ring-blue" stroke-width="1" opacity="0.45"/>
+  <circle cx="200" cy="200" r="90" class="ring-blue" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="200" cy="200" r="59" class="ring-amber" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="200" cy="200" r="30" class="ring-amber" stroke-width="2" opacity="0.7"/>
+
+  <!-- Core — the fundamental frequency node -->
+  <circle cx="200" cy="200" r="8" fill="#c47a2a" opacity="0.8"/>
+  <circle cx="200" cy="200" r="3" fill="#e8eaed" opacity="0.9"/>
+
+  <!-- Nodal intersection points — where standing waves meet axes -->
+  <!-- On vertical/horizontal axes -->
+  <circle cx="200" cy="5" r="3" fill="#4a7fa5" opacity="0.4"/>
+  <circle cx="200" cy="40" r="2.5" fill="#4a7fa5" opacity="0.35"/>
+  <circle cx="200" cy="75" r="2" fill="#4a7fa5" opacity="0.3"/>
+  <circle cx="395" cy="200" r="3" fill="#4a7fa5" opacity="0.4"/>
+  <circle cx="360" cy="200" r="2.5" fill="#4a7fa5" opacity="0.35"/>
+  <circle cx="325" cy="200" r="2" fill="#4a7fa5" opacity="0.3"/>
+  <circle cx="200" cy="395" r="3" fill="#4a7fa5" opacity="0.4"/>
+  <circle cx="200" cy="360" r="2.5" fill="#4a7fa5" opacity="0.35"/>
+  <circle cx="200" cy="325" r="2" fill="#4a7fa5" opacity="0.3"/>
+  <circle cx="5" cy="200" r="3" fill="#4a7fa5" opacity="0.4"/>
+  <circle cx="40" cy="200" r="2.5" fill="#4a7fa5" opacity="0.35"/>
+  <circle cx="75" cy="200" r="2" fill="#4a7fa5" opacity="0.3"/>
+
+  <!-- On diagonal axes -->
+  <circle cx="62" cy="62" r="2.5" fill="#4a7fa5" opacity="0.3"/>
+  <circle cx="338" cy="62" r="2.5" fill="#4a7fa5" opacity="0.3"/>
+  <circle cx="62" cy="338" r="2.5" fill="#4a7fa5" opacity="0.3"/>
+  <circle cx="338" cy="338" r="2.5" fill="#4a7fa5" opacity="0.3"/>
+
+  <!-- Inner amber nodal points — the harmonic sweet spot -->
+  <circle cx="200" cy="141" r="2" fill="#c47a2a" opacity="0.5"/>
+  <circle cx="200" cy="259" r="2" fill="#c47a2a" opacity="0.5"/>
+  <circle cx="141" cy="200" r="2" fill="#c47a2a" opacity="0.5"/>
+  <circle cx="259" cy="200" r="2" fill="#c47a2a" opacity="0.5"/>
+</svg>
