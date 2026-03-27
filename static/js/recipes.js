@@ -109,6 +109,9 @@ function revealRecipe(recipe) {
   // Update keyword chips (responsive to current recipe)
   updateKeywordChips(recipe)
 
+  // Update sidebar nav (responsive to current recipe)
+  updateSidebarNav(recipe)
+
   if (!recipe) return
 
   // Reveal and animate
@@ -204,6 +207,26 @@ function updateKeywordChips(recipe) {
   // so re-binding is not needed — clicks will bubble up to parent listener
 }
 
+function updateSidebarNav(recipe) {
+  const middle = document.getElementById('nav-middle')
+  if (!middle) return
+
+  if (!recipe) {
+    middle.innerHTML = ''
+    return
+  }
+
+  const meta = RECIPE_META[recipe]
+  const lang = getCurrentLang()
+  const label = meta?.label?.[lang] || recipe.toUpperCase()
+  middle.innerHTML = `
+    <span class="nav-item nav-item-recipe">
+      <span class="nav-num">→</span>
+      <span class="nav-txt">${label}</span>
+    </span>
+  `
+}
+
 // ── Init ───────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -258,6 +281,27 @@ document.addEventListener('DOMContentLoaded', () => {
         suggestions.hidden = true
         revealRecipe(recipe)
       }
+    })
+  }
+
+  // Wire brand-reset and nav-accueil to clear recipe
+  const brandReset = document.getElementById('brand-reset')
+  if (brandReset) {
+    brandReset.addEventListener('click', e => {
+      e.preventDefault()
+      input.value = ''
+      revealRecipe(null)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  }
+
+  const navAccueil = document.getElementById('nav-accueil')
+  if (navAccueil) {
+    navAccueil.addEventListener('click', e => {
+      e.preventDefault()
+      input.value = ''
+      revealRecipe(null)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     })
   }
 })

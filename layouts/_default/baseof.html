@@ -13,18 +13,33 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="brand">
-      <span class="brand-glyph">☂️</span>
-      <span class="brand-name">Syntonie</span>
+      {{ if .IsHome }}
+        <a href="#" id="brand-reset" class="brand-reset" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 4px;">
+          <span class="brand-glyph">☂️</span>
+          <span class="brand-name">Syntonie</span>
+        </a>
+      {{ else }}
+        <span class="brand-glyph">☂️</span>
+        <span class="brand-name">Syntonie</span>
+      {{ end }}
       <span class="brand-tag">ASBL · IXELLES, BRUXELLES</span>
       <span class="brand-tag2">FONDÉE 2012</span>
     </div>
 
     <nav class="nav">
-      <a href="#hero"    class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
-      <a href="#vision"  class="nav-item"><span class="nav-num">01</span><span class="nav-txt">VISION</span></a>
-      <a href="#role"    class="nav-item"><span class="nav-num">02</span><span class="nav-txt">NOTRE RÔLE</span></a>
-      <a href="#trinity" class="nav-item"><span class="nav-num">03</span><span class="nav-txt">L'ÉCOSYSTÈME</span></a>
-      <a href="#contact" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
+      {{ if .IsHome }}
+        <!-- Fog-of-war nav: minimal, contextual -->
+        <a href="#" id="nav-accueil" class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <div id="nav-middle"></div>
+        <a href="mailto:contact@syntonie.be" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
+      {{ else }}
+        <!-- Institutional pages nav -->
+        <a href="/"       class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <a href="#vision"  class="nav-item"><span class="nav-num">01</span><span class="nav-txt">VISION</span></a>
+        <a href="#role"    class="nav-item"><span class="nav-num">02</span><span class="nav-txt">NOTRE RÔLE</span></a>
+        <a href="#trinity" class="nav-item"><span class="nav-num">03</span><span class="nav-txt">L'ÉCOSYSTÈME</span></a>
+        <a href="#contact" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
+      {{ end }}
     </nav>
 
     <!-- Colonnade — load-bearing metaphor, pavilion pillars in the breathing space -->
