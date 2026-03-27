@@ -107,6 +107,10 @@ function revealRecipe(recipe) {
     el.classList.remove('revealed', 'entering')
   })
 
+  // Shrink fog-zone so recipe cards enter the viewport
+  const fogZone = document.getElementById('fog-zone')
+  if (fogZone) fogZone.classList.toggle('has-recipe', !!recipe)
+
   // Update keyword chips (responsive to current recipe)
   updateKeywordChips(recipe)
 
@@ -140,6 +144,15 @@ function revealRecipe(recipe) {
       }
     }, 16)
   })
+
+  // Scroll first block into view after layout settles
+  const firstId = ids[0]
+  const firstEl = firstId ? document.getElementById(firstId) : null
+  if (firstEl) {
+    setTimeout(() => {
+      firstEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 60)
+  }
 }
 
 // ── Autocomplete ───────────────────────────────────────────────
@@ -254,7 +267,7 @@ function updateSidebarNav(recipe) {
   middle.innerHTML = `
     <span class="nav-item nav-item-recipe">
       <span class="nav-num">→</span>
-      <span class="nav-txt">${label}</span>
+      <span class="nav-recipe-label">${label}</span>
     </span>
   `
 }
