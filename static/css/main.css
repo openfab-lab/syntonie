@@ -685,7 +685,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 100vh;
   padding: 120px 118px 60px 118px;
   gap: 18px;
@@ -711,7 +711,7 @@ footer {
 /* Input */
 .fog-input-wrap {
   position: relative;
-  width: 480px;
+  width: 600px;
 }
 
 .fog-input {
@@ -762,12 +762,17 @@ footer {
   color: #E8831A;
 }
 
-/* Keywords — inline prose, not buttons */
+/* Keywords — inline prose, centered on single line */
 /* Color: #2d6a9f on #faf8f4 = 4.9:1 contrast — WCAG AA ✓ */
 .fog-topics {
-  display: block;
-  max-width: 480px;
-  line-height: 2.2;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .topic-chip {
