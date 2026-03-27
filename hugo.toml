@@ -5,6 +5,10 @@ title = "Syntonie"
 disableKinds = ["taxonomy", "term"]
 
 [[module.mounts]]
+  source = "static"
+  target = "static"
+
+[[module.mounts]]
   source = "data"
   target = "static/data"
 

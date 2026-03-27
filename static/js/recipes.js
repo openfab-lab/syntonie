@@ -101,9 +101,27 @@ function revealRecipe(recipe) {
     el.classList.remove('revealed', 'entering')
   })
 
-  // Shrink fog-zone so recipe cards enter the viewport
+  // Calculate centered padding and collapsed height based on content
   const fogZone = document.getElementById('fog-zone')
-  if (fogZone) fogZone.classList.toggle('has-recipe', !!recipe)
+  if (fogZone) {
+    const inputWrap = fogZone.querySelector('.fog-input-wrap')
+    const topics = fogZone.querySelector('.fog-topics')
+
+    if (inputWrap && topics) {
+      const contentHeight = inputWrap.offsetHeight + 18 + topics.offsetHeight // +18 for gap
+      const viewportHeight = window.innerHeight
+      const centeredPadding = Math.max(60, (viewportHeight - contentHeight) / 2)
+
+      // Calculate collapsed height: content + small top padding + bottom padding
+      const collapsedHeight = contentHeight + 20 + 60 // 20px top + 60px bottom padding
+
+      // Set CSS variables
+      fogZone.style.setProperty('--padding-centered', `${centeredPadding}px`)
+      fogZone.style.setProperty('--min-height-collapsed', `${collapsedHeight}px`)
+    }
+
+    fogZone.classList.toggle('has-recipe', !!recipe)
+  }
 
   // Update keyword chips (responsive to current recipe)
   updateKeywordChips(recipe)

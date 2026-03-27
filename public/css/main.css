@@ -678,6 +678,9 @@ footer {
   background-image: radial-gradient(circle, rgba(90,70,50,0.18) 1.5px, transparent 1.5px);
   background-size: 60px 60px;
   color: #1a1612;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Fog zone: centered entry, nothing else exists */
@@ -685,17 +688,19 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
   min-height: 100vh;
-  padding: 120px 118px 60px 118px;
+  padding-top: var(--padding-centered, 120px);
+  padding-bottom: 60px;
   gap: 18px;
-  transition: min-height 0.4s ease-out, padding 0.4s ease-out;
+  transition: padding-top 0.4s ease-out, min-height 0.4s ease-out;
 }
 
-/* Shrink when recipe is active so cards enter the viewport */
+/* Collapse: input field smoothly moves to top when recipe is active */
 .fog-zone.has-recipe {
-  min-height: auto;
-  padding: 118px 118px 59px 118px;
+  min-height: var(--min-height-collapsed, auto);
+  padding-top: 20px;
 }
 
 .fog-tagline {
@@ -711,7 +716,8 @@ footer {
 /* Input */
 .fog-input-wrap {
   position: relative;
-  width: 480px;
+  width: 800px;
+  margin: 0 auto;
 }
 
 .fog-input {
@@ -762,12 +768,18 @@ footer {
   color: #E8831A;
 }
 
-/* Keywords — inline prose, not buttons */
+/* Keywords — inline prose, centered on single line */
 /* Color: #2d6a9f on #faf8f4 = 4.9:1 contrast — WCAG AA ✓ */
 .fog-topics {
-  display: block;
-  max-width: 480px;
-  line-height: 2.2;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 900px;
+  margin: 0 auto;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow-x: hidden;
 }
 
 .topic-chip {
