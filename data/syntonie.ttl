@@ -224,6 +224,45 @@ syntonie:cat-autonomie a syntonie:Category ;
     syntonie:status "active" .
 
 # =============================================================================
+# RECIPES (Fog-of-War Entry Points)
+# =============================================================================
+
+syntonie:cat-shelter a syntonie:Category ;
+    syntonie:hasVocabulary syntonie:vocab-gouvernance, syntonie:vocab-autonomie ;
+    dcterms:title "Modèle d'Abri"@fr ;
+    schema:headline "La structure est à nous. Le projet est à vous."@fr ;
+    syntonie:containsProject syntonie:proj-council-of-makers, syntonie:proj-chic-2-0 ;
+    syntonie:status "active" .
+
+syntonie:cat-inclusion a syntonie:Category ;
+    syntonie:hasVocabulary syntonie:vocab-neurodivergence, syntonie:vocab-inclusion ;
+    dcterms:title "Inclusion & Neurodiversité"@fr ;
+    schema:headline "Chaque cerveau fonctionne différemment. Et c'est une force."@fr ;
+    syntonie:containsProject syntonie:proj-invisible-play, syntonie:proj-allo-ia ;
+    syntonie:status "active" .
+
+syntonie:cat-constellation a syntonie:Category ;
+    syntonie:hasVocabulary syntonie:vocab-fablab, syntonie:vocab-making ;
+    dcterms:title "Fablab & Making"@fr ;
+    schema:headline "Des outils pour tous, par tous."@fr ;
+    syntonie:containsProject syntonie:proj-fablab-mobile, syntonie:proj-fab-ecole, syntonie:proj-council-of-makers ;
+    syntonie:status "active" .
+
+syntonie:cat-values a syntonie:Category ;
+    syntonie:hasVocabulary syntonie:vocab-open-source, syntonie:vocab-autonomie ;
+    dcterms:title "Valeurs & Philosophie"@fr ;
+    schema:headline "Open source, indépendant, imparfait."@fr ;
+    syntonie:containsProject syntonie:proj-passeport-maker, syntonie:proj-reseau-vulca ;
+    syntonie:status "active" .
+
+syntonie:cat-about a syntonie:Category ;
+    syntonie:hasVocabulary syntonie:vocab-gouvernance, syntonie:vocab-inclusion ;
+    dcterms:title "À Propos"@fr ;
+    schema:headline "Syntonie, en deux paragraphes."@fr ;
+    syntonie:containsProject syntonie:proj-council-of-makers ;
+    syntonie:status "active" .
+
+# =============================================================================
 # PROJETS (Level 2) — SOCIAL & COMMUNAUTAIRE
 # =============================================================================
 

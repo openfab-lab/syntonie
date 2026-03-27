@@ -1,6 +1,6 @@
 /* ============================================================
    SYNTONIE — Design System
-   Grid unit: 59px | Palette: neutral steel | Accent: orange #E8831A
+   Grid unit: 60px | Palette: neutral steel | Accent: orange #E8831A
    ============================================================ */
 
 /* --- Google Fonts --- */
@@ -8,7 +8,7 @@
 
 /* --- Variables --- */
 :root {
-  --u: 59px;
+  --u: 60px;
 
   /* Palette */
   --bg:          #0f1216;
@@ -216,11 +216,11 @@ section {
 }
 
 /* Section height grid classes */
-.h-8u  { min-height: calc(8  * var(--u)); }  /* 472px */
-.h-10u { min-height: calc(10 * var(--u)); }  /* 590px */
-.h-12u { min-height: calc(12 * var(--u)); }  /* 708px */
-.h-14u { min-height: calc(14 * var(--u)); }  /* 826px */
-.h-18u { min-height: calc(18 * var(--u)); }  /* 1062px */
+.h-8u  { min-height: calc(8  * var(--u)); }  /* 480px */
+.h-10u { min-height: calc(10 * var(--u)); }  /* 600px */
+.h-12u { min-height: calc(12 * var(--u)); }  /* 720px */
+.h-14u { min-height: calc(14 * var(--u)); }  /* 840px */
+.h-18u { min-height: calc(18 * var(--u)); }  /* 1080px */
 
 /* Section inner padding */
 .sec-pad {
@@ -692,15 +692,16 @@ footer {
   width: 100%;
   min-height: 100vh;
   padding-top: var(--padding-centered, 120px);
-  padding-bottom: 60px;
+  padding-bottom: 120px;
   gap: 18px;
-  transition: padding-top 0.4s ease-out, min-height 0.4s ease-out;
+  transition: padding-top 0.4s ease-out, padding-bottom 0.4s ease-out, min-height 0.4s ease-out;
 }
 
 /* Collapse: input field smoothly moves to top when recipe is active */
 .fog-zone.has-recipe {
   min-height: var(--min-height-collapsed, auto);
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .fog-tagline {
@@ -821,7 +822,7 @@ footer {
 .recipe-block {
   display: none;
   flex-direction: column;
-  padding: 59px 118px;
+  padding: 60px 120px;
   gap: 36px;
   border-bottom: 1px solid rgba(90,70,50,0.12);
   background: #faf8f4;
@@ -867,7 +868,7 @@ footer {
 }
 
 /* A — shelter-header */
-#shelter-header { padding-top: 118px; }
+#shelter-header { padding-top: 60px; }
 
 .shelter-intro { display: flex; flex-direction: column; gap: 20px; }
 
@@ -926,7 +927,7 @@ footer {
 /* B — ownership-split */
 .ownership-cols {
   display: flex;
-  gap: 59px;
+  gap: 60;
 }
 .own-col {
   flex: 1;
@@ -1084,7 +1085,7 @@ footer {
 
 /* K — CTA */
 #cta {
-  padding: 59px 118px 120px 118px;
+  padding: 60px 120px 120px 120px;
   gap: 12px;
   border-bottom: none;
 }

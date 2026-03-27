@@ -161,6 +161,96 @@
           "status": "active"
         }
       ]
+    },
+    "shelter": {
+      "id": "shelter",
+      "label": {
+        "fr": "Modèle d'Abri"
+      },
+      "projects": [
+        {
+          "id": "proj-council-of-makers",
+          "title": {
+            "fr": "Rejoins le Council"
+          },
+          "description": {
+            "iri": "\"Système"
+          },
+          "status": "active"
+        }
+      ]
+    },
+    "inclusion": {
+      "id": "inclusion",
+      "label": {
+        "fr": "Inclusion & Neurodiversité"
+      },
+      "projects": [
+        {
+          "id": "proj-invisible-play",
+          "title": {
+            "fr": "Invisible Play"
+          },
+          "description": {
+            "fr": "Projet soumis Erasmus+ 2026: Urbanisme neuro-inclusif. Concevoir des espaces urbains qui fonctionnent pour tous les cerveaux."
+          },
+          "status": "prototype"
+        }
+      ]
+    },
+    "constellation": {
+      "id": "constellation",
+      "label": {
+        "fr": "Fablab & Making"
+      },
+      "projects": [
+        {
+          "id": "proj-fablab-mobile",
+          "title": {
+            "fr": "Fablab Mobile"
+          },
+          "description": {
+            "iri": "\"En"
+          },
+          "status": "archived"
+        }
+      ]
+    },
+    "values": {
+      "id": "values",
+      "label": {
+        "fr": "Valeurs & Philosophie"
+      },
+      "projects": [
+        {
+          "id": "proj-passeport-maker",
+          "title": {
+            "fr": "Passeport Maker"
+          },
+          "description": {
+            "fr": "Outil de documentation et de valorisation des compétences pour les usagers de fablabs. Chaque maker peut faire reconnaître ses acquis."
+          },
+          "status": "active"
+        }
+      ]
+    },
+    "about": {
+      "id": "about",
+      "label": {
+        "fr": "À Propos"
+      },
+      "projects": [
+        {
+          "id": "proj-council-of-makers",
+          "title": {
+            "fr": "Rejoins le Council"
+          },
+          "description": {
+            "iri": "\"Système"
+          },
+          "status": "active"
+        }
+      ]
     }
   },
   "projects": {
