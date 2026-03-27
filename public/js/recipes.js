@@ -20,6 +20,72 @@ const TRIGGERS = {
   values:        ['open source', 'communs', 'indépendant', 'independant', 'imparfait', 'valeurs', 'open', 'liberté', 'liberte', 'prospectif'],
 }
 
+const RECIPE_META = {
+  shelter: {
+    label: { fr: 'GOUVERNANCE', en: 'GOVERNANCE' },
+    chips: [
+      { label: 'financement',  recipe: 'shelter' },
+      { label: 'ASBL',         recipe: 'shelter' },
+      { label: 'autonomie',    recipe: 'shelter' },
+      { label: 'inclusion',    recipe: 'inclusion' },
+      { label: 'open source',  recipe: 'values' },
+    ],
+    related: ['values', 'inclusion'],
+    action: { fr: 'Discutons de votre projet', en: "Let's talk about your project" },
+  },
+  inclusion: {
+    label: { fr: 'INCLUSION', en: 'INCLUSION' },
+    chips: [
+      { label: 'neurodiversité', recipe: 'inclusion' },
+      { label: 'atypique',       recipe: 'inclusion' },
+      { label: 'allo-ia',        recipe: 'inclusion' },
+      { label: 'fablab',         recipe: 'constellation' },
+      { label: 'valeurs',        recipe: 'values' },
+    ],
+    related: ['values', 'constellation'],
+    action: { fr: 'On se reconnaît ici', en: 'We see ourselves here' },
+  },
+  constellation: {
+    label: { fr: 'ÉCOSYSTÈME', en: 'ECOSYSTEM' },
+    chips: [
+      { label: 'maker',       recipe: 'constellation' },
+      { label: 'atelier',     recipe: 'constellation' },
+      { label: 'bricoler',    recipe: 'constellation' },
+      { label: 'gouvernance', recipe: 'shelter' },
+      { label: 'communs',     recipe: 'values' },
+    ],
+    related: ['shelter', 'values'],
+    action: { fr: 'Montrez-nous ce que vous fabriquez', en: 'Show us what you make' },
+  },
+  values: {
+    label: { fr: 'NOS VALEURS', en: 'OUR VALUES' },
+    chips: [
+      { label: 'open source',  recipe: 'values' },
+      { label: 'imparfait',    recipe: 'values' },
+      { label: 'indépendant',  recipe: 'values' },
+      { label: 'fablab',       recipe: 'constellation' },
+      { label: 'gouvernance',  recipe: 'shelter' },
+    ],
+    related: ['constellation', 'shelter'],
+    action: { fr: 'Ces valeurs résonnent ?', en: 'Do these values resonate?' },
+  },
+  about: {
+    label: { fr: 'SYNTONIE', en: 'SYNTONIE' },
+    chips: [
+      { label: 'gouvernance',   recipe: 'shelter' },
+      { label: 'neurodiversité',recipe: 'inclusion' },
+      { label: 'fablab',        recipe: 'constellation' },
+      { label: 'open source',   recipe: 'values' },
+      { label: 'autonomie',     recipe: 'about' },
+    ],
+    related: ['shelter', 'constellation'],
+    action: { fr: 'Prenons contact', en: 'Get in touch' },
+  },
+}
+
+let currentRecipe = null
+let currentLang = localStorage.getItem('syntonie-lang') || 'fr'
+
 function matchRecipe(input) {
   const q = input.toLowerCase().trim()
   if (!q) return null
@@ -31,19 +97,54 @@ function matchRecipe(input) {
 }
 
 function revealRecipe(recipe) {
+  // ── Same-recipe guard: skip if already active ──
+  if (currentRecipe === recipe) return
+  currentRecipe = recipe
+
+  // Hide all first (radical absence = display:none)
   document.querySelectorAll('.recipe-block').forEach(el => {
     el.hidden = true
-    el.classList.remove('revealed')
+    el.classList.remove('revealed', 'entering')
   })
+
+  // Shrink fog-zone so recipe cards enter the viewport
+  const fogZone = document.getElementById('fog-zone')
+  if (fogZone) fogZone.classList.toggle('has-recipe', !!recipe)
+
+  // Update keyword chips (responsive to current recipe)
+  updateKeywordChips(recipe)
+
+  // Update sidebar nav (responsive to current recipe)
+  updateSidebarNav(recipe)
+
   if (!recipe) return
+
+  // Reveal and animate
   const ids = RECIPES[recipe] || []
-  ids.forEach(id => {
+  ids.forEach((id, i) => {
     const el = document.getElementById(id)
-    if (el) {
-      el.hidden = false
-      el.classList.add('revealed')
-    }
+    if (!el) return
+    el.hidden = false
+    el.classList.add('revealed')
+    // Stagger: each block 80ms after previous
+    el.style.setProperty('--delay', `${i * 0.08}s`)
+
+    // Trigger animation on next frame (display:none → display:flex requires frame boundary)
+    // Primary: double rAF
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.classList.add('entering')
+      })
+    })
+
+    // Safari fallback: if animation didn't fire in 16ms, force it
+    setTimeout(() => {
+      if (!el.classList.contains('entering')) {
+        el.classList.add('entering')
+      }
+    }, 16)
   })
+
 }
 
 // ── Autocomplete ───────────────────────────────────────────────
@@ -84,6 +185,85 @@ function applyTopic(text) {
   revealRecipe(matchRecipe(text))
 }
 
+function getCurrentLang() {
+  return currentLang
+}
+
+function setLang(lang) {
+  currentLang = lang
+  localStorage.setItem('syntonie-lang', lang)
+  document.documentElement.setAttribute('data-lang', lang)
+
+  // Show/hide language spans
+  document.querySelectorAll('.lang-fr').forEach(el => {
+    el.style.display = lang === 'fr' ? '' : 'none'
+  })
+  document.querySelectorAll('.lang-en').forEach(el => {
+    el.style.display = lang === 'en' ? '' : 'none'
+  })
+
+  // Update input placeholder
+  const input = document.getElementById('fog-input')
+  if (input) {
+    const placeholderKey = `placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`
+    input.placeholder = input.dataset[placeholderKey] || input.placeholder
+  }
+
+  // Update lang toggle active state
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase() === lang)
+  })
+
+  // Refresh chips with updated language
+  const recipe = currentRecipe
+  updateKeywordChips(recipe)
+  if (recipe) updateSidebarNav(recipe)
+}
+
+function updateKeywordChips(recipe) {
+  const container = document.getElementById('fog-topics')
+  if (!container) return
+
+  const chips = recipe
+    ? (RECIPE_META[recipe]?.chips || [])
+    : [
+        { label: 'gouvernance',   recipe: 'shelter' },
+        { label: 'structure',     recipe: 'shelter' },
+        { label: 'neurodiversité',recipe: 'inclusion' },
+        { label: 'fablab',        recipe: 'constellation' },
+        { label: 'making',        recipe: 'constellation' },
+        { label: 'open source',   recipe: 'values' },
+        { label: 'autonomie',     recipe: 'about' },
+      ]
+
+  container.innerHTML = chips.map(c =>
+    `<button class="topic-chip" data-recipe="${c.recipe}">${c.label}</button>`
+  ).join('')
+
+  // Event delegation is already set up on the container in DOMContentLoaded
+  // so re-binding is not needed — clicks will bubble up to parent listener
+}
+
+function updateSidebarNav(recipe) {
+  const middle = document.getElementById('nav-middle')
+  if (!middle) return
+
+  if (!recipe) {
+    middle.innerHTML = ''
+    return
+  }
+
+  const meta = RECIPE_META[recipe]
+  const lang = getCurrentLang()
+  const label = meta?.label?.[lang] || recipe.toUpperCase()
+  middle.innerHTML = `
+    <span class="nav-item nav-item-recipe">
+      <span class="nav-num">→</span>
+      <span class="nav-recipe-label">${label}</span>
+    </span>
+  `
+}
+
 // ── Init ───────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -116,6 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (e.key === 'Escape') {
       suggestions.hidden = true
       activeIdx = -1
+      input.value = ''
+      revealRecipe(null)
     }
   })
 
@@ -126,13 +308,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // Topic chips (data-recipe triggers direct reveal, bypassing text match)
-  document.querySelectorAll('.topic-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const recipe = chip.dataset.recipe
-      input.value = chip.textContent.trim()
-      suggestions.hidden = true
-      revealRecipe(recipe)
+  // Topic chips: event delegation on parent (survives DOM rebuilds)
+  const topicsContainer = document.getElementById('fog-topics')
+  if (topicsContainer) {
+    topicsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('topic-chip')) {
+        const recipe = e.target.dataset.recipe
+        input.value = e.target.textContent.trim()
+        suggestions.hidden = true
+        revealRecipe(recipe)
+      }
+    })
+  }
+
+  // Wire brand-reset and nav-accueil to clear recipe
+  const brandReset = document.getElementById('brand-reset')
+  if (brandReset) {
+    brandReset.addEventListener('click', e => {
+      e.preventDefault()
+      input.value = ''
+      revealRecipe(null)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  }
+
+  const navAccueil = document.getElementById('nav-accueil')
+  if (navAccueil) {
+    navAccueil.addEventListener('click', e => {
+      e.preventDefault()
+      input.value = ''
+      revealRecipe(null)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  }
+
+  // Language toggle
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setLang(btn.textContent.toLowerCase())
     })
   })
+
+  // Initialize language on page load
+  setLang(currentLang)
 })

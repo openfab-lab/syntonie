@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-	<meta name="generator" content="Hugo 0.152.2"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta name="generator" content="Hugo 0.152.2">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Syntonie — ASBL · Bruxelles</title>
@@ -14,18 +14,23 @@
   
   <aside class="sidebar">
     <div class="brand">
-      <span class="brand-glyph">☂️</span>
-      <span class="brand-name">Syntonie</span>
+      
+        <a href="#" id="brand-reset" class="brand-reset" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 4px;">
+          <span class="brand-glyph">☂️</span>
+          <span class="brand-name">Syntonie</span>
+        </a>
+      
       <span class="brand-tag">ASBL · IXELLES, BRUXELLES</span>
       <span class="brand-tag2">FONDÉE 2012</span>
     </div>
 
     <nav class="nav">
-      <a href="#hero"    class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
-      <a href="#vision"  class="nav-item"><span class="nav-num">01</span><span class="nav-txt">VISION</span></a>
-      <a href="#role"    class="nav-item"><span class="nav-num">02</span><span class="nav-txt">NOTRE RÔLE</span></a>
-      <a href="#trinity" class="nav-item"><span class="nav-num">03</span><span class="nav-txt">L'ÉCOSYSTÈME</span></a>
-      <a href="#contact" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
+      
+        
+        <a href="#" id="nav-accueil" class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <div id="nav-middle"></div>
+        <a href="mailto:contact@syntonie.be" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
+      
     </nav>
 
     
@@ -61,14 +66,14 @@
 
 
 <div class="fog-zone" id="fog-zone">
-  <p class="fog-tagline">Qu'est-ce que tu cherches à construire&nbsp;?</p>
-
   <div class="fog-input-wrap">
     <input
       type="text"
       id="fog-input"
       class="fog-input"
-      placeholder="autonomie, gouvernance, fablab, inclusion…"
+      placeholder="Qu'est-ce qui t'amène ?"
+      data-placeholder-fr="Qu'est-ce qui t'amène ?"
+      data-placeholder-en="What brought you here?"
       autocomplete="off"
       aria-label="Décris ton projet ou tes besoins"
     />
@@ -77,12 +82,12 @@
 
   <div class="fog-topics" id="fog-topics" aria-label="Sujets suggérés">
     <button class="topic-chip" data-recipe="shelter">gouvernance</button>
-    <button class="topic-chip" data-recipe="shelter">ASBL</button>
+    <button class="topic-chip" data-recipe="shelter">structure</button>
     <button class="topic-chip" data-recipe="inclusion">neurodiversité</button>
     <button class="topic-chip" data-recipe="constellation">fablab</button>
-    <button class="topic-chip" data-recipe="constellation">maker</button>
+    <button class="topic-chip" data-recipe="constellation">making</button>
     <button class="topic-chip" data-recipe="values">open source</button>
-    <button class="topic-chip" data-recipe="about">c'est quoi Syntonie&nbsp;?</button>
+    <button class="topic-chip" data-recipe="about">autonomie</button>
   </div>
 </div>
 
@@ -90,9 +95,18 @@
 
 <section id="shelter-header" class="recipe-block" hidden>
   <div class="shelter-intro">
-    <span class="fog-eyebrow">MODÈLE D'ABRI · GOUVERNANCE ASBL</span>
-    <h2 class="shelter-title">La structure est à nous.<br>Le projet est à vous.</h2>
-    <p class="shelter-sub">Syntonie est une ASBL-ombrelle : elle porte la structure légale et les actifs pendant que votre projet garde toute son autonomie créative.</p>
+    <span class="fog-eyebrow">
+      <span class="lang-fr">MODÈLE D'ABRI · GOUVERNANCE ASBL</span>
+      <span class="lang-en" style="display:none">SHELTER MODEL · ASBL GOVERNANCE</span>
+    </span>
+    <h2 class="shelter-title">
+      <span class="lang-fr">La structure est à nous.<br>Le projet est à vous.</span>
+      <span class="lang-en" style="display:none">The structure is ours.<br>The project is yours.</span>
+    </h2>
+    <p class="shelter-sub">
+      <span class="lang-fr">Syntonie est une ASBL-ombrelle : elle porte la structure légale et les actifs pendant que votre projet garde toute son autonomie créative.</span>
+      <span class="lang-en" style="display:none">Syntonie is an umbrella ASBL: it carries the legal structure and assets while your project keeps full creative autonomy.</span>
+    </p>
   </div>
   <div class="shelter-stats">
     <div class="stat-item">
@@ -123,8 +137,14 @@
 </section>
 
 <section id="ownership-split" class="recipe-block" hidden>
-  <span class="fog-eyebrow">RÉPARTITION DES RÔLES</span>
-  <h3 class="fog-sec-title">Ce que Syntonie porte. Ce que vous gardez.</h3>
+  <span class="fog-eyebrow">
+    <span class="lang-fr">RÉPARTITION DES RÔLES</span>
+    <span class="lang-en" style="display:none">DIVISION OF ROLES</span>
+  </span>
+  <h3 class="fog-sec-title">
+    <span class="lang-fr">Ce que Syntonie porte. Ce que vous gardez.</span>
+    <span class="lang-en" style="display:none">What Syntonie carries. What you keep.</span>
+  </h3>
   <div class="ownership-cols">
     <div class="own-col own-col-orange">
       <span class="own-col-head">CE QUE SYNTONIE DÉTIENT</span>
@@ -253,9 +273,15 @@
 </section>
 
 <section id="mission" class="recipe-block" hidden>
-  <span class="fog-eyebrow">MISSION</span>
+  <span class="fog-eyebrow">
+    <span class="lang-fr">MISSION</span>
+    <span class="lang-en" style="display:none">MISSION</span>
+  </span>
   <div class="mission-block">
-    <p class="mission-statement">Créer les conditions pour que des projets citoyens, éducatifs et technologiques puissent exister, durer et avoir un impact — sans se noyer dans l'administratif.</p>
+    <p class="mission-statement">
+      <span class="lang-fr">Créer les conditions pour que des projets citoyens, éducatifs et technologiques puissent exister, durer et avoir un impact — sans se noyer dans l'administratif.</span>
+      <span class="lang-en" style="display:none">Create conditions for civic, educational, and technological projects to exist, last, and have impact — without drowning in administration.</span>
+    </p>
     <span class="mission-tag">ASBL · Ixelles, Bruxelles · BE0844983628</span>
   </div>
 </section>
@@ -263,7 +289,10 @@
 
 <section id="cta" class="recipe-block" hidden>
   <p class="cta-main">→ <a href="mailto:contact@syntonie.be">contact@syntonie.be</a></p>
-  <p class="cta-hint">Pas de formulaire. Juste un message.</p>
+  <p class="cta-hint">
+    <span class="lang-fr">Pas de formulaire. Juste un message.</span>
+    <span class="lang-en" style="display:none">No form. Just a message.</span>
+  </p>
 </section>
 
 
