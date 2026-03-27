@@ -145,14 +145,6 @@ function revealRecipe(recipe) {
     }, 16)
   })
 
-  // Scroll first block into view after layout settles
-  const firstId = ids[0]
-  const firstEl = firstId ? document.getElementById(firstId) : null
-  if (firstEl) {
-    setTimeout(() => {
-      firstEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 60)
-  }
 }
 
 // ── Autocomplete ───────────────────────────────────────────────
