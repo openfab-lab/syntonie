@@ -755,6 +755,11 @@ footer {
    RECIPE BLOCKS — hidden until revealed
    ============================================================ */
 
+@keyframes slideUp {
+  from { transform: translateY(32px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
 .recipe-block {
   display: none;
   flex-direction: column;
@@ -764,6 +769,12 @@ footer {
   background: #faf8f4;
 }
 .recipe-block.revealed { display: flex; }
+
+.recipe-block.entering {
+  animation: slideUp 0.5s ease-out forwards;
+  animation-fill-mode: both;
+  animation-delay: var(--delay, 0s);
+}
 
 /* Shared fog typography */
 .fog-eyebrow {

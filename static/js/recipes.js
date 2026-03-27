@@ -20,6 +20,8 @@ const TRIGGERS = {
   values:        ['open source', 'communs', 'indépendant', 'independant', 'imparfait', 'valeurs', 'open', 'liberté', 'liberte', 'prospectif'],
 }
 
+let currentRecipe = null
+
 function matchRecipe(input) {
   const q = input.toLowerCase().trim()
   if (!q) return null
@@ -31,18 +33,42 @@ function matchRecipe(input) {
 }
 
 function revealRecipe(recipe) {
+  // ── Same-recipe guard: skip if already active ──
+  if (currentRecipe === recipe) return
+  currentRecipe = recipe
+
+  // Hide all first (radical absence = display:none)
   document.querySelectorAll('.recipe-block').forEach(el => {
     el.hidden = true
-    el.classList.remove('revealed')
+    el.classList.remove('revealed', 'entering')
   })
+
   if (!recipe) return
+
+  // Reveal and animate
   const ids = RECIPES[recipe] || []
-  ids.forEach(id => {
+  ids.forEach((id, i) => {
     const el = document.getElementById(id)
-    if (el) {
-      el.hidden = false
-      el.classList.add('revealed')
-    }
+    if (!el) return
+    el.hidden = false
+    el.classList.add('revealed')
+    // Stagger: each block 80ms after previous
+    el.style.setProperty('--delay', `${i * 0.08}s`)
+
+    // Trigger animation on next frame (display:none → display:flex requires frame boundary)
+    // Primary: double rAF
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.classList.add('entering')
+      })
+    })
+
+    // Safari fallback: if animation didn't fire in 16ms, force it
+    setTimeout(() => {
+      if (!el.classList.contains('entering')) {
+        el.classList.add('entering')
+      }
+    }, 16)
   })
 }
 
@@ -116,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (e.key === 'Escape') {
       suggestions.hidden = true
       activeIdx = -1
+      input.value = ''
+      revealRecipe(null)
     }
   })
 
@@ -126,13 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // Topic chips (data-recipe triggers direct reveal, bypassing text match)
-  document.querySelectorAll('.topic-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const recipe = chip.dataset.recipe
-      input.value = chip.textContent.trim()
-      suggestions.hidden = true
-      revealRecipe(recipe)
+  // Topic chips: event delegation on parent (survives DOM rebuilds)
+  const topicsContainer = document.getElementById('fog-topics')
+  if (topicsContainer) {
+    topicsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('topic-chip')) {
+        const recipe = e.target.dataset.recipe
+        input.value = e.target.textContent.trim()
+        suggestions.hidden = true
+        revealRecipe(recipe)
+      }
     })
-  })
+  }
 })
