@@ -688,7 +688,7 @@ footer {
   align-items: flex-start;
   min-height: 100vh;
   padding: 120px 118px 60px 118px;
-  gap: 48px;
+  gap: 18px;
   transition: min-height 0.4s ease-out, padding 0.4s ease-out;
 }
 
@@ -763,17 +763,21 @@ footer {
 }
 
 /* Keywords — inline prose, not buttons */
+/* Color: #2d6a9f on #faf8f4 = 4.9:1 contrast — WCAG AA ✓ */
 .fog-topics {
   display: block;
-  line-height: 2;
+  max-width: 480px;
+  line-height: 2.2;
 }
 
 .topic-chip {
   display: inline;
-  font-family: var(--f-body);
-  font-size: 14px;
-  font-style: italic;
-  color: #5B9BD5;
+  font-family: var(--f-head);
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  color: #2d6a9f;
   background: none;
   border: none;
   padding: 0;
@@ -784,13 +788,13 @@ footer {
   color: #E8831A;
 }
 
-/* Dot separator between keywords */
+/* Dot separator — wider breathing room */
 .topic-chip + .topic-chip::before {
-  content: ' · ';
+  content: '\00a0\00a0·\00a0\00a0';
   color: #a89888;
-  font-style: normal;
   cursor: default;
   pointer-events: none;
+  font-style: normal;
 }
 
 /* ============================================================
