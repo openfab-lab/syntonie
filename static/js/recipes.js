@@ -1,19 +1,13 @@
 /**
- * Fog-of-war state machine
- * Pantry components: shelter-header, ownership-split, precedents-grid,
- *   project-allo-ia, project-invisible-play, value-imparfait,
- *   constellation-map, values-all, about-syntonie, mission, cta
+ * Fog-of-war navigation — driven by navigation.json (from TTL)
+ * Shows beachhead: top 2-3 projects per recipe
  */
 
-const RECIPES = {
-  shelter:       ['shelter-header', 'ownership-split', 'precedents-grid', 'cta'],
-  inclusion:     ['project-allo-ia', 'project-invisible-play', 'value-imparfait', 'cta'],
-  constellation: ['constellation-map', 'precedents-grid', 'cta'],
-  values:        ['values-all', 'shelter-header', 'cta'],
-  about:         ['about-syntonie', 'mission', 'cta'],
-}
+let RECIPES = {}; // Will be loaded from navigation.json
+let RECIPE_PROJECTS = {}; // Project metadata from navigation.json
 
-const TRIGGERS = {
+// Trigger keywords → recipe mapping (will be enriched from TTL)
+let TRIGGERS = {
   shelter:       ['gouvernance', 'structure', 'asbl', 'légal', 'legal', 'cadre', 'financement', 'subvention', 'abri', 'appartenir', 'stabilité', 'erasmus'],
   inclusion:     ['neurodiversité', 'neurodiversite', 'inclusion', 'neuro', 'adhd', 'invisible', 'allo-ia', 'accessibilité', 'accessibilite', 'dys', 'autiste', 'hpi', 'hp', 'atypique'],
   constellation: ['fablab', 'making', 'builder', 'maker', 'bricoler', 'openfab', 'makerspace', 'hacker', 'fabriquer', 'atelier', 'espace', 'outils', 'constellation'],
@@ -266,10 +260,25 @@ function updateSidebarNav(recipe) {
 
 // ── Init ───────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const input = document.getElementById('fog-input')
   const suggestions = document.getElementById('fog-suggestions')
   if (!input) return
+
+  // Load navigation data from TTL
+  try {
+    const resp = await fetch('/data/navigation.json')
+    const nav = await resp.json()
+    RECIPE_PROJECTS = nav.projects || {}
+
+    // Map recipes to project lists
+    for (const [recipeId, recipe] of Object.entries(nav.recipes || {})) {
+      RECIPES[recipeId] = recipe.projects.map(p => p.id)
+    }
+    console.log(`✓ Loaded ${Object.keys(RECIPES).length} recipes from navigation.json`)
+  } catch (err) {
+    console.log('⚠️  Using static RECIPES/TRIGGERS')
+  }
 
   // Typing
   input.addEventListener('input', () => {

@@ -4,5 +4,9 @@ title = "Syntonie"
 
 disableKinds = ["taxonomy", "term"]
 
+[[module.mounts]]
+  source = "data"
+  target = "static/data"
+
 [params]
   description = "ASBL · Infrastructure de gouvernance pour l'écosystème Trinity · Ixelles, Bruxelles"
