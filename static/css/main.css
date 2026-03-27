@@ -46,6 +46,10 @@ body {
   overflow-x: hidden;
 }
 
+/* --- Language Toggle --- */
+html[data-lang="en"] .lang-fr { display: none !important; }
+html[data-lang="fr"] .lang-en { display: none !important; }
+
 /* --- Layout: Sidebar + Main --- */
 .layout {
   display: flex;

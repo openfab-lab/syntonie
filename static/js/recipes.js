@@ -84,6 +84,7 @@ const RECIPE_META = {
 }
 
 let currentRecipe = null
+let currentLang = localStorage.getItem('syntonie-lang') || 'fr'
 
 function matchRecipe(input) {
   const q = input.toLowerCase().trim()
@@ -180,7 +181,38 @@ function applyTopic(text) {
 }
 
 function getCurrentLang() {
-  return document.documentElement.lang || 'fr'
+  return currentLang
+}
+
+function setLang(lang) {
+  currentLang = lang
+  localStorage.setItem('syntonie-lang', lang)
+  document.documentElement.setAttribute('data-lang', lang)
+
+  // Show/hide language spans
+  document.querySelectorAll('.lang-fr').forEach(el => {
+    el.style.display = lang === 'fr' ? '' : 'none'
+  })
+  document.querySelectorAll('.lang-en').forEach(el => {
+    el.style.display = lang === 'en' ? '' : 'none'
+  })
+
+  // Update input placeholder
+  const input = document.getElementById('fog-input')
+  if (input) {
+    const placeholderKey = `placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`
+    input.placeholder = input.dataset[placeholderKey] || input.placeholder
+  }
+
+  // Update lang toggle active state
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase() === lang)
+  })
+
+  // Refresh chips with updated language
+  const recipe = currentRecipe
+  updateKeywordChips(recipe)
+  if (recipe) updateSidebarNav(recipe)
 }
 
 function updateKeywordChips(recipe) {
@@ -304,4 +336,14 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     })
   }
+
+  // Language toggle
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setLang(btn.textContent.toLowerCase())
+    })
+  })
+
+  // Initialize language on page load
+  setLang(currentLang)
 })
