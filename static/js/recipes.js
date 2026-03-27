@@ -20,6 +20,69 @@ const TRIGGERS = {
   values:        ['open source', 'communs', 'indépendant', 'independant', 'imparfait', 'valeurs', 'open', 'liberté', 'liberte', 'prospectif'],
 }
 
+const RECIPE_META = {
+  shelter: {
+    label: { fr: 'GOUVERNANCE', en: 'GOVERNANCE' },
+    chips: [
+      { label: 'financement',  recipe: 'shelter' },
+      { label: 'ASBL',         recipe: 'shelter' },
+      { label: 'autonomie',    recipe: 'shelter' },
+      { label: 'inclusion',    recipe: 'inclusion' },
+      { label: 'open source',  recipe: 'values' },
+    ],
+    related: ['values', 'inclusion'],
+    action: { fr: 'Discutons de votre projet', en: "Let's talk about your project" },
+  },
+  inclusion: {
+    label: { fr: 'INCLUSION', en: 'INCLUSION' },
+    chips: [
+      { label: 'neurodiversité', recipe: 'inclusion' },
+      { label: 'atypique',       recipe: 'inclusion' },
+      { label: 'allo-ia',        recipe: 'inclusion' },
+      { label: 'fablab',         recipe: 'constellation' },
+      { label: 'valeurs',        recipe: 'values' },
+    ],
+    related: ['values', 'constellation'],
+    action: { fr: 'On se reconnaît ici', en: 'We see ourselves here' },
+  },
+  constellation: {
+    label: { fr: 'ÉCOSYSTÈME', en: 'ECOSYSTEM' },
+    chips: [
+      { label: 'maker',       recipe: 'constellation' },
+      { label: 'atelier',     recipe: 'constellation' },
+      { label: 'bricoler',    recipe: 'constellation' },
+      { label: 'gouvernance', recipe: 'shelter' },
+      { label: 'communs',     recipe: 'values' },
+    ],
+    related: ['shelter', 'values'],
+    action: { fr: 'Montrez-nous ce que vous fabriquez', en: 'Show us what you make' },
+  },
+  values: {
+    label: { fr: 'NOS VALEURS', en: 'OUR VALUES' },
+    chips: [
+      { label: 'open source',  recipe: 'values' },
+      { label: 'imparfait',    recipe: 'values' },
+      { label: 'indépendant',  recipe: 'values' },
+      { label: 'fablab',       recipe: 'constellation' },
+      { label: 'gouvernance',  recipe: 'shelter' },
+    ],
+    related: ['constellation', 'shelter'],
+    action: { fr: 'Ces valeurs résonnent ?', en: 'Do these values resonate?' },
+  },
+  about: {
+    label: { fr: 'SYNTONIE', en: 'SYNTONIE' },
+    chips: [
+      { label: 'gouvernance',   recipe: 'shelter' },
+      { label: 'neurodiversité',recipe: 'inclusion' },
+      { label: 'fablab',        recipe: 'constellation' },
+      { label: 'open source',   recipe: 'values' },
+      { label: 'autonomie',     recipe: 'about' },
+    ],
+    related: ['shelter', 'constellation'],
+    action: { fr: 'Prenons contact', en: 'Get in touch' },
+  },
+}
+
 let currentRecipe = null
 
 function matchRecipe(input) {
@@ -42,6 +105,9 @@ function revealRecipe(recipe) {
     el.hidden = true
     el.classList.remove('revealed', 'entering')
   })
+
+  // Update keyword chips (responsive to current recipe)
+  updateKeywordChips(recipe)
 
   if (!recipe) return
 
@@ -108,6 +174,34 @@ function applyTopic(text) {
   document.getElementById('fog-suggestions').hidden = true
   activeIdx = -1
   revealRecipe(matchRecipe(text))
+}
+
+function getCurrentLang() {
+  return document.documentElement.lang || 'fr'
+}
+
+function updateKeywordChips(recipe) {
+  const container = document.getElementById('fog-topics')
+  if (!container) return
+
+  const chips = recipe
+    ? (RECIPE_META[recipe]?.chips || [])
+    : [
+        { label: 'gouvernance',   recipe: 'shelter' },
+        { label: 'structure',     recipe: 'shelter' },
+        { label: 'neurodiversité',recipe: 'inclusion' },
+        { label: 'fablab',        recipe: 'constellation' },
+        { label: 'making',        recipe: 'constellation' },
+        { label: 'open source',   recipe: 'values' },
+        { label: 'autonomie',     recipe: 'about' },
+      ]
+
+  container.innerHTML = chips.map(c =>
+    `<button class="topic-chip" data-recipe="${c.recipe}">${c.label}</button>`
+  ).join('')
+
+  // Event delegation is already set up on the container in DOMContentLoaded
+  // so re-binding is not needed — clicks will bubble up to parent listener
 }
 
 // ── Init ───────────────────────────────────────────────────────
