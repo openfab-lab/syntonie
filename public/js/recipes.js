@@ -14,14 +14,6 @@ let TRIGGERS = {
   values:        ['open source', 'communs', 'indépendant', 'independant', 'imparfait', 'valeurs', 'open', 'liberté', 'liberte', 'prospectif'],
 }
 
-const RECIPE_SECTIONS = {
-  shelter:       ['shelter-header', 'ownership-split', 'precedents-grid'],
-  inclusion:     ['project-allo-ia', 'project-invisible-play'],
-  constellation: ['constellation-map'],
-  values:        ['value-imparfait', 'values-all'],
-  about:         ['about-syntonie', 'mission', 'cta'],
-}
-
 const RECIPE_META = {
   shelter: {
     label: { fr: 'GOUVERNANCE', en: 'GOVERNANCE' },
@@ -109,22 +101,26 @@ function revealRecipe(recipe) {
     el.classList.remove('revealed', 'entering')
   })
 
-  // Handle recipe state and calculate collapsed height when needed
+  // Calculate centered padding and collapsed height based on content
   const fogZone = document.getElementById('fog-zone')
   if (fogZone) {
-    fogZone.classList.toggle('has-recipe', !!recipe)
+    const inputWrap = fogZone.querySelector('.fog-input-wrap')
+    const topics = fogZone.querySelector('.fog-topics')
 
-    if (recipe) {
-      const inputWrap = fogZone.querySelector('.fog-input-wrap')
-      const topics = fogZone.querySelector('.fog-topics')
+    if (inputWrap && topics) {
+      const contentHeight = inputWrap.offsetHeight + 18 + topics.offsetHeight // +18 for gap
+      const viewportHeight = window.innerHeight
+      const centeredPadding = Math.max(60, (viewportHeight - contentHeight) / 2)
 
-      if (inputWrap && topics) {
-        // Only calculate collapsed height when recipe is active
-        const contentHeight = inputWrap.offsetHeight + 18 + topics.offsetHeight
-        const collapsedHeight = contentHeight + 20 + 20 // 20px top + 20px bottom padding
-        fogZone.style.setProperty('--min-height-collapsed', `${collapsedHeight}px`)
-      }
+      // Calculate collapsed height: content + small top padding + bottom padding
+      const collapsedHeight = contentHeight + 20 + 60 // 20px top + 60px bottom padding
+
+      // Set CSS variables
+      fogZone.style.setProperty('--padding-centered', `${centeredPadding}px`)
+      fogZone.style.setProperty('--min-height-collapsed', `${collapsedHeight}px`)
     }
+
+    fogZone.classList.toggle('has-recipe', !!recipe)
   }
 
   // Update keyword chips (responsive to current recipe)
@@ -136,7 +132,7 @@ function revealRecipe(recipe) {
   if (!recipe) return
 
   // Reveal and animate
-  const ids = RECIPE_SECTIONS[recipe] || []
+  const ids = RECIPES[recipe] || []
   ids.forEach((id, i) => {
     const el = document.getElementById(id)
     if (!el) return
