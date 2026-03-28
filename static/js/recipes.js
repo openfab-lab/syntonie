@@ -352,6 +352,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
   }
 
+  // Recipe links anywhere in the page (data-recipe attribute)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('[data-recipe]')
+    if (link && !link.classList.contains('topic-chip')) {
+      e.preventDefault()
+      const recipe = link.dataset.recipe
+      input.value = ''
+      revealRecipe(recipe)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  })
+
   // Wire brand-reset and nav-accueil to clear recipe
   const brandReset = document.getElementById('brand-reset')
   if (brandReset) {
@@ -370,6 +382,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       input.value = ''
       revealRecipe(null)
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  }
+
+  const navAbout = document.getElementById('nav-about')
+  if (navAbout) {
+    navAbout.addEventListener('click', e => {
+      e.preventDefault()
+      input.value = 'syntonie'
+      revealRecipe('about')
     })
   }
 

@@ -1,478 +1,1147 @@
 {
+  "_generated": "from syntonie.ttl via ttl2nav.py",
+  "_source": "https://syntonie.be/ns/",
   "recipes": {
     "social": {
       "id": "social",
       "label": {
         "fr": "Social & Communautaire"
       },
+      "headline": {
+        "fr": "Renforcer le tissu social local par l'intelligence collective."
+      },
       "projects": [
-        {
-          "id": "proj-bricole-picole",
-          "title": {
-            "fr": "Tu veux venir bricoler avec nous?"
-          },
-          "description": {
-            "iri": "\"Soirées"
-          },
-          "status": "active"
-        }
-      ]
+        "bricole-picole",
+        "actions-corona",
+        "operation-speculoos",
+        "permablitz"
+      ],
+      "suggests": [
+        "autonomie",
+        "prototypage"
+      ],
+      "vocabularies": [
+        "inclusion",
+        "solidarite"
+      ],
+      "status": "active"
     },
     "pedagogie": {
       "id": "pedagogie",
       "label": {
         "fr": "Pédagogie & Formation"
       },
+      "headline": {
+        "fr": "Sensibiliser aux sciences et technologies par la pratique."
+      },
       "projects": [
-        {
-          "id": "proj-fablab-mobile",
-          "title": {
-            "fr": "Fablab Mobile"
-          },
-          "description": {
-            "iri": "\"En"
-          },
-          "status": "archived"
-        }
-      ]
+        "fablab-mobile",
+        "fab-ecole",
+        "flopacademy",
+        "artisans-2-0"
+      ],
+      "suggests": [
+        "prototypage",
+        "gamification"
+      ],
+      "vocabularies": [
+        "pedagogie",
+        "fablab"
+      ],
+      "status": "active"
     },
     "gamification": {
       "id": "gamification",
       "label": {
         "fr": "GameLab"
       },
+      "headline": {
+        "fr": "Le jeu comme outil d'apprentissage et de cohésion."
+      },
       "projects": [
-        {
-          "id": "proj-enigmaker",
-          "title": {
-            "fr": "Réserve une session Enigmaker"
-          },
-          "description": {
-            "iri": "\"Une"
-          },
-          "status": "active"
-        }
-      ]
+        "enigmaker",
+        "escape-box-biodiversite",
+        "matongray",
+        "soirees-jeux",
+        "cabinet-etrange"
+      ],
+      "suggests": [
+        "fablab",
+        "social"
+      ],
+      "vocabularies": [
+        "gamification",
+        "pedagogie"
+      ],
+      "status": "active"
     },
     "recherche": {
       "id": "recherche",
       "label": {
         "fr": "Recherche & Rayonnement Européen"
       },
+      "headline": {
+        "fr": "Innovation technique et collaborations transfrontalières."
+      },
       "projects": [
-        {
-          "id": "proj-passeport-maker",
-          "title": {
-            "fr": "Passeport Maker"
-          },
-          "description": {
-            "fr": "Outil de documentation et de valorisation des compétences pour les usagers de fablabs. Chaque maker peut faire reconnaître ses acquis."
-          },
-          "status": "active"
-        }
-      ]
+        "passeport-maker",
+        "chic-2-0",
+        "reseau-vulca",
+        "allo-ia",
+        "invisible-play"
+      ],
+      "suggests": [
+        "fablab",
+        "prototypage"
+      ],
+      "vocabularies": [
+        "open-source",
+        "pedagogie"
+      ],
+      "status": "active"
     },
     "prototypage": {
       "id": "prototypage",
       "label": {
         "fr": "Prototypage & Réalisations"
       },
+      "headline": {
+        "fr": "Concevoir, prototyper, réaliser."
+      },
       "projects": [
-        {
-          "id": "proj-eco-design",
-          "title": {
-            "fr": "Atelier vélo: tu veux动手?"
-          },
-          "description": {
-            "iri": "\"Restauration"
-          },
-          "status": "active"
-        }
-      ]
+        "eco-design",
+        "mobilier",
+        "micro-projets"
+      ],
+      "suggests": [
+        "social",
+        "fablab"
+      ],
+      "vocabularies": [
+        "making",
+        "artisanat"
+      ],
+      "status": "active"
     },
     "fablab": {
       "id": "fablab",
       "label": {
         "fr": "Fablab"
       },
+      "headline": {
+        "fr": "Des outils pour tous, par tous."
+      },
       "projects": [
-        {
-          "id": "proj-council-of-makers",
-          "title": {
-            "fr": "Rejoins le Council"
-          },
-          "description": {
-            "iri": "\"Système"
-          },
-          "status": "active"
-        }
-      ]
+        "council-of-makers",
+        "fablab-mobile",
+        "fab-ecole"
+      ],
+      "suggests": [
+        "pedagogie",
+        "gamification",
+        "recherche"
+      ],
+      "vocabularies": [
+        "fablab",
+        "making"
+      ],
+      "status": "active"
     },
     "gouvernance": {
       "id": "gouvernance",
       "label": {
         "fr": "Gouvernance"
       },
+      "headline": {
+        "fr": "La structure est à nous. Le projet est à vous."
+      },
       "projects": [
-        {
-          "id": "proj-council-of-makers",
-          "title": {
-            "fr": "Rejoins le Council"
-          },
-          "description": {
-            "iri": "\"Système"
-          },
-          "status": "active"
-        }
-      ]
+        "council-of-makers"
+      ],
+      "suggests": [
+        "fablab",
+        "social"
+      ],
+      "vocabularies": [
+        "gouvernance",
+        "inclusion"
+      ],
+      "status": "active"
     },
     "neurodivergence": {
       "id": "neurodivergence",
       "label": {
         "fr": "Neurodiversité"
       },
+      "headline": {
+        "fr": "Chaque cerveau fonctionne différemment. Et c'est une force."
+      },
       "projects": [
-        {
-          "id": "proj-invisible-play",
-          "title": {
-            "fr": "Invisible Play"
-          },
-          "description": {
-            "fr": "Projet soumis Erasmus+ 2026: Urbanisme neuro-inclusif. Concevoir des espaces urbains qui fonctionnent pour tous les cerveaux."
-          },
-          "status": "prototype"
-        }
-      ]
+        "invisible-play",
+        "allo-ia"
+      ],
+      "suggests": [
+        "inclusion",
+        "recherche"
+      ],
+      "vocabularies": [
+        "neurodivergence",
+        "urbanisme"
+      ],
+      "status": "active"
     },
     "autonomie": {
       "id": "autonomie",
       "label": {
         "fr": "Autonomie & Durabilité"
       },
+      "headline": {
+        "fr": "Reprendre le pouvoir sur ce qu'on crée et consomme."
+      },
       "projects": [
-        {
-          "id": "proj-permablitz",
-          "title": {
-            "fr": "Permablitz"
-          },
-          "description": {
-            "fr": "Ateliers de permaculture urbaine à Bruxelles. Transformation d'espaces négligés en potagers productifs grâce à l'intelligence collective."
-          },
-          "status": "active"
-        }
-      ]
+        "permablitz",
+        "eco-design"
+      ],
+      "suggests": [
+        "social",
+        "prototypage"
+      ],
+      "vocabularies": [
+        "autonomie",
+        "urbanisme"
+      ],
+      "status": "active"
     },
     "shelter": {
       "id": "shelter",
       "label": {
         "fr": "Modèle d'Abri"
       },
+      "headline": {
+        "fr": "La structure est à nous. Le projet est à vous."
+      },
       "projects": [
-        {
-          "id": "proj-council-of-makers",
-          "title": {
-            "fr": "Rejoins le Council"
-          },
-          "description": {
-            "iri": "\"Système"
-          },
-          "status": "active"
-        }
-      ]
+        "council-of-makers",
+        "chic-2-0"
+      ],
+      "suggests": [],
+      "vocabularies": [
+        "gouvernance",
+        "autonomie"
+      ],
+      "status": "active"
     },
     "inclusion": {
       "id": "inclusion",
       "label": {
         "fr": "Inclusion & Neurodiversité"
       },
+      "headline": {
+        "fr": "Chaque cerveau fonctionne différemment. Et c'est une force."
+      },
       "projects": [
-        {
-          "id": "proj-invisible-play",
-          "title": {
-            "fr": "Invisible Play"
-          },
-          "description": {
-            "fr": "Projet soumis Erasmus+ 2026: Urbanisme neuro-inclusif. Concevoir des espaces urbains qui fonctionnent pour tous les cerveaux."
-          },
-          "status": "prototype"
-        }
-      ]
+        "invisible-play",
+        "allo-ia"
+      ],
+      "suggests": [],
+      "vocabularies": [
+        "neurodivergence",
+        "inclusion"
+      ],
+      "status": "active"
     },
     "constellation": {
       "id": "constellation",
       "label": {
         "fr": "Fablab & Making"
       },
+      "headline": {
+        "fr": "Des outils pour tous, par tous."
+      },
       "projects": [
-        {
-          "id": "proj-fablab-mobile",
-          "title": {
-            "fr": "Fablab Mobile"
-          },
-          "description": {
-            "iri": "\"En"
-          },
-          "status": "archived"
-        }
-      ]
+        "fablab-mobile",
+        "fab-ecole",
+        "council-of-makers"
+      ],
+      "suggests": [],
+      "vocabularies": [
+        "fablab",
+        "making"
+      ],
+      "status": "active"
     },
     "values": {
       "id": "values",
       "label": {
         "fr": "Valeurs & Philosophie"
       },
+      "headline": {
+        "fr": "Open source, indépendant, imparfait."
+      },
       "projects": [
-        {
-          "id": "proj-passeport-maker",
-          "title": {
-            "fr": "Passeport Maker"
-          },
-          "description": {
-            "fr": "Outil de documentation et de valorisation des compétences pour les usagers de fablabs. Chaque maker peut faire reconnaître ses acquis."
-          },
-          "status": "active"
-        }
-      ]
+        "passeport-maker",
+        "reseau-vulca"
+      ],
+      "suggests": [],
+      "vocabularies": [
+        "open-source",
+        "autonomie"
+      ],
+      "status": "active"
     },
     "about": {
       "id": "about",
       "label": {
         "fr": "À Propos"
       },
+      "headline": {
+        "fr": "Syntonie, en deux paragraphes."
+      },
       "projects": [
-        {
-          "id": "proj-council-of-makers",
-          "title": {
-            "fr": "Rejoins le Council"
-          },
-          "description": {
-            "iri": "\"Système"
-          },
-          "status": "active"
-        }
-      ]
+        "council-of-makers"
+      ],
+      "suggests": [],
+      "vocabularies": [
+        "gouvernance",
+        "inclusion"
+      ],
+      "status": "active"
     }
   },
   "projects": {
-    "proj-bricole-picole": {
-      "id": "proj-bricole-picole",
+    "bricole-picole": {
+      "id": "bricole-picole",
       "title": {
-        "fr": "Tu veux venir bricoler avec nous?"
+        "fr": "Bricole & Picole"
       },
       "description": {
-        "iri": "\"Soirées"
+        "fr": "Soirées conviviales de bricolage et de partage ouvertes au voisinage, initialement lancées dans un garage à Ixelles. L'esprit: faire ensemble, boire ensemble, apprendre ensemble."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2012-01-01",
+      "neighbors": [
+        {
+          "target": "soirees-jeux",
+          "score": 0.8,
+          "reason": "Même format social et convivial"
+        },
+        {
+          "target": "permablitz",
+          "score": 0.6,
+          "reason": "Maker local et durable"
+        },
+        {
+          "target": "actions-corona",
+          "score": 0.4,
+          "reason": "Même esprit d'entraide de voisinage"
+        }
+      ],
+      "cta": {
+        "type": "event",
+        "title": {
+          "fr": "Tu veux venir bricoler avec nous?"
+        },
+        "target": "/contact?context=bricole-picole"
+      }
     },
-    "proj-actions-corona": {
-      "id": "proj-actions-corona",
+    "actions-corona": {
+      "id": "actions-corona",
       "title": {
         "fr": "Actions Corona"
       },
       "description": {
-        "iri": "\"Production"
+        "fr": "Production solidaire de 1500 visières de protection et 4500 masques en tissu pour le secteur médical et le personnel de première ligne, lors de la pandémie COVID-19."
       },
-      "status": "archived"
+      "status": "archived",
+      "created": "2020-03-01",
+      "neighbors": [
+        {
+          "target": "operation-speculoos",
+          "score": 0.7,
+          "reason": "Même esprit solidaire et humanitarian"
+        },
+        {
+          "target": "bricole-picole",
+          "score": 0.4,
+          "reason": "Fabrication locale et entraide"
+        }
+      ]
     },
-    "proj-operation-speculoos": {
-      "id": "proj-operation-speculoos",
+    "operation-speculoos": {
+      "id": "operation-speculoos",
       "title": {
-        "fr": "Tu veux participer à la prochaine fournée?"
+        "fr": "Opération Speculoos"
       },
       "description": {
-        "fr": "Projet humanitaire de fabrication et vente de biscuits au profit de l'association Kesho Kongo pour lutter contre la malnutrition infantile en RDC. Une acción de solidarité internationale."
+        "fr": "Projet humanitaire de fabrication et vente de biscuits au profit de l'association Kesho Kongo pour lutter contre la malnutrition infantile en RDC. Une action de solidarité internationale."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2021-01-01",
+      "neighbors": [
+        {
+          "target": "actions-corona",
+          "score": 0.7,
+          "reason": "Même esprit d'entraide et fabrication solidaire"
+        },
+        {
+          "target": "micro-projets",
+          "score": 0.4,
+          "reason": "Fabrication et personnalisation (moules à biscuits)"
+        }
+      ],
+      "cta": {
+        "type": "solidarity",
+        "title": {
+          "fr": "Tu veux participer à la prochaine fournée?"
+        },
+        "target": "/contact?context=operation-speculoos"
+      }
     },
-    "proj-permablitz": {
-      "id": "proj-permablitz",
+    "permablitz": {
+      "id": "permablitz",
       "title": {
         "fr": "Permablitz"
       },
       "description": {
         "fr": "Ateliers de permaculture urbaine à Bruxelles. Transformation d'espaces négligés en potagers productifs grâce à l'intelligence collective."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2013-01-01",
+      "neighbors": [
+        {
+          "target": "bricole-picole",
+          "score": 0.6,
+          "reason": "Même format maker local et collaboratif"
+        },
+        {
+          "target": "eco-design",
+          "score": 0.5,
+          "reason": "Éco-design et durabilité"
+        },
+        {
+          "target": "invisible-play",
+          "score": 0.3,
+          "reason": "Urbanisme et espace vert"
+        }
+      ]
     },
-    "proj-fablab-mobile": {
-      "id": "proj-fablab-mobile",
+    "fablab-mobile": {
+      "id": "fablab-mobile",
       "title": {
         "fr": "Fablab Mobile"
       },
       "description": {
-        "iri": "\"En"
+        "fr": "En 2018-2019, on a pris des camions et des vélos cargos. On a traversé Bruxelles. 12 700 jeunes ont découvert la fabrication numérique grâce à des ateliers mobiles."
       },
-      "status": "archived"
+      "status": "archived",
+      "created": "2018-01-01",
+      "neighbors": [
+        {
+          "target": "fab-ecole",
+          "score": 0.9,
+          "reason": "Prolongement scolaire du Fablab Mobile"
+        },
+        {
+          "target": "flopacademy",
+          "score": 0.6,
+          "reason": "Public similaire (jeunes) et approche maker"
+        },
+        {
+          "target": "reseau-vulca",
+          "score": 0.4,
+          "reason": "Mobilité maker"
+        }
+      ]
     },
-    "proj-fab-ecole": {
-      "id": "proj-fab-ecole",
+    "fab-ecole": {
+      "id": "fab-ecole",
       "title": {
         "fr": "Fab'École"
       },
       "description": {
-        "iri": "\"Intégration"
+        "fr": "Intégration de la culture maker en milieu scolaire, notamment à l'Athénée Charles Janssens, pour résoudre des défis locaux comme l'arrosage automatique d'un potager."
       },
-      "status": "archived"
+      "status": "archived",
+      "created": "2019-01-01",
+      "neighbors": [
+        {
+          "target": "fablab-mobile",
+          "score": 0.9,
+          "reason": "Même famille éducative et maker"
+        },
+        {
+          "target": "flopacademy",
+          "score": 0.7,
+          "reason": "Même approche pédagogique par le faire"
+        },
+        {
+          "target": "permablitz",
+          "score": 0.4,
+          "reason": "Jardinage et potager scolaire"
+        }
+      ]
     },
-    "proj-flopacademy": {
-      "id": "proj-flopacademy",
+    "flopacademy": {
+      "id": "flopacademy",
       "title": {
-        "fr": "Prochain stage: on y va?"
+        "fr": "FlopAcademy / FlopCamp"
       },
       "description": {
-        "iri": "\"Stages"
+        "fr": "Stages encourageant l'entrepreneuriat chez les jeunes par le prototypage rapide. L'échec est vu comme une étape d'apprentissage, pas un arrêt."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2019-01-01",
+      "neighbors": [
+        {
+          "target": "fab-ecole",
+          "score": 0.7,
+          "reason": "Même public jeune et approche maker"
+        },
+        {
+          "target": "enigmaker",
+          "score": 0.5,
+          "reason": "Pédagogie par le jeu et le prototypage"
+        }
+      ],
+      "cta": {
+        "type": "registration",
+        "title": {
+          "fr": "Prochain stage: on y va?"
+        },
+        "target": "/contact?context=flopacademy"
+      }
     },
-    "proj-artisans-2-0": {
-      "id": "proj-artisans-2-0",
+    "artisans-2-0": {
+      "id": "artisans-2-0",
       "title": {
         "fr": "Artisans 2.0"
       },
       "description": {
         "fr": "Partage de savoir-faire manuels assistés par les outils numériques. Bridge entre tradition artisanale et technologies modernes."
       },
-      "status": "archived"
+      "status": "archived",
+      "created": "2017-01-01",
+      "neighbors": [
+        {
+          "target": "bricole-picole",
+          "score": 0.6,
+          "reason": "Même esprit maker et partage de savoir-faire"
+        },
+        {
+          "target": "micro-projets",
+          "score": 0.5,
+          "reason": "Prototypage personnalisé et artisanal"
+        }
+      ]
     },
-    "proj-enigmaker": {
-      "id": "proj-enigmaker",
+    "enigmaker": {
+      "id": "enigmaker",
       "title": {
-        "fr": "Réserve une session Enigmaker"
+        "fr": "L'Enigmaker"
       },
       "description": {
-        "iri": "\"Une"
+        "fr": "Une 'escape box' immersive permettant de découvrir les techniques du fablab (laser, 3D, CNC, code) en 10 minutes. Idéal pour anniversaires, team building, événements."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2023-01-01",
+      "neighbors": [
+        {
+          "target": "cabinet-etrange",
+          "score": 0.8,
+          "reason": "Même format immersif et expérientiel"
+        },
+        {
+          "target": "soirees-jeux",
+          "score": 0.7,
+          "reason": "Même spirit ludique"
+        },
+        {
+          "target": "escape-box-biodiversite",
+          "score": 0.6,
+          "reason": "Même format escape box"
+        }
+      ],
+      "cta": {
+        "type": "booking",
+        "title": {
+          "fr": "Réserve une session Enigmaker"
+        },
+        "target": "/contact?context=enigmaker"
+      }
     },
-    "proj-escape-box-biodiversite": {
-      "id": "proj-escape-box-biodiversite",
+    "escape-box-biodiversite": {
+      "id": "escape-box-biodiversite",
       "title": {
         "fr": "Escape Box Biodiversité"
       },
       "description": {
         "fr": "Jeu conçu pour l'asbl Bûûmplanters afin de sensibiliser à l'écosystème urbain. Une approche ludique pour aborder la biodiversité en ville."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2022-01-01",
+      "neighbors": [
+        {
+          "target": "enigmaker",
+          "score": 0.8,
+          "reason": "Même format escape box"
+        },
+        {
+          "target": "invisible-play",
+          "score": 0.5,
+          "reason": "Sensibilisation environnementale et urbaine"
+        }
+      ]
     },
-    "proj-matongray": {
-      "id": "proj-matongray",
+    "matongray": {
+      "id": "matongray",
       "title": {
         "fr": "Projet Matongray / SALANBAYOU"
       },
       "description": {
         "fr": "Co-création d'un jeu de plateau original avec des jeunes du quartier. Un projet participatif de game design."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2023-01-01",
+      "neighbors": [
+        {
+          "target": "enigmaker",
+          "score": 0.7,
+          "reason": "Création de jeux et prototypage ludique"
+        },
+        {
+          "target": "soirees-jeux",
+          "score": 0.6,
+          "reason": "Même public jeune et approche ludique"
+        }
+      ]
     },
-    "proj-soirees-jeux": {
-      "id": "proj-soirees-jeux",
+    "soirees-jeux": {
+      "id": "soirees-jeux",
       "title": {
-        "fr": "Prochaine soirée: tu viens?"
+        "fr": "Soirées Jeux"
       },
       "description": {
-        "iri": "\"Événements"
+        "fr": "Événements thématiques réguliers mêlant pratique ludique et ateliers de fabrication. Chaque soirée = un thème, un jeu, un atelier."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2022-01-01",
+      "neighbors": [
+        {
+          "target": "enigmaker",
+          "score": 0.7,
+          "reason": "Même spirit ludique et fablab"
+        },
+        {
+          "target": "bricole-picole",
+          "score": 0.6,
+          "reason": "Même format social et convivium"
+        },
+        {
+          "target": "cabinet-etrange",
+          "score": 0.5,
+          "reason": "Même approche expérientielle"
+        }
+      ],
+      "cta": {
+        "type": "event",
+        "title": {
+          "fr": "Prochaine soirée: tu viens?"
+        },
+        "target": "/contact?context=soirees-jeux"
+      }
     },
-    "proj-cabinet-etrange": {
-      "id": "proj-cabinet-etrange",
+    "cabinet-etrange": {
+      "id": "cabinet-etrange",
       "title": {
-        "fr": "Découvre le Cabinet de l'Étrange"
+        "fr": "Cabinet de l'Étrange"
       },
       "description": {
         "fr": "Projet novateur entre escape room et musée interactif mettant en valeur des artistes locaux. Une expérience immersive unique à Bruxelles."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2022-01-01",
+      "neighbors": [
+        {
+          "target": "enigmaker",
+          "score": 0.8,
+          "reason": "Même format immersif et expérientiel"
+        },
+        {
+          "target": "soirees-jeux",
+          "score": 0.5,
+          "reason": "Valorisation culturelle locale"
+        }
+      ],
+      "cta": {
+        "type": "visit",
+        "title": {
+          "fr": "Découvre le Cabinet de l'Étrange"
+        },
+        "target": "/contact?context=cabinet-etrange"
+      }
     },
-    "proj-passeport-maker": {
-      "id": "proj-passeport-maker",
+    "passeport-maker": {
+      "id": "passeport-maker",
       "title": {
         "fr": "Passeport Maker"
       },
       "description": {
         "fr": "Outil de documentation et de valorisation des compétences pour les usagers de fablabs. Chaque maker peut faire reconnaître ses acquis."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2018-01-01",
+      "neighbors": [
+        {
+          "target": "fablab-mobile",
+          "score": 0.5,
+          "reason": "Documentation des compétences maker"
+        },
+        {
+          "target": "reseau-vulca",
+          "score": 0.5,
+          "reason": "Réseau européen des makers"
+        }
+      ]
     },
-    "proj-chic-2-0": {
-      "id": "proj-chic-2-0",
+    "chic-2-0": {
+      "id": "chic-2-0",
       "title": {
         "fr": "CHIC 2.0"
       },
       "description": {
-        "iri": "\"Projet"
+        "fr": "Projet européen de collaboration entre fablabs (Bruxelles, Rome, Paris). Échange de pratiques, mobilité, et innovation collaborative."
       },
-      "status": "archived"
+      "status": "archived",
+      "created": "2016-01-01",
+      "neighbors": [
+        {
+          "target": "reseau-vulca",
+          "score": 0.9,
+          "reason": "Collaboration européenne fablabs"
+        }
+      ]
     },
-    "proj-reseau-vulca": {
-      "id": "proj-reseau-vulca",
+    "reseau-vulca": {
+      "id": "reseau-vulca",
       "title": {
         "fr": "Réseau Vulca"
       },
       "description": {
-        "iri": "\"Participation"
+        "fr": "Participation active à la mobilité européenne des makers. Séminaires, résidences aux Îles Féroé, Italie, Slovénie. Le réseau des fablabs européens."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2016-01-01",
+      "neighbors": [
+        {
+          "target": "chic-2-0",
+          "score": 0.9,
+          "reason": "Collaboration européenne fablabs"
+        },
+        {
+          "target": "passeport-maker",
+          "score": 0.5,
+          "reason": "Mobilité et valorisation des compétences"
+        },
+        {
+          "target": "fablab-mobile",
+          "score": 0.4,
+          "reason": "Mobilité maker"
+        }
+      ]
     },
-    "proj-allo-ia": {
-      "id": "proj-allo-ia",
+    "allo-ia": {
+      "id": "allo-ia",
       "title": {
         "fr": "Allo-IA"
       },
       "description": {
         "fr": "Projet soumis Erasmus+ 2026: Développement d'outils de documentation par l'IA pour les makers. Simplifier la capitalisation des connaissances."
       },
-      "status": "prototype"
+      "status": "prototype",
+      "created": "2026-01-01",
+      "neighbors": [
+        {
+          "target": "invisible-play",
+          "score": 0.7,
+          "reason": "Neuro-inclusivité et IA"
+        },
+        {
+          "target": "passeport-maker",
+          "score": 0.6,
+          "reason": "Documentation et capitalisation"
+        }
+      ]
     },
-    "proj-invisible-play": {
-      "id": "proj-invisible-play",
+    "invisible-play": {
+      "id": "invisible-play",
       "title": {
         "fr": "Invisible Play"
       },
       "description": {
         "fr": "Projet soumis Erasmus+ 2026: Urbanisme neuro-inclusif. Concevoir des espaces urbains qui fonctionnent pour tous les cerveaux."
       },
-      "status": "prototype"
+      "status": "prototype",
+      "created": "2026-01-01",
+      "neighbors": [
+        {
+          "target": "allo-ia",
+          "score": 0.7,
+          "reason": "Neuro-inclusivité et innovation sociale"
+        },
+        {
+          "target": "permablitz",
+          "score": 0.4,
+          "reason": "Urbanisme et espace vert"
+        },
+        {
+          "target": "escape-box-biodiversite",
+          "score": 0.4,
+          "reason": "Sensibilisation environnementale"
+        }
+      ]
     },
-    "proj-eco-design": {
-      "id": "proj-eco-design",
+    "eco-design": {
+      "id": "eco-design",
       "title": {
-        "fr": "Atelier vélo: tu veux动手?"
+        "fr": "Éco-design et Mobilité"
       },
       "description": {
-        "iri": "\"Restauration"
+        "fr": "Restauration de vélos vintage, création de pédales en 3D, éclairage automatique pour vélo. La mobilité douce, accessible à tous."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2015-01-01",
+      "neighbors": [
+        {
+          "target": "permablitz",
+          "score": 0.5,
+          "reason": "Éco-design et durabilité"
+        },
+        {
+          "target": "micro-projets",
+          "score": 0.4,
+          "reason": "Prototypage et fabrication"
+        }
+      ],
+      "cta": {
+        "type": "workshop",
+        "title": {
+          "fr": "Atelier vélo: tu veux mettre les mains dedans?"
+        },
+        "target": "/contact?context=eco-design"
+      }
     },
-    "proj-mobilier": {
-      "id": "proj-mobilier",
+    "mobilier": {
+      "id": "mobilier",
       "title": {
         "fr": "Mobilier et Aménagement"
       },
       "description": {
-        "iri": "\"Chaises"
+        "fr": "Chaises pour enfants, canapés en palettes, signalétique pour commerces (Refresh, Carodec). Le mobilier comme expression de maker."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2015-01-01",
+      "neighbors": [
+        {
+          "target": "bricole-picole",
+          "score": 0.5,
+          "reason": "Fabrication locale et maker"
+        },
+        {
+          "target": "micro-projets",
+          "score": 0.4,
+          "reason": "Prototypage personnalisé"
+        }
+      ]
     },
-    "proj-micro-projets": {
-      "id": "proj-micro-projets",
+    "micro-projets": {
+      "id": "micro-projets",
       "title": {
         "fr": "Micro-projets"
       },
       "description": {
-        "iri": "\"Loupe"
+        "fr": "Loupe macro pour téléphone, lampes à détection de proximité, moules à biscuits personnalisés. Les petits projets qui font la différence."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2015-01-01",
+      "neighbors": [
+        {
+          "target": "operation-speculoos",
+          "score": 0.4,
+          "reason": "Moules à biscuits personnalisés"
+        },
+        {
+          "target": "artisans-2-0",
+          "score": 0.4,
+          "reason": "Fabrication artisanale"
+        },
+        {
+          "target": "eco-design",
+          "score": 0.4,
+          "reason": "Prototypage et création"
+        }
+      ]
     },
-    "proj-council-of-makers": {
-      "id": "proj-council-of-makers",
+    "council-of-makers": {
+      "id": "council-of-makers",
       "title": {
-        "fr": "Rejoins le Council"
+        "fr": "Council of Makers"
       },
       "description": {
-        "iri": "\"Système"
+        "fr": "Système de gouvernance participative et transparente pour la gestion du fablab par ses membres. Chaque voix compte, chaque décision se délibère."
       },
-      "status": "active"
+      "status": "active",
+      "created": "2020-01-01",
+      "neighbors": [
+        {
+          "target": "bricole-picole",
+          "score": 0.5,
+          "reason": "Gouvernance informelle et collaborative"
+        },
+        {
+          "target": "reseau-vulca",
+          "score": 0.4,
+          "reason": "Modèle de gouvernance maker européen"
+        }
+      ],
+      "cta": {
+        "type": "membership",
+        "title": {
+          "fr": "Rejoins le Council"
+        },
+        "target": "/contact?context=council-of-makers"
+      }
+    }
+  },
+  "vocabularies": {
+    "making": {
+      "id": "making",
+      "prefLabel": {
+        "fr": "making",
+        "en": "making"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "bidouille"
+        ],
+        "en": [
+          "tinkering"
+        ]
+      }
+    },
+    "neurodivergence": {
+      "id": "neurodivergence",
+      "prefLabel": {
+        "fr": "neurodiversité",
+        "en": "neurodiversity"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "différences cognitives"
+        ],
+        "en": [
+          "cognitive differences"
+        ]
+      }
+    },
+    "gouvernance": {
+      "id": "gouvernance",
+      "prefLabel": {
+        "fr": "gouvernance",
+        "en": "governance"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "transparence"
+        ],
+        "en": [
+          "transparency"
+        ]
+      }
+    },
+    "inclusion": {
+      "id": "inclusion",
+      "prefLabel": {
+        "fr": "inclusion",
+        "en": "inclusion"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "proximité"
+        ],
+        "en": [
+          "proximity"
+        ]
+      }
+    },
+    "autonomie": {
+      "id": "autonomie",
+      "prefLabel": {
+        "fr": "autonomie",
+        "en": "autonomy"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "permaculture"
+        ],
+        "en": [
+          "permaculture"
+        ]
+      }
+    },
+    "open-source": {
+      "id": "open-source",
+      "prefLabel": {
+        "fr": "open source",
+        "en": "open source"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "réseau"
+        ],
+        "en": [
+          "network"
+        ]
+      }
+    },
+    "fablab": {
+      "id": "fablab",
+      "prefLabel": {
+        "fr": "fablab",
+        "en": "fablab"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "atelier partagé"
+        ],
+        "en": [
+          "shared workshop"
+        ]
+      }
+    },
+    "gamification": {
+      "id": "gamification",
+      "prefLabel": {
+        "fr": "gamification",
+        "en": "gamification"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "sensibilisation"
+        ],
+        "en": [
+          "awareness"
+        ]
+      }
+    },
+    "pedagogie": {
+      "id": "pedagogie",
+      "prefLabel": {
+        "fr": "pédagogie",
+        "en": "pedagogy"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "scolaire"
+        ],
+        "en": [
+          "school"
+        ]
+      }
+    },
+    "urbanisme": {
+      "id": "urbanisme",
+      "prefLabel": {
+        "fr": "urbanisme",
+        "en": "urban planning"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "biodiversité"
+        ],
+        "en": [
+          "biodiversity"
+        ]
+      }
+    },
+    "solidarite": {
+      "id": "solidarite",
+      "prefLabel": {
+        "fr": "solidarité",
+        "en": "solidarity"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "malnutrition"
+        ],
+        "en": [
+          "malnutrition"
+        ]
+      }
+    },
+    "artisanat": {
+      "id": "artisanat",
+      "prefLabel": {
+        "fr": "artisanat",
+        "en": "craftsmanship"
+      },
+      "hiddenLabels": {
+        "fr": [
+          "menuiserie"
+        ],
+        "en": [
+          "carpentry"
+        ]
+      }
+    }
+  },
+  "roles": {
+    "maker": {
+      "id": "maker",
+      "label": {
+        "fr": "Maker",
+        "en": "Maker"
+      },
+      "prioritizedVocabularies": [
+        "making",
+        "fablab",
+        "open-source"
+      ]
+    },
+    "leader": {
+      "id": "leader",
+      "label": {
+        "fr": "Porteur de projet",
+        "en": "Project Lead"
+      },
+      "prioritizedVocabularies": [
+        "gouvernance",
+        "inclusion",
+        "autonomie"
+      ]
+    },
+    "partner": {
+      "id": "partner",
+      "label": {
+        "fr": "Partenaire",
+        "en": "Partner"
+      },
+      "prioritizedVocabularies": [
+        "open-source",
+        "fablab",
+        "inclusion"
+      ]
+    },
+    "evaluator": {
+      "id": "evaluator",
+      "label": {
+        "fr": "Évaluateur",
+        "en": "Evaluator"
+      },
+      "prioritizedVocabularies": [
+        "gouvernance",
+        "inclusion",
+        "autonomie"
+      ]
     }
   }
 }

@@ -57,7 +57,7 @@ syntonie:stageContent        a rdf:Property ; rdfs:domain syntonie:EmotionalStag
 syntonie:hasCallToAction     a rdf:Property ; rdfs:domain syntonie:Project ; rdfs:range syntonie:CallToAction .
 syntonie:ctaType             a rdf:Property ; rdfs:domain syntonie:CallToAction ; rdfs:range rdfs:Literal .
 syntonie:ctaTarget           a rdf:Property ; rdfs:domain syntonie:CallToAction ; rdfs:range rdfs:Literal .
-syntonie:status              a rdf:Property ; rdfs:range [ "active" , "archived" , "prototype" ] .
+syntonie:status              a rdf:Property ; rdfs:range xsd:string .
 
 # =============================================================================
 # VOCABULAIRES
@@ -130,7 +130,7 @@ syntonie:vocab-artisanat a syntonie:Vocabulary ;
 syntonie:role-maker a syntonie:Role ;
     syntonie:prioritizesVocabulary syntonie:vocab-making, syntonie:vocab-fablab, syntonie:vocab-open-source ;
     skos:prefLabel "Maker"@fr , "Maker"@en ;
-    skos:definition "Personne qui aime créer, prototyper,动手 avec les outils"@fr .
+    skos:definition "Personne qui aime créer, prototyper, mettre les mains dedans"@fr .
 
 syntonie:role-leader a syntonie:Role ;
     syntonie:prioritizesVocabulary syntonie:vocab-gouvernance, syntonie:vocab-inclusion, syntonie:vocab-autonomie ;
@@ -153,7 +153,7 @@ syntonie:role-evaluator a syntonie:Role ;
 
 syntonie:cat-social a syntonie:Category ;
     syntonie:hasVocabulary syntonie:vocab-inclusion, syntonie:vocab-solidarite ;
-    syntonie:suggestsCategory syntonie:cat-autonomie, syntonie:cat-making ;
+    syntonie:suggestsCategory syntonie:cat-autonomie, syntonie:cat-prototypage ;
     dcterms:title "Social & Communautaire"@fr ;
     schema:headline "Renforcer le tissu social local par l'intelligence collective."@fr ;
     syntonie:containsProject syntonie:proj-bricole-picole, syntonie:proj-actions-corona, syntonie:proj-operation-speculoos, syntonie:proj-permablitz ;
@@ -161,7 +161,7 @@ syntonie:cat-social a syntonie:Category ;
 
 syntonie:cat-pedagogie a syntonie:Category ;
     syntonie:hasVocabulary syntonie:vocab-pedagogie, syntonie:vocab-fablab ;
-    syntonie:suggestsCategory syntonie:cat-making, syntonie:cat-gamification ;
+    syntonie:suggestsCategory syntonie:cat-prototypage, syntonie:cat-gamification ;
     dcterms:title "Pédagogie & Formation"@fr ;
     schema:headline "Sensibiliser aux sciences et technologies par la pratique."@fr ;
     syntonie:containsProject syntonie:proj-fablab-mobile, syntonie:proj-fab-ecole, syntonie:proj-flopacademy, syntonie:proj-artisans-2-0 ;
@@ -177,7 +177,7 @@ syntonie:cat-gamification a syntonie:Category ;
 
 syntonie:cat-recherche a syntonie:Category ;
     syntonie:hasVocabulary syntonie:vocab-open-source, syntonie:vocab-pedagogie ;
-    syntonie:suggestsCategory syntonie:cat-fablab, syntonie:cat-making ;
+    syntonie:suggestsCategory syntonie:cat-fablab, syntonie:cat-prototypage ;
     dcterms:title "Recherche & Rayonnement Européen"@fr ;
     schema:headline "Innovation technique et collaborations transfrontalières."@fr ;
     syntonie:containsProject syntonie:proj-passeport-maker, syntonie:proj-chic-2-0, syntonie:proj-reseau-vulca, syntonie:proj-allo-ia, syntonie:proj-invisible-play ;
@@ -317,13 +317,13 @@ syntonie:proj-actions-corona a syntonie:Project ;
 syntonie:proj-operation-speculoos a syntonie:Project ;
     dcterms:identifier "operation-speculoos" ;
     dcterms:title "Opération Speculoos"@fr ;
-    dcterms:description "Projet humanitaire de fabrication et vente de biscuits au profit de l'association Kesho Kongo pour lutter contre la malnutrition infantile en RDC. Une acción de solidarité internationale."@fr ;
+    dcterms:description "Projet humanitaire de fabrication et vente de biscuits au profit de l'association Kesho Kongo pour lutter contre la malnutrition infantile en RDC. Une action de solidarité internationale."@fr ;
     syntonie:status "active" ;
     dcterms:created "2021-01-01"^^xsd:date ;
     syntonie:hasSemanticNeighbor [
         syntonie:neighborTarget syntonie:proj-actions-corona ;
         syntonie:proximityScore "0.7"^^xsd:decimal ;
-        syntonie:proximityReason "Même espíritu d'entraide et fabrication solidaire"@fr
+        syntonie:proximityReason "Même esprit d'entraide et fabrication solidaire"@fr
     ] ;
     syntonie:hasSemanticNeighbor [
         syntonie:neighborTarget syntonie:proj-micro-projets ;
@@ -460,7 +460,7 @@ syntonie:proj-artisans-2-0 a syntonie:Project ;
 syntonie:proj-enigmaker a syntonie:Project ;
     dcterms:identifier "enigmaker" ;
     dcterms:title "L'Enigmaker"@fr ;
-    dcterms:description "Une 'escape box' immersive permettant de découvrir les techniques du fablab (laser, 3D, CNC, code) en 10 minutes. Idéal pour生日, team building, événements."@fr ;
+    dcterms:description "Une 'escape box' immersive permettant de découvrir les techniques du fablab (laser, 3D, CNC, code) en 10 minutes. Idéal pour anniversaires, team building, événements."@fr ;
     syntonie:status "active" ;
     dcterms:created "2023-01-01"^^xsd:date ;
     syntonie:hasSemanticNeighbor [
@@ -689,7 +689,7 @@ syntonie:proj-eco-design a syntonie:Project ;
     syntonie:hasCallToAction [
         a syntonie:CallToAction ;
         syntonie:ctaType "workshop" ;
-        dcterms:title "Atelier vélo: tu veux动手?"@fr ;
+        dcterms:title "Atelier vélo: tu veux mettre les mains dedans?"@fr ;
         syntonie:ctaTarget "/contact?context=eco-design"
     ] .
 
@@ -779,7 +779,8 @@ syntonie:Ontology a owl:Ontology ;
 # =============================================================================
 
 # Transitivité: Si A est voisin de B et B est voisin de C, alors A est lointainement voisin de C
-syntonie:hasSemanticNeighbor a owl:TransitiveProperty , owl:SymmetricProperty .
+# Note: NOT symmetric — proximity scores are directional (A→B may differ from B→A)
+syntonie:hasSemanticNeighbor a owl:TransitiveProperty .
 
 # Réciprocité des catégories: Si Category1 suggère Category2, alors Category2 peut suggérer Category1
 syntonie:suggestsCategory a owl:SymmetricProperty .
