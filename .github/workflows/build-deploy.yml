@@ -34,7 +34,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hugo-build
+          name: github-pages
           path: ./public
 
   deploy:
@@ -44,11 +44,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: hugo-build
-          path: ./public
 
       - name: Deploy to GitHub Pages
         id: deployment
