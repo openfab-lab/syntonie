@@ -1,0 +1,52 @@
+{{ define "mainClass" }}main-content fog-page{{ end }}
+
+{{ define "main" }}
+<article class="projet-page">
+
+  <nav class="projet-back">
+    <a href="{{ .Site.BaseURL }}" class="fog-inline-link">&larr; Retour à l'accueil</a>
+  </nav>
+
+  <header class="projet-header">
+    <span class="fog-eyebrow">{{ .Params.eyebrow }}</span>
+    <h1 class="fog-sec-title" style="font-size:48px; max-width:640px;">{{ .Title }}</h1>
+    {{ with .Params.subtitle }}
+      <p class="fog-sec-body" style="font-size:20px; margin-top:12px;">{{ . }}</p>
+    {{ end }}
+  </header>
+
+  <div class="projet-body">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.meta }}
+  <aside class="projet-meta">
+    {{ range $key, $val := . }}
+    <div class="projet-meta-item">
+      <span class="projet-meta-label">{{ $key }}</span>
+      <span class="projet-meta-value">{{ $val }}</span>
+    </div>
+    {{ end }}
+  </aside>
+  {{ end }}
+
+</article>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function() {
+  const toc = document.getElementById('nav-toc');
+  if (!toc) return;
+  const headings = document.querySelectorAll('.projet-body h2');
+  headings.forEach(function(h, i) {
+    if (!h.id) h.id = h.textContent.trim().toLowerCase().replace(/[^a-zà-ÿ0-9]+/g, '-').replace(/-+$/,'');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.className = 'nav-item';
+    a.innerHTML = '<span class="nav-num">' + String(i + 1).padStart(2, '0') + '</span><span class="nav-txt">' + h.textContent.toUpperCase() + '</span>';
+    toc.appendChild(a);
+  });
+})();
+</script>
+{{ end }}

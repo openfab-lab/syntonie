@@ -1057,7 +1057,102 @@ footer {
   font-size: 14px;
   color: #6b5b4e;
 }
-.fog-inline-link { color: #E8831A; }
+.fog-inline-link { color: #E8831A; text-decoration: none; }
+.fog-inline-link:hover { text-decoration: underline; }
+
+/* --- Projet pages (warm cream, same as fog) --- */
+.fog-page {
+  background: #faf8f4;
+  min-height: 100vh;
+  width: 100%;
+}
+.projet-page {
+  font-family: var(--f-head);  /* ch unit now based on Atkinson Hyperlegible */
+  width: min(75ch, 100%);
+  padding: 60px 60px 120px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.projet-back {
+  font-family: var(--f-head);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+.projet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.projet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+.projet-body h2 {
+  font-family: var(--f-head);
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1612;
+  letter-spacing: -0.5px;
+  margin-top: 12px;
+}
+.projet-body h3 {
+  font-family: var(--f-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1612;
+}
+.projet-body p {
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: #3a3028;
+  line-height: 1.75;
+  max-width: none;
+}
+.projet-page .fog-sec-title,
+.projet-page .fog-sec-body {
+  max-width: none;
+}
+.projet-body strong {
+  color: #1a1612;
+}
+.projet-body ul, .projet-body ol {
+  font-family: var(--f-body);
+  font-size: 17px;
+  color: #3a3028;
+  line-height: 1.75;
+  padding-left: 24px;
+}
+.projet-body blockquote {
+  border-left: 3px solid #E8831A;
+  padding: 16px 24px;
+  background: rgba(232,131,26,0.04);
+  font-style: italic;
+  color: #3a3028;
+}
+.projet-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(26,22,18,0.12);
+}
+.projet-meta-label {
+  font-family: var(--f-head);
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #E8831A;
+  display: block;
+}
+.projet-meta-value {
+  font-family: var(--f-body);
+  font-size: 15px;
+  color: #3a3028;
+  display: block;
+  margin-top: 4px;
+}
 
 /* J — mission */
 .mission-block {

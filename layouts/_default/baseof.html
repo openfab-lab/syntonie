@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ .Title }} — ASBL · Bruxelles</title>
   <meta name="description" content="{{ .Site.Params.description }}" />
-  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/main.css" />
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/main.css?v={{ now.Unix }}" />
 </head>
 <body>
 <div class="layout">
@@ -32,6 +32,10 @@
         <a href="#" id="nav-accueil" class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
         <div id="nav-middle"></div>
         <a href="#" class="nav-item" data-recipe="about" id="nav-about"><span class="nav-num">05</span><span class="nav-txt">À PROPOS</span></a>
+      {{ else if eq .Type "projets" }}
+        <!-- Dynamic TOC from h2 headings -->
+        <a href="{{ .Site.BaseURL }}" class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <div id="nav-toc"></div>
       {{ else }}
         <!-- Institutional pages nav -->
         <a href="{{ .Site.BaseURL }}"       class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>

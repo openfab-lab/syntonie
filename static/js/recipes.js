@@ -18,7 +18,7 @@ let RECIPE_PROJECTS = {}; // Project metadata from navigation.json
 // Trigger keywords → recipe mapping (will be enriched from TTL)
 let TRIGGERS = {
   shelter:       ['gouvernance', 'structure', 'asbl', 'légal', 'legal', 'cadre', 'financement', 'subvention', 'abri', 'appartenir', 'stabilité', 'erasmus'],
-  inclusion:     ['neurodiversité', 'neurodiversite', 'inclusion', 'neuro', 'adhd', 'invisible', 'allo-ia', 'accessibilité', 'accessibilite', 'dys', 'autiste', 'hpi', 'hp', 'atypique'],
+  inclusion:     ['neurodiversité', 'neurodiversite', 'inclusion', 'invisible', 'allo-ia', 'accessibilité', 'accessibilite', 'bruit', 'sensible', 'capteurs', 'sensoriel', 'espace', 'différemment', 'barrières', 'calme', 'silence'],
   constellation: ['fablab', 'making', 'builder', 'maker', 'bricoler', 'openfab', 'makerspace', 'hacker', 'fabriquer', 'atelier', 'espace', 'outils', 'constellation'],
   values:        ['open source', 'communs', 'indépendant', 'independant', 'imparfait', 'valeurs', 'open', 'liberté', 'liberte', 'prospectif'],
 }
