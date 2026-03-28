@@ -3,7 +3,16 @@
  * Shows beachhead: top 2-3 projects per recipe
  */
 
-let RECIPES = {}; // Will be loaded from navigation.json
+// Static mapping: recipe key → DOM section IDs to reveal
+const RECIPE_SECTIONS = {
+  shelter:       ['shelter-header', 'ownership-split', 'precedents-grid', 'cta'],
+  inclusion:     ['project-allo-ia', 'project-invisible-play', 'value-imparfait', 'cta'],
+  constellation: ['constellation-map', 'precedents-grid', 'cta'],
+  values:        ['values-all', 'shelter-header', 'cta'],
+  about:         ['about-syntonie', 'mission', 'cta'],
+}
+
+let RECIPES = { ...RECIPE_SECTIONS }; // Start with static, may be enriched by navigation.json
 let RECIPE_PROJECTS = {}; // Project metadata from navigation.json
 
 // Trigger keywords → recipe mapping (will be enriched from TTL)
@@ -108,16 +117,16 @@ function revealRecipe(recipe) {
     const topics = fogZone.querySelector('.fog-topics')
 
     if (inputWrap && topics) {
-      const contentHeight = inputWrap.offsetHeight + 18 + topics.offsetHeight // +18 for gap
-      const viewportHeight = window.innerHeight
-      const centeredPadding = Math.max(60, (viewportHeight - contentHeight) / 2)
-
-      // Calculate collapsed height: content + small top padding + bottom padding
-      const collapsedHeight = contentHeight + 20 + 60 // 20px top + 60px bottom padding
-
-      // Set CSS variables
-      fogZone.style.setProperty('--padding-centered', `${centeredPadding}px`)
-      fogZone.style.setProperty('--min-height-collapsed', `${collapsedHeight}px`)
+      if (recipe) {
+        // Recipe active: calculate collapsed height for compact fog-zone
+        const contentHeight = inputWrap.offsetHeight + 18 + topics.offsetHeight // +18 for gap
+        const collapsedHeight = contentHeight + 20 + 60 // 20px top + 60px bottom padding
+        fogZone.style.setProperty('--min-height-collapsed', `${collapsedHeight}px`)
+      } else {
+        // Reset: clear inline vars so CSS defaults (120px + justify-content:center) take over
+        fogZone.style.removeProperty('--padding-centered')
+        fogZone.style.removeProperty('--min-height-collapsed')
+      }
     }
 
     fogZone.classList.toggle('has-recipe', !!recipe)
@@ -288,12 +297,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resp = await fetch(window.NAVIGATION_URL || '/data/navigation.json')
     const nav = await resp.json()
     RECIPE_PROJECTS = nav.projects || {}
-
-    // Map recipes to project lists
-    for (const [recipeId, recipe] of Object.entries(nav.recipes || {})) {
-      RECIPES[recipeId] = recipe.projects.map(p => p.id)
-    }
-    console.log(`✓ Loaded ${Object.keys(RECIPES).length} recipes from navigation.json`)
+    console.log(`✓ Loaded navigation.json (${Object.keys(RECIPE_PROJECTS).length} projects)`)
   } catch (err) {
     console.log('⚠️  Using static RECIPES/TRIGGERS')
   }
