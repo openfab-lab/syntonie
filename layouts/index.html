@@ -269,7 +269,7 @@
 {{ define "scripts" }}
 <script>
   // Expose topics path for recipes.js
-  window.TOPICS_URL = '/js/topics.json'
+  window.TOPICS_URL = '{{ .Site.BaseURL }}js/topics.json'
 </script>
-<script src="/js/recipes.js" defer></script>
+<script src="{{ .Site.BaseURL }}js/recipes.js" defer></script>
 {{ end }}
