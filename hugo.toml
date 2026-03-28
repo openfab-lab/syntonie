@@ -1,4 +1,4 @@
-baseURL = "/syntonie/"
+baseURL = "http://localhost:1313/syntonie/"
 languageCode = "fr-BE"
 title = "Syntonie"
 
