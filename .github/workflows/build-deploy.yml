@@ -30,7 +30,7 @@ jobs:
           extended: true
 
       - name: Build
-        run: hugo --minify --baseURL "https://openfab-lab.github.io/syntonie/"
+        run: hugo --minify --baseURL "https://syntonie.be/"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
