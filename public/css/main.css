@@ -246,7 +246,7 @@ section {
 /* --- Hero --- */
 #hero {
   background-color: var(--bg);
-  background-image: url('/images/hero-bg.jpg');
+  background-image: url('../images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
   position: relative;

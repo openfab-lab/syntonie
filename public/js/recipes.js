@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load navigation data from TTL
   try {
-    const resp = await fetch('/data/navigation.json')
+    const resp = await fetch(window.NAVIGATION_URL || '/data/navigation.json')
     const nav = await resp.json()
     RECIPE_PROJECTS = nav.projects || {}
 
