@@ -270,6 +270,7 @@
 <script>
   // Expose topics path for recipes.js
   window.TOPICS_URL = '{{ .Site.BaseURL }}js/topics.json'
+  window.NAVIGATION_URL = '{{ .Site.BaseURL }}data/navigation.json'
 </script>
 <script src="{{ .Site.BaseURL }}js/recipes.js" defer></script>
 {{ end }}
