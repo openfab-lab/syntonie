@@ -10,6 +10,7 @@ const RECIPE_SECTIONS = {
   constellation: ['constellation-map', 'precedents-grid', 'cta'],
   values:        ['values-all', 'shelter-header', 'cta'],
   about:         ['about-syntonie', 'mission', 'cta'],
+  contact:       ['contact-block'],
 }
 
 let RECIPES = { ...RECIPE_SECTIONS }; // Start with static, may be enriched by navigation.json
@@ -21,6 +22,7 @@ let TRIGGERS = {
   inclusion:     ['neurodiversité', 'neurodiversite', 'inclusion', 'invisible', 'allo-ia', 'accessibilité', 'accessibilite', 'bruit', 'sensible', 'capteurs', 'sensoriel', 'espace', 'différemment', 'barrières', 'calme', 'silence'],
   constellation: ['fablab', 'making', 'builder', 'maker', 'bricoler', 'openfab', 'makerspace', 'hacker', 'fabriquer', 'atelier', 'espace', 'outils', 'constellation'],
   values:        ['open source', 'communs', 'indépendant', 'independant', 'imparfait', 'valeurs', 'open', 'liberté', 'liberte', 'prospectif'],
+  contact:       ['contact', 'écrire', 'ecrire', 'message', 'rendez-vous', 'rdv', 'visite', 'visit', 'reach', 'email', 'joindre', 'parler', 'écris', 'ecris'],
 }
 
 const RECIPE_META = {
@@ -84,6 +86,18 @@ const RECIPE_META = {
     related: ['shelter', 'constellation'],
     action: { fr: 'Prenons contact', en: 'Get in touch' },
   },
+  contact: {
+    label: { fr: 'CONTACT', en: 'CONTACT' },
+    chips: [
+      { label: 'gouvernance',   recipe: 'shelter' },
+      { label: 'neurodiversité',recipe: 'inclusion' },
+      { label: 'fablab',        recipe: 'constellation' },
+      { label: 'open source',   recipe: 'values' },
+      { label: 'autonomie',     recipe: 'about' },
+    ],
+    related: ['about', 'shelter'],
+    action: { fr: 'On lit tout', en: 'We read everything' },
+  },
 }
 
 let currentRecipe = null
@@ -103,6 +117,16 @@ function revealRecipe(recipe) {
   // ── Same-recipe guard: skip if already active ──
   if (currentRecipe === recipe) return
   currentRecipe = recipe
+
+  // Sync URL hash so recipes are deep-linkable (e.g. /#contact)
+  try {
+    history.replaceState(null, '', recipe ? `#${recipe}` : location.pathname)
+  } catch (_) {}
+
+  // Lazy-init Tally when contact is first revealed
+  if (recipe === 'contact' && typeof Tally !== 'undefined') {
+    Tally.loadEmbeds()
+  }
 
   // Hide all first (radical absence = display:none)
   document.querySelectorAll('.recipe-block').forEach(el => {
@@ -403,4 +427,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Initialize language on page load
   setLang(currentLang)
+
+  // Deep-link support: if URL has a recipe hash (e.g. /#contact), auto-reveal
+  const hash = window.location.hash.slice(1)
+  if (hash && RECIPE_SECTIONS[hash]) {
+    revealRecipe(hash)
+  }
 })

@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ .Title }} — ASBL · Bruxelles</title>
   <meta name="description" content="{{ .Site.Params.description }}" />
+  <link rel="canonical" href="https://syntonie.be{{ .RelPermalink }}" />
+  <meta property="og:title" content="{{ .Title }} — Syntonie" />
+  <meta property="og:description" content="{{ .Site.Params.description }}" />
+  <meta property="og:url" content="https://syntonie.be{{ .RelPermalink }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_BE" />
   <link rel="stylesheet" href="{{ .Site.BaseURL }}css/main.css?v={{ now.Unix }}" />
 </head>
 <body>

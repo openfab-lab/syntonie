@@ -255,6 +255,53 @@
 </section>
 
 <!-- ============================================================
+     RECIPE: contact (discovery reward — no topic chip)
+     contact-block (Tally form + address + hours)
+     ============================================================ -->
+
+<section id="contact-block" class="recipe-block" hidden>
+  <span class="fog-eyebrow">
+    <span class="lang-fr">ENTRER EN RÉSONANCE</span>
+    <span class="lang-en" style="display:none">GET IN TOUCH</span>
+  </span>
+  <h3 class="fog-sec-title">
+    <span class="lang-fr">Écris-nous.<br>On lit tout.</span>
+    <span class="lang-en" style="display:none">Write to us.<br>We read everything.</span>
+  </h3>
+  <p class="fog-sec-body" style="margin-bottom:24px;">
+    <span class="lang-fr">Une question, un projet, une visite&nbsp;— tout ce qui arrive est lu.</span>
+    <span class="lang-en" style="display:none">A question, a project, a visit — everything that comes in gets read.</span>
+  </p>
+  <div class="contact-inner">
+    <div class="contact-form">
+      <iframe
+        data-tally-src="https://tally.so/embed/7RvgX6?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="276"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Syntonie — Contact form">
+      </iframe>
+    </div>
+    <aside class="contact-info">
+      <div class="contact-info-block">
+        <span class="contact-info-label lang-fr">ADRESSE</span>
+        <span class="contact-info-label lang-en" style="display:none">ADDRESS</span>
+        <p class="contact-info-text">158 rue Gray<br>B-1050 Ixelles, Bruxelles<br>Belgique</p>
+      </div>
+      <div class="contact-info-block">
+        <span class="contact-info-label lang-fr">HORAIRES</span>
+        <span class="contact-info-label lang-en" style="display:none">HOURS</span>
+        <p class="contact-info-text lang-fr">Mercredis 13h–17h<br>Sur rendez-vous de préférence</p>
+        <p class="contact-info-text lang-en" style="display:none">Wednesdays 13h–17h<br>Appointment preferred</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================================================
      CTA — always last (K)
      ============================================================ -->
 <section id="cta" class="recipe-block" hidden>
@@ -273,4 +320,5 @@
   window.NAVIGATION_URL = '{{ .Site.BaseURL }}data/navigation.json'
 </script>
 <script src="{{ .Site.BaseURL }}js/recipes.js" defer></script>
+<script src="https://tally.so/widgets/embed.js" async></script>
 {{ end }}

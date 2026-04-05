@@ -1,0 +1,45 @@
+{
+  "api_compatibility": ["15"],
+  "space": "OpenFab / Syntonie",
+  "logo": "https://syntonie.be/images/logo.png",
+  "url": "https://syntonie.be",
+  "location": {
+    "address": "158 rue Gray, B-1050 Ixelles, Brussels, Belgium",
+    "lat": 50.833008,
+    "lon": 4.3783441,
+    "timezone": "Europe/Brussels"
+  },
+  "state": {
+    "open": false,
+    "message": "Open Wednesdays 13h–17h, appointment preferred — contact us before visiting"
+  },
+  "contact": {
+    "contact_form": "https://syntonie.be/#contact"
+  },
+  "projects": [
+    {
+      "name": "Allo-IA",
+      "url": "https://syntonie.be",
+      "description": "AI-powered documentation station capturing voice, image, and gesture without interrupting creative flow — designed for neurodivergent learners for whom text-heavy reporting is a genuine barrier. Erasmus+ KA210 partnership with LabFab / IMT Atlantique."
+    },
+    {
+      "name": "Invisible Play",
+      "url": "https://syntonie.be/projets/invisible-play",
+      "description": "Empowering youth with sensory sensitivities and ADHD to map invisible barriers in public space using game-based methods and citizen sensing. Erasmus+ KA210, led by Syntonie with Zingarelho (Portugal)."
+    }
+  ],
+  "feeds": {
+    "blog": {
+      "type": "rss",
+      "url": "https://syntonie.be/index.xml"
+    }
+  },
+  "ext_erasmus_projects": {
+    "programme": "Erasmus+ KA210",
+    "note": "EU regulations limit KA210 applications to 5 partner projects maximum.",
+    "partners": [
+      { "name": "LabFab / IMT Atlantique", "country": "FR", "project": "Allo-IA" },
+      { "name": "Zingarelho", "country": "PT", "project": "Invisible Play" }
+    ]
+  }
+}

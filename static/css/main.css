@@ -1178,6 +1178,50 @@ footer {
   letter-spacing: 1.2px;
 }
 
+/* Contact recipe — Tally form + address/hours sidebar */
+.contact-inner {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.contact-form {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+.contact-form iframe {
+  background: transparent;
+  display: block;
+}
+.contact-info {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  border-left: 3px solid #E8831A;
+  background: rgba(232,131,26,0.04);
+}
+.contact-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.contact-info-label {
+  font-family: var(--f-head);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  color: #E8831A;
+  text-transform: uppercase;
+}
+.contact-info-text {
+  font-family: var(--f-body);
+  font-size: 14px;
+  color: #3a3028;
+  line-height: 1.6;
+}
+
 /* K — CTA */
 #cta {
   padding: 60px 120px 120px 120px;

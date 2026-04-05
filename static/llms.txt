@@ -1,0 +1,53 @@
+# Syntonie
+
+> Belgian non-profit (ASBL) · Governance infrastructure for the Trinity ecosystem · Ixelles, Brussels · Founded 2012
+
+Syntonie is a non-profit association (ASBL under Belgian law) that provides legal, strategic, and operational infrastructure to an ecosystem of three complementary entities. It **enables** — it does not do the work itself: it creates the conditions for others to make, prototype, and govern.
+
+## Role
+
+Syntonie holds shared assets (spaces, equipment, contracts), hosts projects with an institutional dimension, and ensures the strategic continuity of the ecosystem. It is the primary interlocutor for public funders, European agencies (Erasmus+), and institutional partners.
+
+## Location
+
+158 rue Gray, B-1050 Ixelles, Brussels, Belgium
+Lat: 50.833008 · Lon: 4.3783441
+OpenStreetMap: https://www.openstreetmap.org/node/13116379860
+
+Open: Wednesdays 13h–17h (appointment preferred)
+
+## The Trinity Ecosystem
+
+- **Syntonie** (☂️) — Governance, legal structure, project hosting, long-term vision
+- **OpenFab** (🧰) — Brussels makerspace, shared workshop, equipment, digital fabrication
+- **Politype** (🫰) — Participatory democracy prototyping, civic tech, governance through play
+
+## Active Projects (Erasmus+ KA210)
+
+**Allo-IA** — with LabFab / IMT Atlantique (France)
+AI-powered documentation station capturing voice, image, and gesture without interrupting creative flow — designed for neurodivergent learners for whom text-heavy reporting is a genuine barrier.
+
+**Invisible Play** — led by Syntonie, with Zingarelho (Portugal)
+Empowering youth with sensory sensitivities and ADHD to map invisible barriers in public space using game-based methods and citizen sensing.
+
+Note: EU KA210 regulations limit applications to 5 partner projects maximum.
+
+## Values
+
+Autonomy · Stimulation · Humanity · Security through community
+Open source · Commons · Independence · Imperfection as practice
+
+## Audiences
+
+Makers and creative technologists · Collectives seeking non-profit hosting · Erasmus+ agencies and European partners · Brussels public institutions (Commune d'Ixelles, Région)
+
+## Machine-Readable Data
+
+SpaceAPI endpoint (live state, geolocation, projects): https://syntonie.be/spaceapi/spaceapi.json
+
+## Contact & Pages
+
+https://syntonie.be
+https://syntonie.be/about/ — Institutional presentation
+
+Contact via https://syntonie.be/#contact
