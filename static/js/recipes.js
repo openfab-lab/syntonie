@@ -17,6 +17,9 @@ let RECIPES = { ...RECIPE_SECTIONS }; // Start with static, may be enriched by n
 let RECIPE_PROJECTS = {}; // Project metadata from navigation.json
 
 // Trigger keywords → recipe mapping (will be enriched from TTL)
+// ⚠️ COUPLING: every word here must also exist in static/js/topics.json,
+// otherwise the keyword matches a recipe but never appears in the
+// autocomplete dropdown. TRIGGERS = match logic; topics.json = suggestions.
 let TRIGGERS = {
   shelter:       ['gouvernance', 'structure', 'asbl', 'légal', 'legal', 'cadre', 'financement', 'subvention', 'abri', 'appartenir', 'stabilité', 'erasmus'],
   inclusion:     ['neurodiversité', 'neurodiversite', 'inclusion', 'invisible', 'allo-ia', 'accessibilité', 'accessibilite', 'bruit', 'sensible', 'capteurs', 'sensoriel', 'espace', 'différemment', 'barrières', 'calme', 'silence'],
