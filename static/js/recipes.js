@@ -202,7 +202,20 @@ let activeIdx = -1
 
 fetch(window.TOPICS_URL || '/js/topics.json')
   .then(r => r.json())
-  .then(data => { topics = data })
+  .then(data => {
+    topics = data
+    // ── Sync check: warn if any TRIGGERS keyword is missing from topics.json ──
+    // ⚠️ COUPLING: TRIGGERS = match logic; topics.json = autocomplete suggestions.
+    // If a word is here but not there, it matches a recipe but never surfaces in the dropdown.
+    const topicsLower = new Set(data.map(t => t.toLowerCase()))
+    Object.entries(TRIGGERS).forEach(([recipe, words]) => {
+      words.forEach(w => {
+        if (!topicsLower.has(w.toLowerCase())) {
+          console.warn(`⚠️ TRIGGERS/topics.json drift: "${w}" (${recipe}) is in TRIGGERS but missing from topics.json`)
+        }
+      })
+    })
+  })
   .catch(() => {})
 
 function suggest(q) {

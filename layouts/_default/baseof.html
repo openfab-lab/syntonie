@@ -28,26 +28,26 @@
         <span class="brand-glyph">☂️</span>
         <span class="brand-name">Syntonie</span>
       {{ end }}
-      <span class="brand-tag">ASBL · IXELLES, BRUXELLES</span>
-      <span class="brand-tag2">FONDÉE 2012</span>
+      <span class="brand-tag"><span class="lang-fr">ASBL · IXELLES, BRUXELLES</span><span class="lang-en" style="display:none">NGO · IXELLES, BRUSSELS</span></span>
+      <span class="brand-tag2"><span class="lang-fr">FONDÉE 2012</span><span class="lang-en" style="display:none">EST. 2012</span></span>
     </div>
 
     <nav class="nav">
       {{ if .IsHome }}
         <!-- Fog-of-war nav: minimal, contextual -->
-        <a href="#" id="nav-accueil" class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <a href="#" id="nav-accueil" class="nav-item"><span class="nav-num">00</span><span class="nav-txt"><span class="lang-fr">ACCUEIL</span><span class="lang-en" style="display:none">HOME</span></span></a>
         <div id="nav-middle"></div>
-        <a href="#" class="nav-item" data-recipe="about" id="nav-about"><span class="nav-num">05</span><span class="nav-txt">À PROPOS</span></a>
+        <a href="#" class="nav-item" data-recipe="about" id="nav-about"><span class="nav-num">05</span><span class="nav-txt"><span class="lang-fr">À PROPOS</span><span class="lang-en" style="display:none">ABOUT</span></span></a>
       {{ else if eq .Type "projets" }}
         <!-- Dynamic TOC from h2 headings -->
-        <a href="{{ .Site.BaseURL }}" class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <a href="{{ .Site.BaseURL }}" class="nav-item"><span class="nav-num">00</span><span class="nav-txt"><span class="lang-fr">ACCUEIL</span><span class="lang-en" style="display:none">HOME</span></span></a>
         <div id="nav-toc"></div>
       {{ else }}
         <!-- Institutional pages nav -->
-        <a href="{{ .Site.BaseURL }}"       class="nav-item"><span class="nav-num">00</span><span class="nav-txt">ACCUEIL</span></a>
+        <a href="{{ .Site.BaseURL }}"       class="nav-item"><span class="nav-num">00</span><span class="nav-txt"><span class="lang-fr">ACCUEIL</span><span class="lang-en" style="display:none">HOME</span></span></a>
         <a href="#vision"  class="nav-item"><span class="nav-num">01</span><span class="nav-txt">VISION</span></a>
-        <a href="#role"    class="nav-item"><span class="nav-num">02</span><span class="nav-txt">NOTRE RÔLE</span></a>
-        <a href="#trinity" class="nav-item"><span class="nav-num">03</span><span class="nav-txt">L'ÉCOSYSTÈME</span></a>
+        <a href="#role"    class="nav-item"><span class="nav-num">02</span><span class="nav-txt"><span class="lang-fr">NOTRE RÔLE</span><span class="lang-en" style="display:none">OUR ROLE</span></span></a>
+        <a href="#trinity" class="nav-item"><span class="nav-num">03</span><span class="nav-txt"><span class="lang-fr">L'ÉCOSYSTÈME</span><span class="lang-en" style="display:none">ECOSYSTEM</span></span></a>
         <a href="#contact" class="nav-item"><span class="nav-num">05</span><span class="nav-txt">CONTACT</span></a>
       {{ end }}
     </nav>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="portals">
-      <span class="portals-label">ÉCOSYSTÈME</span>
+      <span class="portals-label"><span class="lang-fr">ÉCOSYSTÈME</span><span class="lang-en" style="display:none">ECOSYSTEM</span></span>
       <a href="#" class="portal-link">
         <span class="portal-glyph">🫰</span>
         <span class="portal-name">POLITYPE</span>

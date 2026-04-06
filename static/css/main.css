@@ -28,10 +28,15 @@
   /* Sidebar */
   --sidebar-w: 236px;
 
-  /* Fonts */
-  --f-head: 'Atkinson Hyperlegible', sans-serif;
-  --f-body: 'Spectral', serif;
-  --f-mono: 'Syne Mono', monospace;
+  /* Fonts
+     --f-head:    Atkinson Hyperlegible — UI chrome (nav, brand, labels, inputs)
+     --f-body:    Atkinson Hyperlegible — body/recipe text (accessibility-first)
+     --f-display: Spectral             — large display headings only (hero, section titles)
+     --f-mono:    Syne Mono            — technical labels */
+  --f-head:    'Atkinson Hyperlegible', sans-serif;
+  --f-body:    'Atkinson Hyperlegible', sans-serif;
+  --f-display: 'Spectral', serif;
+  --f-mono:    'Syne Mono', monospace;
 }
 
 /* --- Reset --- */
@@ -285,7 +290,7 @@ section {
 }
 
 .hero-title {
-  font-family: var(--f-head);
+  font-family: var(--f-display);
   font-size: 64px;
   font-weight: 800;
   color: #ffffff;
@@ -355,7 +360,7 @@ section {
 .vision-body { flex: 1; display: flex; flex-direction: column; gap: 20px; }
 
 .sec-title {
-  font-family: var(--f-head);
+  font-family: var(--f-display);
   font-size: 36px;
   font-weight: 800;
   color: var(--text-hi);
@@ -383,7 +388,7 @@ section {
 }
 
 .pull-quote {
-  font-family: var(--f-body);
+  font-family: var(--f-display);
   font-size: 26px;
   font-style: italic;
   color: var(--text-hi);
@@ -705,7 +710,7 @@ footer {
 }
 
 .fog-tagline {
-  font-family: var(--f-head);
+  font-family: var(--f-display);
   font-size: 36px;
   font-weight: 800;
   color: #1a1612;
@@ -873,7 +878,7 @@ footer {
 .shelter-intro { display: flex; flex-direction: column; gap: 20px; }
 
 .shelter-title {
-  font-family: var(--f-head);
+  font-family: var(--f-display);
   font-size: 48px;
   font-weight: 800;
   color: #1a1612;
