@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impression 3D — Tarifs OpenFab Brussels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F5F4F0;
+  --surface:#FFFFFF;
+  --border:#E2E0DA;
+  --text:#1A1A18;
+  --muted:#6B6A66;
+  --hint:#A8A7A3;
+  --bambu:#3B8A31;
+  --bambu-bg:#EBF5EA;
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --mono:'DM Mono',monospace;
+  --sans:'Syne',sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;padding:2.5rem 1rem;}
+.wrap{max-width:680px;margin:0 auto;}
+
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:5px;}
+h1{font-size:22px;font-weight:600;margin-bottom:6px;}
+.subtitle{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:2rem;}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1.5rem;align-items:center;}
+.tog{display:flex;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.tog button{flex:1;padding:8px 18px;background:transparent;border:none;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--muted);transition:all 0.1s;white-space:nowrap;}
+.tog button.on{background:var(--text);color:#FFFFFF;font-weight:500;}
+#byof-tip{font-size:12px;color:var(--muted);display:none;}
+
+.machines{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:1.5rem;}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;}
+.card-bambu{border:2px solid var(--bambu);}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
+.card-label{font-size:12px;color:var(--muted);}
+.badge{font-size:11px;padding:2px 9px;border-radius:6px;font-weight:500;background:var(--bambu-bg);color:var(--bambu);}
+.price-line{display:flex;align-items:baseline;gap:4px;margin:4px 0 14px;}
+.price-big{font-family:var(--mono);font-size:34px;font-weight:500;}
+.price-unit{font-size:13px;color:var(--muted);}
+.card-det{font-size:12px;color:var(--muted);display:grid;gap:5px;}
+
+.entry-box{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.5rem;}
+.entry-title{font-size:13px;font-weight:500;margin-bottom:8px;}
+.entry-line{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;}
+.entry-price{font-family:var(--mono);font-size:20px;font-weight:500;}
+.entry-unit{font-size:13px;color:var(--muted);}
+.entry-note{font-size:12px;color:var(--hint);}
+
+.section-label{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;}
+.model-note{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;}
+.model-note strong{font-family:var(--mono);font-weight:500;color:var(--text);}
+
+.examples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:1.5rem;}
+.ex-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;}
+.ex-title{font-size:11px;font-weight:500;color:var(--muted);margin-bottom:6px;}
+.ex-weights{font-size:11px;line-height:1.8;margin-bottom:10px;color:var(--hint);}
+.ex-weights .fixed{color:var(--muted);}
+.ex-price{font-family:var(--mono);font-size:22px;font-weight:500;}
+.ex-cur{font-size:12px;color:var(--muted);}
+
+.breakeven{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;}
+.be-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-bottom:16px;}
+.be-stat-label{font-size:12px;color:var(--muted);margin-bottom:2px;}
+.be-val{font-family:var(--mono);font-size:24px;font-weight:500;}
+.be-unit{font-size:13px;color:var(--muted);}
+.slider-wrap{margin-bottom:14px;}
+.slider-header{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--muted);}
+.slider-header strong{font-family:var(--mono);font-weight:500;color:var(--text);}
+input[type=range]{width:100%;accent-color:var(--text);cursor:pointer;}
+.cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cost-cell{border-radius:var(--radius-sm);padding:12px;background:var(--bg);}
+.cost-cell.hl{background:var(--bambu-bg);}
+.cost-cell-lbl{font-size:11px;color:var(--muted);margin-bottom:4px;}
+.cost-cell.hl .cost-cell-lbl{color:var(--bambu);}
+.cost-val{font-family:var(--mono);font-size:20px;font-weight:500;}
+.cost-note{font-size:11px;color:var(--muted);margin-top:3px;}
+.cost-cell.hl .cost-note{color:var(--bambu);}
+
+.member-note{background:var(--bambu-bg);border:0.5px solid var(--bambu);border-radius:var(--radius-md);padding:1rem 1.25rem;font-size:13px;color:var(--bambu);display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">OpenFab Brussels · openfab.be</p>
+  <h1>Impression 3D — Tarifs</h1>
+  <p class="subtitle">Prusa Mini+ et Bambu Lab P1S — permanences mercredi 13h–17h · 158, rue Gray, Ixelles</p>
+
+  <div class="controls">
+    <div class="tog" id="pt">
+      <button class="on" onclick="setP('guest')">Guest</button>
+      <button onclick="setP('member')">Membre adhérent</button>
+    </div>
+    <div class="tog" id="bt">
+      <button class="on" onclick="setB(false)">Filament inclus</button>
+      <button onclick="setB(true)">BYOF</button>
+    </div>
+    <span id="byof-tip">Votre bobine — qualité sous votre responsabilité.</span>
+  </div>
+
+  <div class="machines">
+    <div class="card">
+      <p class="card-label">Prusa Mini+</p>
+      <div class="price-line">
+        <span class="price-big" id="pp">6.50</span>
+        <span class="price-unit">€/h</span>
+      </div>
+      <div class="card-det">
+        <div>180×180×180 mm</div>
+        <div>PLA · PETG · monochrome</div>
+        <div>Machine d'écolage</div>
+      </div>
+    </div>
+
+    <div class="card card-bambu">
+      <div class="card-top">
+        <p class="card-label">Bambu Lab P1S + AMS</p>
+        <span class="badge">Nouveau</span>
+      </div>
+      <div class="price-line">
+        <span class="price-big" id="pb">10.00</span>
+        <span class="price-unit">€/h</span>
+      </div>
+      <div class="card-det">
+        <div>256×256×256 mm</div>
+        <div>PLA · PETG · jusqu'à 4 couleurs</div>
+        <div>Plus rapide · finitions supérieures</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="entry-box">
+    <p class="entry-title">Petite pièce ≤ 15g — Prusa uniquement</p>
+    <div class="entry-line">
+      <span class="entry-price" id="pg">0.20</span>
+      <span class="entry-unit">€/g</span>
+      <span class="entry-note">— ex. Benchy ~12g · ~1h</span>
+    </div>
+  </div>
+
+  <p class="section-label">Exemple concret — lézard à cornes</p>
+  <p class="model-note">Modèle : <strong>~28g</strong> (fixe) — les supports et la purge multicolore sont des variables qui impactent le poids total et le temps d'impression.</p>
+  <div class="examples">
+    <div class="ex-card">
+      <p class="ex-title">Prusa · mono</p>
+      <div class="ex-weights">
+        <span class="fixed">28g modèle</span><br>
+        +12g support<br>
+        = 40g · 4h
+      </div>
+      <span class="ex-price" id="lp">26.00</span>
+      <span class="ex-cur"> €</span>
+    </div>
+    <div class="ex-card">
+      <p class="ex-title">Bambu · mono</p>
+      <div class="ex-weights">
+        <span class="fixed">28g modèle</span><br>
+        +2g support<br>
+        = 30g · 2.5h
+      </div>
+      <span class="ex-price" id="lbm">25.00</span>
+      <span class="ex-cur"> €</span>
+    </div>
+    <div class="ex-card">
+      <p class="ex-title">Bambu · bicolore</p>
+      <div class="ex-weights">
+        <span class="fixed">28g modèle</span><br>
+        +12g support<br>
+        +~10g purge · 4h
+      </div>
+      <span class="ex-price" id="lbb">40.00</span>
+      <span class="ex-cur"> €</span>
+    </div>
+  </div>
+
+  <div id="be-block" class="breakeven">
+    <div class="be-top">
+      <div>
+        <p class="be-stat-label">Cotisation annuelle</p>
+        <span class="be-val">25</span>
+        <span class="be-unit"> €/an</span>
+      </div>
+      <div style="text-align:right;">
+        <p class="be-stat-label">Break-even sur la Prusa</p>
+        <span class="be-val" id="be-h">8.3</span>
+        <span class="be-unit"> h</span>
+      </div>
+    </div>
+    <div class="slider-wrap">
+      <div class="slider-header">
+        <span>Heures d'impression par an</span>
+        <strong id="sv">10h</strong>
+      </div>
+      <input type="range" min="1" max="100" value="10" step="1" id="sl" oninput="upSlider(this.value)">
+    </div>
+    <div class="cost-grid">
+      <div class="cost-cell">
+        <p class="cost-cell-lbl">Sans adhésion</p>
+        <span class="cost-val" id="cg">65.00</span>
+        <span style="font-size:12px;color:var(--muted);"> €</span>
+      </div>
+      <div class="cost-cell" id="mc">
+        <p class="cost-cell-lbl">Membre adhérent</p>
+        <span class="cost-val" id="cm">60.00</span>
+        <span style="font-size:12px;color:var(--muted);"> €</span>
+        <p class="cost-note" id="cn">dont 25 € cotisation</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="mn" class="member-note">
+    Vous êtes membre — meilleur tarif sur les deux machines, conseil inclus.
+  </div>
+
+</div>
+<script>
+const P={prusa:{guest:{incl:6.50,byof:5.00},member:{incl:3.50,byof:2.50}},bambu:{guest:{incl:10.00,byof:8.00},member:{incl:6.00,byof:4.50}}};
+const NC={pg:{guest:0.20,member:0.12}};
+let isMem=false,isByof=false,hrs=10;
+function rate(m){return P[m][isMem?'member':'guest'][isByof?'byof':'incl'];}
+function f(n){return n.toFixed(2);}
+function upSlider(v){hrs=parseInt(v);document.getElementById('sv').textContent=v+'h';renderSlider();}
+function renderSlider(){
+  const gR=isByof?P.prusa.guest.byof:P.prusa.guest.incl;
+  const mR=isByof?P.prusa.member.byof:P.prusa.member.incl;
+  const gT=gR*hrs,mT=mR*hrs+25,sav=Math.max(0,gT-mT);
+  document.getElementById('cg').textContent=f(gT);
+  document.getElementById('cm').textContent=f(mT);
+  document.getElementById('cn').textContent=sav>0?'économie : '+f(sav)+' €':'dont 25 € cotisation';
+  document.getElementById('mc').classList.toggle('hl',sav>0);
+  const diff=gR-mR;
+  document.getElementById('be-h').textContent=diff>0?(25/diff).toFixed(1):'–';
+}
+function render(){
+  const pp=rate('prusa'),pb=rate('bambu');
+  document.getElementById('pp').textContent=f(pp);
+  document.getElementById('pb').textContent=f(pb);
+  const pr=isMem?'member':'guest';
+  document.getElementById('pg').textContent=NC.pg[pr].toFixed(2);
+  document.getElementById('lp').textContent=f(pp*4);
+  document.getElementById('lbm').textContent=f(pb*2.5);
+  document.getElementById('lbb').textContent=f(pb*4);
+  document.getElementById('be-block').style.display=isMem?'none':'block';
+  document.getElementById('mn').style.display=isMem?'block':'none';
+  document.getElementById('byof-tip').style.display=isByof?'inline':'none';
+  renderSlider();
+}
+function setP(v){isMem=v==='member';document.querySelectorAll('#pt button').forEach((b,i)=>b.classList.toggle('on',i===(isMem?1:0)));render();}
+function setB(v){isByof=v;document.querySelectorAll('#bt button').forEach((b,i)=>b.classList.toggle('on',i===(isByof?1:0)));render();}
+render();
+</script>
+</body>
+</html>
