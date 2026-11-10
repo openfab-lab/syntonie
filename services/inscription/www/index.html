@@ -84,7 +84,8 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
 .formerr{display:none;color:var(--err);font-weight:700;margin-top:18px;}
 .formerr.on{display:block;}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
-#done{display:none;}
+#done,#pay{display:none;}
+#code-f{display:none;}
 .num{font-family:var(--f-mono);font-size:3.4rem;line-height:1;color:var(--navy);margin:8px 0 4px;}
 .num-l{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:1.5px;color:var(--mid);text-transform:uppercase;}
 .step{border:1.5px solid var(--navy);background:#fff;padding:20px;margin-top:24px;}
@@ -127,6 +128,12 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
 
     <section class="sec">
       <div class="sec-h"><span class="sec-n">01</span><h2 data-i18n="s1"></h2></div>
+      <div class="f" id="code-f">
+        <label class="l" for="code" data-i18n="code"></label>
+        <input type="text" id="code" name="code" autocomplete="off" autocapitalize="off" maxlength="40" style="max-width:16rem">
+        <p class="msg" data-i18n="err_code"></p>
+        <p class="opt" data-i18n="code_hint"></p>
+      </div>
       <div class="row">
         <div class="f">
           <label class="l" for="last_name" data-i18n="last_name"></label>
@@ -226,19 +233,32 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
     </div>
   </form>
 
-  <!-- ============ CONFIRMATION ============ -->
-  <div class="sheet" id="done" tabindex="-1">
-    <h1 data-i18n="ok_title"></h1>
-    <p><span id="ok-name"></span></p>
-    <p style="margin-top:10px" data-i18n="no_note"></p>
+  <!-- ============ PAIEMENT (avant l'envoi) ============ -->
+  <div class="sheet" id="pay" tabindex="-1">
+    <h1><span data-i18n="pay_title"></span> — <span class="fee-amount"></span> €</h1>
+    <p data-i18n="pay_intro"></p>
 
     <div class="step">
-      <h3><span data-i18n="pay_title"></span> — <span class="fee-amount"></span> €</h3>
       <p data-i18n="pay_qr"></p>
       <div class="qr" id="qr" role="img" aria-label="QR SEPA"></div>
       <p class="alt"><span data-i18n="pay_alt"></span> <code class="iban"></code><br><span data-i18n="pay_comm"></span> <code id="ok-comm"></code></p>
     </div>
 
+    <p class="formerr" id="payerr" role="alert"></p>
+    <div class="actions">
+      <button class="btn" type="button" data-pay="transfer" data-i18n="paid_transfer"></button>
+      <button class="btn" type="button" data-pay="desk" data-i18n="paid_desk"></button>
+    </div>
+    <div class="actions" style="margin-top:16px">
+      <button class="btn ghost" type="button" id="back" data-i18n="back"></button>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRMATION ============ -->
+  <div class="sheet" id="done" tabindex="-1">
+    <h1 data-i18n="ok_title"></h1>
+    <p><span id="ok-name"></span></p>
+    <p style="margin-top:10px" data-i18n="no_note"></p>
     <p class="show" data-i18n="show"></p>
     <div class="actions">
       <button class="btn ghost" type="button" id="again" data-i18n="again"></button>
@@ -259,6 +279,7 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
    TEST_MODE     : rempli par le service (variable TEST_MODE).
    ------------------------------------------------------------------ */
 const CONFIG = {
+  CHECK_URL: "api/verifier",
   API_URL: "api/inscriptions",
   RULES_URL: "",
   TERMS_VERSION: "2026-01",
@@ -266,7 +287,8 @@ const CONFIG = {
   IBAN: "BE81 7360 7399 7324",
   PAYEE: "Syntonie ASBL",
   PLACE: "Ixelles",
-  TEST_MODE: "__TEST_MODE__" === "1"
+  TEST_MODE: "__TEST_MODE__" === "1",
+  NEED_CODE: "__NEED_CODE__" === "1"
 };
 
 const I18N = {
@@ -294,7 +316,7 @@ const I18N = {
     accept: "Lu et approuvé",
     accept_guardian: "Lu et approuvé par la personne responsable",
     done_at: "Fait à", version: "fiche v",
-    submit: "Valider mon inscription", sending: "Envoi en cours…",
+    submit: "Continuer vers la cotisation", sending: "Un instant…",
     required: "Ce champ est nécessaire.",
     bad_email: "Vérifiez l'adresse e-mail.",
     must_accept: "Cochez la case pour valider l'inscription.",
@@ -303,11 +325,16 @@ const I18N = {
     ok_title: "Fiche envoyée",
     welcome: "Bienvenue,",
     no_note: "Votre numéro de membre vous sera communiqué par l'équipe.",
-    pay_title: "Dernière étape : la cotisation",
+    pay_title: "La cotisation",
     pay_qr: "Scannez ce code avec votre application bancaire. Le montant et la communication sont déjà remplis.",
     pay_alt: "Autre possibilité, par virement sur le compte",
     pay_comm: "Communication :",
-    show: "Montrez cet écran à un·e bénévole pour finaliser votre inscription.",
+    show: "Montrez cet écran à un·e bénévole : l'inscription est complète quand le paiement est confirmé.",
+    code: "Code d'accueil", code_hint: "Demandez-le à un·e bénévole, sur place.",
+    err_code: "Ce code d'accueil n'est pas le bon. Demandez-le à un·e bénévole.",
+    pay_intro: "Votre fiche n'est pas encore envoyée. Elle part à l'équipe quand vous confirmez votre paiement ci-dessous.",
+    paid_transfer: "J'ai fait le virement", paid_desk: "J'ai payé à l'accueil",
+    back: "Modifier ma fiche",
     again: "Nouvelle inscription"
   },
   nl: {
@@ -334,7 +361,7 @@ const I18N = {
     accept: "Gelezen en goedgekeurd",
     accept_guardian: "Gelezen en goedgekeurd door de verantwoordelijke persoon",
     done_at: "Opgemaakt te", version: "formulier v",
-    submit: "Mijn inschrijving bevestigen", sending: "Bezig met verzenden…",
+    submit: "Verder naar het lidgeld", sending: "Even geduld…",
     required: "Dit veld is nodig.",
     bad_email: "Controleer het e-mailadres.",
     must_accept: "Vink het vakje aan om de inschrijving te bevestigen.",
@@ -343,11 +370,16 @@ const I18N = {
     ok_title: "Formulier verzonden",
     welcome: "Welkom,",
     no_note: "Het team bezorgt je je lidnummer.",
-    pay_title: "Laatste stap: het lidgeld",
+    pay_title: "Het lidgeld",
     pay_qr: "Scan deze code met je bankapp. Het bedrag en de mededeling zijn al ingevuld.",
     pay_alt: "Of via overschrijving op rekening",
     pay_comm: "Mededeling:",
-    show: "Toon dit scherm aan een vrijwilliger om je inschrijving af te ronden.",
+    show: "Toon dit scherm aan een vrijwilliger: de inschrijving is rond zodra de betaling bevestigd is.",
+    code: "Onthaalcode", code_hint: "Vraag hem ter plaatse aan een vrijwilliger.",
+    err_code: "Deze onthaalcode klopt niet. Vraag hem aan een vrijwilliger.",
+    pay_intro: "Je formulier is nog niet verzonden. Het vertrekt naar het team zodra je hieronder je betaling bevestigt.",
+    paid_transfer: "Ik heb overgeschreven", paid_desk: "Ik heb aan het onthaal betaald",
+    back: "Mijn formulier aanpassen",
     again: "Nieuwe inschrijving"
   },
   en: {
@@ -374,7 +406,7 @@ const I18N = {
     accept: "Read and approved",
     accept_guardian: "Read and approved by the responsible person",
     done_at: "Done at", version: "form v",
-    submit: "Confirm my registration", sending: "Sending…",
+    submit: "Continue to the fee", sending: "One moment…",
     required: "This field is needed.",
     bad_email: "Please check the email address.",
     must_accept: "Tick the box to confirm the registration.",
@@ -383,11 +415,16 @@ const I18N = {
     ok_title: "Form sent",
     welcome: "Welcome,",
     no_note: "The team will send you your member number.",
-    pay_title: "Last step: the membership fee",
+    pay_title: "The membership fee",
     pay_qr: "Scan this code with your banking app. The amount and the reference are already filled in.",
     pay_alt: "Alternatively, by bank transfer to account",
     pay_comm: "Reference:",
-    show: "Show this screen to a volunteer to complete your registration.",
+    show: "Show this screen to a volunteer: the registration is complete once the payment is confirmed.",
+    code: "Front-desk code", code_hint: "Ask a volunteer for it, on site.",
+    err_code: "This front-desk code isn't right. Ask a volunteer for it.",
+    pay_intro: "Your form hasn't been sent yet. It goes to the team when you confirm your payment below.",
+    paid_transfer: "I have made the transfer", paid_desk: "I have paid at the front desk",
+    back: "Edit my form",
     again: "New registration"
   }
 };
@@ -395,7 +432,8 @@ const I18N = {
 const $ = (id) => document.getElementById(id);
 const form = $("form");
 let lang = "fr";
-let last = null; // dernière inscription confirmée
+let last = null;    // personne en cours d'inscription (nom, année)
+let pending = null; // fiche vérifiée, pas encore envoyée
 
 function t(key){ return I18N[lang][key] || I18N.fr[key] || key; }
 
@@ -406,7 +444,7 @@ function setLang(l){
   document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   document.title = t("title") + " — Syntonie asbl";
   $("today").textContent = CONFIG.PLACE + ", " + new Date().toLocaleDateString(lang + "-BE");
-  if (last) renderDone();
+  if (last) { renderPay(); renderDone(); }
 }
 
 function toggleSub(box){
@@ -454,18 +492,18 @@ function payload(){
     email: v("email").toLowerCase(), phone: v("phone"),
     is_minor: $("is_minor").checked, guardian_name: v("guardian_name"),
     pro_name: v("pro_name"), vat: v("vat"), smart: v("smart"),
-    interests: v("interests"),
+    interests: v("interests"), code: v("code"),
     accepted: $("accepted").checked, guardian_accepted: $("guardian_accepted").checked,
     terms_version: CONFIG.TERMS_VERSION, place: CONFIG.PLACE,
     website: form.elements.website.value
   };
 }
 
-async function send(data){
-  const res = await fetch(CONFIG.API_URL, {
+async function post(path, data){
+  const res = await fetch(path, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
   });
-  if (!res.ok) throw new Error("HTTP " + res.status);
+  if (!res.ok) { const e = new Error("HTTP " + res.status); e.status = res.status; throw e; }
   return res.json();
 }
 
@@ -478,8 +516,7 @@ function epc(){
     "EUR" + CONFIG.FEE.toFixed(2), "", "", comm(), ""].join("\n");
 }
 
-function renderDone(){
-  $("ok-name").textContent = t("welcome") + " " + last.first_name + " " + last.last_name + ".";
+function renderPay(){
   $("ok-comm").textContent = comm();
   qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
   const qr = qrcode(0, "M");
@@ -488,6 +525,17 @@ function renderDone(){
   $("qr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
 }
 
+function renderDone(){
+  $("ok-name").textContent = t("welcome") + " " + last.first_name + " " + last.last_name + ".";
+}
+
+function show(id){
+  ["form", "pay", "done"].forEach(x => { $(x).style.display = x === id ? "block" : "none"; });
+  window.scrollTo(0, 0);
+  if (id !== "form") $(id).focus();
+}
+
+// Étape 1 : la fiche est vérifiée, rien n'est encore envoyé à l'équipe.
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const err = $("formerr");
@@ -502,19 +550,37 @@ form.addEventListener("submit", async (e) => {
   btn.disabled = true; btn.textContent = t("sending");
   const data = payload();
   try {
-    const out = await send(data);
-    last = { year: out.year, first_name: data.first_name, last_name: data.last_name };
-    renderDone();
-    form.style.display = "none";
-    $("done").style.display = "block";
-    $("done").focus();
-    window.scrollTo(0, 0);
+    await post(CONFIG.CHECK_URL, data);
+    pending = data;
+    last = { year: new Date().getFullYear(), first_name: data.first_name, last_name: data.last_name };
+    renderPay(); renderDone();
+    $("payerr").classList.remove("on");
+    show("pay");
   } catch (ex) {
-    err.textContent = t("err_net"); err.classList.add("on");
+    err.textContent = t(ex.status === 403 ? "err_code" : "err_net"); err.classList.add("on");
+    if (ex.status === 403) { mark($("code"), false); $("code").focus(); }
   } finally {
     btn.disabled = false; btn.textContent = t("submit");
   }
 });
+
+// Étape 2 : la fiche part quand la personne déclare son paiement.
+const payBtns = document.querySelectorAll("[data-pay]");
+payBtns.forEach(b => b.addEventListener("click", async () => {
+  const err = $("payerr");
+  err.classList.remove("on");
+  payBtns.forEach(x => { x.disabled = true; });
+  try {
+    await post(CONFIG.API_URL, Object.assign({}, pending, { payment: b.dataset.pay }));
+    pending = null;
+    show("done");
+  } catch (ex) {
+    err.textContent = t("err_net"); err.classList.add("on");
+  } finally {
+    payBtns.forEach(x => { x.disabled = false; });
+  }
+}));
+$("back").addEventListener("click", () => show("form"));
 
 $("again").addEventListener("click", () => {
   last = null;
@@ -522,15 +588,14 @@ $("again").addEventListener("click", () => {
   document.querySelectorAll("[data-toggle]").forEach(toggleSub);
   document.querySelectorAll("[aria-invalid]").forEach(i => mark(i, true));
   document.querySelectorAll(".msg.on").forEach(m => m.classList.remove("on"));
-  $("done").style.display = "none";
-  form.style.display = "block";
-  window.scrollTo(0, 0);
-  $("last_name").focus();
+  pending = null;
+  show("form");
+  (CONFIG.NEED_CODE ? $("code") : $("last_name")).focus();
 });
 
 document.querySelectorAll("[data-toggle]").forEach(b => b.addEventListener("change", () => toggleSub(b)));
 document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
-form.querySelectorAll("input[required], #guardian_name").forEach(i => i.addEventListener("input", () => {
+form.querySelectorAll("input[required], #guardian_name, #code").forEach(i => i.addEventListener("input", () => {
   if (i.getAttribute("aria-invalid") === "true") mark(i, true);
 }));
 
@@ -544,6 +609,7 @@ document.querySelectorAll(".fee-amount").forEach(el => { el.textContent = CONFIG
 document.querySelectorAll(".iban").forEach(el => { el.textContent = CONFIG.IBAN; });
 document.querySelectorAll(".terms-version").forEach(el => { el.textContent = CONFIG.TERMS_VERSION; });
 if (CONFIG.TEST_MODE) $("demo").style.display = "block";
+if (CONFIG.NEED_CODE) $("code-f").style.display = "block";
 if (CONFIG.RULES_URL) { $("rules").style.display = "block"; $("rules-link").href = CONFIG.RULES_URL; }
 const urlLang = new URLSearchParams(location.search).get("lang");
 setLang(urlLang || (navigator.language || "fr").slice(0, 2));

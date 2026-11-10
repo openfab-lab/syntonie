@@ -6,17 +6,22 @@ chaque fiche validée est envoyée à l'adresse de l'association (via Resend),
 où elle est encodée à la main. Le numéro de membre est attribué à l'encodage.
 
   GET  /                   la fiche (www/index.html)
-  POST /api/inscriptions   valide la fiche et l'envoie par e-mail
+  POST /api/verifier       valide la fiche et le code d'accueil, n'envoie rien
+  POST /api/inscriptions   valide la fiche et l'envoie par e-mail, une fois le
+                           paiement déclaré par la personne
   GET  /health
 
 Configuration par variables d'environnement :
   RESEND_API_KEY   clé Resend (envoi seul). Sans elle, l'envoi répond 503.
   MAIL_TO          destinataire (défaut contact@syntonie.be)
   MAIL_FROM        expéditeur (défaut Inscriptions Syntonie <inscription@syntonie.be>)
+  ACCESS_CODE      code d'accueil, donné sur place par un·e bénévole. Vide =
+                   pas de code demandé.
   TEST_MODE        "1" : bandeau TEST sur la page et [TEST] dans l'objet
   PORT             défaut 8080
 """
 import datetime as dt
+import hmac
 import json
 import os
 import re
@@ -32,13 +37,16 @@ RESEND_API_URL = os.environ.get("RESEND_API_URL", "https://api.resend.com/emails
 MAIL_TO = os.environ.get("MAIL_TO", "contact@syntonie.be")
 MAIL_FROM = os.environ.get("MAIL_FROM", "Inscriptions Syntonie <inscription@syntonie.be>")
 TEST_MODE = os.environ.get("TEST_MODE", "") == "1"
+ACCESS_CODE = " ".join(os.environ.get("ACCESS_CODE", "").split()).lower()
+PAYMENTS = {"transfer": "virement bancaire, déclaré fait par la personne : à vérifier sur le compte",
+            "desk": "à l'accueil (terminal ou cash), déclaré par la personne : à confirmer par le ou la bénévole"}
 PORT = int(os.environ.get("PORT", "8080"))
 WWW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "www")
 MAX_BODY = 16 * 1024
 RATE_MAX, RATE_WINDOW = 30, 600  # 30 fiches / 10 min par adresse IP
 
 LIMITS = {"last_name": 100, "first_name": 100, "email": 200, "phone": 40, "guardian_name": 200,
-          "pro_name": 200, "vat": 40, "smart": 200, "interests": 1000, "place": 80, "terms_version": 20}
+          "pro_name": 200, "vat": 40, "smart": 200, "interests": 1000, "place": 80, "terms_version": 20, "code": 40}
 EMAIL_RE = re.compile(r"^[^\s@<>,;]+@[^\s@<>,;]+\.[^\s@<>,;]{2,}$")
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/qrcode.js": ("qrcode.js", "text/javascript; charset=utf-8")}
@@ -66,7 +74,13 @@ def rate_ok(ip):
         return ok
 
 
-def clean(data):
+def code_ok(given):
+    if not ACCESS_CODE:
+        return True
+    return hmac.compare_digest(given.lower().encode("utf-8"), ACCESS_CODE.encode("utf-8"))
+
+
+def clean(data, need_payment):
     """Valide et normalise la fiche. Renvoie (champs, erreur)."""
     if not isinstance(data, dict):
         return None, "format"
@@ -91,6 +105,11 @@ def clean(data):
         return None, "guardian"
     if not out["is_minor"]:
         out["guardian_name"], out["guardian_accepted"] = "", False
+    if not code_ok(out.pop("code")):
+        return None, "code"
+    out["payment"] = data.get("payment")
+    if need_payment and out["payment"] not in PAYMENTS:
+        return None, "payment"
     return out, None
 
 
@@ -123,8 +142,8 @@ def mail_text(f, stamp, year):
         "Fiche version : " + f["terms_version"],
         "Fait à : " + (f["place"] or "-") + ", le " + stamp,
         "",
-        "Cotisation %d : à vérifier. Communication attendue sur le virement :" % year,
-        "  Cotisation %d %s %s" % (year, f["last_name"], f["first_name"]),
+        "Cotisation %d : %s." % (year, PAYMENTS[f["payment"]]),
+        "Communication du virement : Cotisation %d %s %s" % (year, f["last_name"], f["first_name"]),
         "",
         "Numéro de membre : à attribuer lors de l'encodage.",
         "Répondre à ce message écrit directement à la personne.",
@@ -181,14 +200,17 @@ class Handler(BaseHTTPRequestHandler):
                 body = fh.read()
             if name == "index.html":
                 body = body.replace(b"__TEST_MODE__", b"1" if TEST_MODE else b"0")
+                body = body.replace(b"__NEED_CODE__", b"1" if ACCESS_CODE else b"0")
             return self.reply(200, body, ctype)
         self.reply(404, "introuvable")
 
     do_HEAD = do_GET
 
     def do_POST(self):
-        if urlparse(self.path).path != "/api/inscriptions":
+        path = urlparse(self.path).path
+        if path not in ("/api/inscriptions", "/api/verifier"):
             return self.reply(404, "introuvable")
+        sending = path == "/api/inscriptions"
         ip = self.headers.get("X-Forwarded-For", "").split(",")[-1].strip() or self.client_address[0]
         if not rate_ok(ip):
             return self.json(429, {"error": "rate"})
@@ -204,9 +226,11 @@ class Handler(BaseHTTPRequestHandler):
             return self.json(400, {"error": "json"})
         if isinstance(data, dict) and data.get("website"):  # champ piège rempli = robot
             return self.json(400, {"error": "format"})
-        fields, err = clean(data)
+        fields, err = clean(data, need_payment=sending)
         if err:
-            return self.json(400, {"error": err})
+            return self.json(403 if err == "code" else 400, {"error": err})
+        if not sending:
+            return self.json(200, {"ok": True})
         if not RESEND_API_KEY:
             return self.json(503, {"error": "mail"}, "pas de clé d'envoi")
         try:
@@ -219,8 +243,9 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    print("inscription : port %d, vers %s, test=%s, clé=%s" % (
-        PORT, MAIL_TO, TEST_MODE, "oui" if RESEND_API_KEY else "NON (envoi coupé)"), flush=True)
+    print("inscription : port %d, vers %s, test=%s, clé=%s, code d'accueil=%s" % (
+        PORT, MAIL_TO, TEST_MODE, "oui" if RESEND_API_KEY else "NON (envoi coupé)",
+        "oui" if ACCESS_CODE else "NON (fiche ouverte à tous)"), flush=True)
     ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
 
 
