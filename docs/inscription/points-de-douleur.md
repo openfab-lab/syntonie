@@ -65,3 +65,7 @@ Le coût n'est pas un frein : le VPS et les services en ligne existent déjà.
   Zoho pour envoyer une vraie confirmation d'inscription ? La seconde option
   évite de confirmer une inscription dont le paiement n'est pas encore vu.
   Aujourd'hui, rien n'est envoyé à la personne.
+- **À décider : l'adresse de la fiche.** `members.syntonie.be` est long à
+  écrire ou à dicter à l'accueil. Pistes : un nom plus court, un QR code
+  affiché à l'accueil, un lien depuis le site. Changer d'adresse demande un
+  enregistrement DNS et un fichier de site dans la passerelle, rien de plus.
