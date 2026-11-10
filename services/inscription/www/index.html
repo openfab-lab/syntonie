@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Inscription membre — Syntonie asbl</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --u:60px;
+  --paper:#F3EEE3;
+  --sheet:#FBF8F1;
+  --navy:#14233A;
+  --ink:#1B2A40;
+  --mid:#52607A;
+  --line:#C9C2B2;
+  --grid:rgba(20,35,58,0.06);
+  --orange:#E8831A;
+  --orange-dk:#B55F0A;
+  --ok:#2F6B3A;
+  --err:#A8321F;
+  --f-body:'Atkinson Hyperlegible',system-ui,sans-serif;
+  --f-display:'Spectral',Georgia,serif;
+  --f-mono:'Syne Mono',ui-monospace,monospace;
+}
+html{font-size:17px;}
+body{
+  font-family:var(--f-body);color:var(--ink);line-height:1.55;min-height:100vh;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:var(--u) var(--u);
+}
+.top{background:var(--navy);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 20px;border-bottom:6px solid var(--orange);}
+.brand{display:flex;align-items:baseline;gap:10px;}
+.brand b{font-size:1.25rem;letter-spacing:-0.3px;}
+.brand span{font-family:var(--f-mono);font-size:0.68rem;letter-spacing:1.5px;opacity:0.7;}
+.langs{display:flex;border:1px solid rgba(255,255,255,0.4);}
+.langs button{font-family:var(--f-mono);font-size:0.85rem;letter-spacing:1px;background:transparent;color:#fff;border:0;padding:10px 16px;min-width:52px;cursor:pointer;}
+.langs button+button{border-left:1px solid rgba(255,255,255,0.4);}
+.langs button[aria-pressed="true"]{background:var(--orange);color:var(--navy);font-weight:700;}
+.demo{display:none;background:var(--orange);color:var(--navy);font-family:var(--f-mono);font-size:0.8rem;letter-spacing:1px;text-align:center;padding:8px 12px;}
+.wrap{max-width:760px;margin:0 auto;padding:32px 16px 80px;}
+.sheet{background:var(--sheet);border:1px solid var(--line);box-shadow:8px 8px 0 var(--navy);padding:36px 32px;}
+h1{font-family:var(--f-display);font-size:2rem;line-height:1.15;color:var(--navy);margin-bottom:10px;}
+.mission{color:var(--mid);font-size:0.95rem;max-width:60ch;margin-bottom:8px;}
+.sec{margin-top:36px;padding-top:20px;border-top:2px solid var(--navy);}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;}
+.sec-n{font-family:var(--f-mono);font-size:0.8rem;color:var(--orange-dk);letter-spacing:1px;}
+h2{font-size:1.05rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--navy);}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.f{margin-bottom:16px;}
+label.l{display:block;font-weight:700;font-size:0.92rem;margin-bottom:6px;}
+.opt{font-weight:400;color:var(--mid);font-size:0.85rem;}
+input[type=text],input[type=email],input[type=tel],textarea{
+  width:100%;font:inherit;color:var(--ink);background:#fff;border:1.5px solid var(--navy);border-radius:0;padding:12px 14px;min-height:50px;
+}
+textarea{min-height:96px;resize:vertical;}
+input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:var(--err);background:#FFF6F3;}
+.msg{display:none;color:var(--err);font-size:0.85rem;margin-top:5px;}
+.msg.on{display:block;}
+.check{display:flex;gap:14px;align-items:flex-start;padding:12px 0;cursor:pointer;}
+.check input{flex:none;width:26px;height:26px;margin-top:1px;accent-color:var(--navy);cursor:pointer;}
+.check span{font-size:0.98rem;}
+.sub{display:none;border-left:4px solid var(--orange);padding:4px 0 0 16px;margin:4px 0 12px 12px;}
+.sub.on{display:block;}
+.fee{background:var(--navy);color:#fff;padding:18px 20px;display:flex;gap:18px;align-items:center;margin-bottom:8px;}
+.fee-n{font-family:var(--f-mono);font-size:2rem;color:var(--orange);white-space:nowrap;}
+.fee p{font-size:0.95rem;}
+ol.terms{list-style:none;counter-reset:t;margin-bottom:12px;}
+ol.terms li{counter-increment:t;position:relative;padding:0 0 14px 40px;font-size:0.95rem;max-width:68ch;}
+ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px;height:26px;background:var(--navy);color:#fff;font-family:var(--f-mono);font-size:0.8rem;display:flex;align-items:center;justify-content:center;}
+.rules{display:none;margin-bottom:14px;font-size:0.95rem;}
+.rules a{color:var(--orange-dk);font-weight:700;}
+.agree{background:#fff;border:1.5px solid var(--navy);padding:4px 16px;margin-top:10px;}
+.agree .check span{font-weight:700;}
+.meta{font-family:var(--f-mono);font-size:0.8rem;color:var(--mid);margin-top:14px;}
+.btn{font:inherit;font-weight:700;font-size:1.05rem;letter-spacing:0.5px;background:var(--orange);color:var(--navy);border:2px solid var(--navy);padding:16px 28px;min-height:58px;cursor:pointer;box-shadow:4px 4px 0 var(--navy);text-decoration:none;display:inline-block;}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--navy);}
+.btn[disabled]{opacity:0.55;cursor:wait;}
+.btn.ghost{background:transparent;box-shadow:none;font-weight:400;font-size:0.95rem;}
+.actions{margin-top:32px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+.formerr{display:none;color:var(--err);font-weight:700;margin-top:18px;}
+.formerr.on{display:block;}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+#done{display:none;}
+.num{font-family:var(--f-mono);font-size:3.4rem;line-height:1;color:var(--navy);margin:8px 0 4px;}
+.num-l{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:1.5px;color:var(--mid);text-transform:uppercase;}
+.step{border:1.5px solid var(--navy);background:#fff;padding:20px;margin-top:24px;}
+.step h3{font-size:1.05rem;margin-bottom:8px;color:var(--navy);}
+.step p{margin-bottom:12px;max-width:60ch;}
+.alt{font-size:0.9rem;color:var(--mid);border-top:1px dashed var(--line);padding-top:12px;margin-top:16px;}
+.alt code{font-family:var(--f-mono);color:var(--ink);background:var(--paper);padding:2px 6px;}
+.qr{width:220px;max-width:100%;background:#fff;border:1.5px solid var(--navy);padding:6px;margin:4px 0 14px;}
+.qr svg{display:block;width:100%;height:auto;}
+.show{background:var(--paper);border-left:4px solid var(--orange);padding:12px 16px;margin-top:24px;font-weight:700;}
+@media (max-width:600px){
+  .row{grid-template-columns:1fr;gap:0;}
+  .sheet{padding:24px 18px;box-shadow:5px 5px 0 var(--navy);}
+  h1{font-size:1.6rem;}
+  .brand span{display:none;}
+  .fee{flex-direction:column;align-items:flex-start;gap:6px;}
+  .num{font-size:2.6rem;}
+}
+@media (prefers-reduced-motion:reduce){.btn:active{transform:none;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><b>Syntonie asbl</b><span>OPENFAB · IXELLES</span></div>
+  <div class="langs" role="group" aria-label="Langue / Taal / Language">
+    <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+    <button type="button" data-lang="nl" aria-pressed="false">NL</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+<div class="demo" id="demo" data-i18n="demo"></div>
+
+<div class="wrap">
+
+  <!-- ============ FORMULAIRE ============ -->
+  <form class="sheet" id="form" novalidate>
+    <h1 data-i18n="title"></h1>
+    <p class="mission" data-i18n="mission"></p>
+
+    <section class="sec">
+      <div class="sec-h"><span class="sec-n">01</span><h2 data-i18n="s1"></h2></div>
+      <div class="row">
+        <div class="f">
+          <label class="l" for="last_name" data-i18n="last_name"></label>
+          <input type="text" id="last_name" name="last_name" autocomplete="family-name" required maxlength="100">
+          <p class="msg" data-i18n="required"></p>
+        </div>
+        <div class="f">
+          <label class="l" for="first_name" data-i18n="first_name"></label>
+          <input type="text" id="first_name" name="first_name" autocomplete="given-name" required maxlength="100">
+          <p class="msg" data-i18n="required"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="f">
+          <label class="l" for="email" data-i18n="email"></label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" required maxlength="200">
+          <p class="msg" data-i18n="bad_email"></p>
+        </div>
+        <div class="f">
+          <label class="l" for="phone" data-i18n="phone"></label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" required maxlength="40">
+          <p class="msg" data-i18n="required"></p>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="is_minor" name="is_minor" data-toggle="sub-minor"><span data-i18n="is_minor"></span></label>
+      <div class="sub" id="sub-minor">
+        <div class="f">
+          <label class="l" for="guardian_name" data-i18n="guardian_name"></label>
+          <input type="text" id="guardian_name" name="guardian_name" maxlength="200">
+          <p class="msg" data-i18n="required"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="sec-n">02</span><h2 data-i18n="s2"></h2></div>
+      <label class="check"><input type="checkbox" id="is_pro" data-toggle="sub-pro"><span data-i18n="is_pro"></span></label>
+      <div class="sub" id="sub-pro">
+        <div class="row">
+          <div class="f">
+            <label class="l" for="pro_name" data-i18n="pro_name"></label>
+            <input type="text" id="pro_name" name="pro_name" autocomplete="organization" maxlength="200">
+          </div>
+          <div class="f">
+            <label class="l" for="vat" data-i18n="vat"></label>
+            <input type="text" id="vat" name="vat" placeholder="BE 0123.456.789" maxlength="40">
+          </div>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="is_smart" data-toggle="sub-smart"><span data-i18n="is_smart"></span></label>
+      <div class="sub" id="sub-smart">
+        <div class="f">
+          <label class="l" for="smart" data-i18n="smart"></label>
+          <input type="text" id="smart" name="smart" maxlength="200">
+        </div>
+      </div>
+      <div class="f" style="margin-top:14px">
+        <label class="l" for="interests"><span data-i18n="interests"></span> <span class="opt" data-i18n="optional"></span></label>
+        <textarea id="interests" name="interests" maxlength="1000"></textarea>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="sec-n">03</span><h2 data-i18n="s3"></h2></div>
+      <div class="fee">
+        <div class="fee-n"><span class="fee-amount"></span> €</div>
+        <p data-i18n="fee"></p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="sec-n">04</span><h2 data-i18n="s4"></h2></div>
+      <p style="margin-bottom:14px" data-i18n="terms_intro"></p>
+      <ol class="terms">
+        <li data-i18n="t1"></li>
+        <li data-i18n="t2"></li>
+        <li data-i18n="t3"></li>
+        <li data-i18n="t4"></li>
+      </ol>
+      <p class="rules" id="rules"><a id="rules-link" target="_blank" rel="noopener" data-i18n="rules"></a></p>
+      <div class="agree">
+        <label class="check"><input type="checkbox" id="accepted" name="accepted" required><span data-i18n="accept"></span></label>
+        <p class="msg" id="accepted-msg" data-i18n="must_accept"></p>
+        <div id="guardian-agree" style="display:none">
+          <label class="check"><input type="checkbox" id="guardian_accepted" name="guardian_accepted"><span data-i18n="accept_guardian"></span></label>
+          <p class="msg" id="guardian-msg" data-i18n="must_accept"></p>
+        </div>
+      </div>
+      <p class="meta"><span data-i18n="done_at"></span> <span id="today"></span> · <span data-i18n="version"></span> <span class="terms-version"></span></p>
+    </section>
+
+    <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+    <p class="formerr" id="formerr" role="alert"></p>
+    <div class="actions">
+      <button class="btn" type="submit" id="submit" data-i18n="submit"></button>
+    </div>
+  </form>
+
+  <!-- ============ CONFIRMATION ============ -->
+  <div class="sheet" id="done" tabindex="-1">
+    <h1 data-i18n="ok_title"></h1>
+    <p><span id="ok-name"></span></p>
+    <p style="margin-top:10px" data-i18n="no_note"></p>
+
+    <div class="step">
+      <h3><span data-i18n="pay_title"></span> — <span class="fee-amount"></span> €</h3>
+      <p data-i18n="pay_qr"></p>
+      <div class="qr" id="qr" role="img" aria-label="QR SEPA"></div>
+      <p class="alt"><span data-i18n="pay_alt"></span> <code class="iban"></code><br><span data-i18n="pay_comm"></span> <code id="ok-comm"></code></p>
+    </div>
+
+    <p class="show" data-i18n="show"></p>
+    <div class="actions">
+      <button class="btn ghost" type="button" id="again" data-i18n="again"></button>
+    </div>
+  </div>
+
+</div>
+
+<script src="qrcode.js"></script>
+<script>
+/* ------------------------------------------------------------------
+   CONFIGURATION
+   RULES_URL     : lien vers le règlement intérieur. Vide = pas de lien.
+   TERMS_VERSION : version des clauses, envoyée avec chaque fiche. À changer
+                   si les clauses changent.
+   PAYEE         : titulaire du compte, tel que la banque le connaît (les
+                   banques comparent ce nom à l'IBAN).
+   TEST_MODE     : rempli par le service (variable TEST_MODE).
+   ------------------------------------------------------------------ */
+const CONFIG = {
+  API_URL: "api/inscriptions",
+  RULES_URL: "",
+  TERMS_VERSION: "2026-01",
+  FEE: 25,
+  IBAN: "BE81 7360 7399 7324",
+  PAYEE: "Syntonie ASBL",
+  PLACE: "Ixelles",
+  TEST_MODE: "__TEST_MODE__" === "1"
+};
+
+const I18N = {
+  fr: {
+    demo: "MODE TEST : les fiches envoyées ici ne comptent pas",
+    title: "Inscription, membre adhérent",
+    mission: "Notre mission : promouvoir la relation étroite et la communication qui existent entre l'environnement naturel, l'humain et les nouvelles technologies par tous les moyens disponibles.",
+    s1: "Identité", s2: "Activité", s3: "Cotisation", s4: "Responsabilisation",
+    last_name: "Nom", first_name: "Prénom", email: "Adresse e-mail", phone: "Téléphone",
+    is_minor: "Je suis mineur·e",
+    guardian_name: "Nom et prénom de la personne responsable",
+    is_pro: "Je m'inscris à titre professionnel",
+    pro_name: "Dénomination", vat: "Numéro de TVA",
+    is_smart: "Je passe par Smart",
+    smart: "Nom et numéro de l'activité",
+    interests: "Domaines de prédilection ou centres d'intérêt",
+    optional: "(facultatif)",
+    fee: "L'inscription comme membre implique le paiement d'une cotisation par année civile. La cotisation est valable pour l'année civile en cours.",
+    terms_intro: "Par la présente inscription :",
+    t1: "Je reconnais avoir pris connaissance du règlement intérieur relatif à l'ASBL Syntonie et je m'engage à en respecter toutes les prescriptions ainsi que toutes les règles de sécurité y afférant.",
+    t2: "Je déclare dégager l'ASBL Syntonie de toute responsabilité en cas d'accident, de vol de quelque nature que ce soit ou de dommages sans aucune exception ni réserve, causés par moi-même ou par autrui, personnes et généralement tout objet et biens quelconques rencontrés dans l'enceinte des locaux de l'OpenFab.",
+    t3: "Je suis informé(e) qu'il m'appartient de souscrire personnellement une assurance responsabilité civile contre tous les sinistres, accidents, vols, de quelque nature que ce soit, causés par moi-même ou à des tiers dans les locaux de l'association et que mon contrat d'assurance ne mentionne aucune clause contraire à ce que précédemment déclaré. En cas de dégradations provoquées aux infrastructures et équipements de l'OpenFab, j'en assumerai les frais financiers correspondants. Je reconnais à l'association le droit de m'exclure de l'enceinte de ses locaux et de la participation à ses activités en cas de non production de cette assurance.",
+    t4: "En m'inscrivant à l'association, je donne le droit de conserver mes données et de les utiliser pour me contacter. Syntonie ne les transmettra JAMAIS à des tiers, nous non plus on n'aime pas les spams.",
+    rules: "Lire le règlement intérieur",
+    accept: "Lu et approuvé",
+    accept_guardian: "Lu et approuvé par la personne responsable",
+    done_at: "Fait à", version: "fiche v",
+    submit: "Valider mon inscription", sending: "Envoi en cours…",
+    required: "Ce champ est nécessaire.",
+    bad_email: "Vérifiez l'adresse e-mail.",
+    must_accept: "Cochez la case pour valider l'inscription.",
+    err_fields: "Il reste des champs à compléter ci-dessus.",
+    err_net: "L'envoi n'a pas abouti. Vérifiez la connexion et réessayez, ou demandez à un·e bénévole.",
+    ok_title: "Fiche envoyée",
+    welcome: "Bienvenue,",
+    no_note: "Votre numéro de membre vous sera communiqué par l'équipe.",
+    pay_title: "Dernière étape : la cotisation",
+    pay_qr: "Scannez ce code avec votre application bancaire. Le montant et la communication sont déjà remplis.",
+    pay_alt: "Autre possibilité, par virement sur le compte",
+    pay_comm: "Communication :",
+    show: "Montrez cet écran à un·e bénévole pour finaliser votre inscription.",
+    again: "Nouvelle inscription"
+  },
+  nl: {
+    demo: "TESTMODUS: formulieren die hier verzonden worden tellen niet mee",
+    title: "Inschrijving, toegetreden lid",
+    mission: "Onze missie: de nauwe band en de communicatie tussen de natuurlijke omgeving, de mens en nieuwe technologieën bevorderen, met alle beschikbare middelen.",
+    s1: "Identiteit", s2: "Activiteit", s3: "Lidgeld", s4: "Verantwoordelijkheid",
+    last_name: "Naam", first_name: "Voornaam", email: "E-mailadres", phone: "Telefoon",
+    is_minor: "Ik ben minderjarig",
+    guardian_name: "Naam en voornaam van de verantwoordelijke persoon",
+    is_pro: "Ik schrijf me in als professional",
+    pro_name: "Benaming", vat: "Btw-nummer",
+    is_smart: "Ik werk via Smart",
+    smart: "Naam en nummer van de activiteit",
+    interests: "Favoriete domeinen of interesses",
+    optional: "(facultatief)",
+    fee: "Inschrijving als lid houdt de betaling in van een lidgeld per kalenderjaar. Het lidgeld is geldig voor het lopende kalenderjaar.",
+    terms_intro: "Door deze inschrijving:",
+    t1: "Ik erken kennis te hebben genomen van het huishoudelijk reglement van de vzw Syntonie en verbind mij ertoe alle bepalingen ervan na te leven, evenals alle bijbehorende veiligheidsregels.",
+    t2: "Ik verklaar de vzw Syntonie te ontslaan van elke aansprakelijkheid bij ongeval, diefstal van welke aard ook of schade, zonder enige uitzondering of voorbehoud, veroorzaakt door mijzelf of door anderen, aan personen en in het algemeen aan alle voorwerpen en goederen die zich in de lokalen van OpenFab bevinden.",
+    t3: "Ik ben ervan op de hoogte dat het aan mij is om persoonlijk een verzekering burgerlijke aansprakelijkheid af te sluiten tegen alle schadegevallen, ongevallen en diefstallen van welke aard ook, veroorzaakt door mijzelf of aan derden in de lokalen van de vereniging, en dat mijn verzekeringscontract geen enkele clausule bevat die strijdig is met wat hierboven is verklaard. Bij beschadiging van de infrastructuur en de uitrusting van OpenFab draag ik de overeenkomstige financiële kosten. Ik erken het recht van de vereniging om mij uit te sluiten van haar lokalen en van deelname aan haar activiteiten indien ik deze verzekering niet kan voorleggen.",
+    t4: "Door mij in te schrijven bij de vereniging geef ik het recht om mijn gegevens te bewaren en te gebruiken om contact met mij op te nemen. Syntonie zal ze NOOIT aan derden doorgeven; ook wij houden niet van spam.",
+    rules: "Het huishoudelijk reglement lezen",
+    accept: "Gelezen en goedgekeurd",
+    accept_guardian: "Gelezen en goedgekeurd door de verantwoordelijke persoon",
+    done_at: "Opgemaakt te", version: "formulier v",
+    submit: "Mijn inschrijving bevestigen", sending: "Bezig met verzenden…",
+    required: "Dit veld is nodig.",
+    bad_email: "Controleer het e-mailadres.",
+    must_accept: "Vink het vakje aan om de inschrijving te bevestigen.",
+    err_fields: "Er moeten hierboven nog velden worden ingevuld.",
+    err_net: "Het verzenden is niet gelukt. Controleer de verbinding en probeer opnieuw, of vraag het aan een vrijwilliger.",
+    ok_title: "Formulier verzonden",
+    welcome: "Welkom,",
+    no_note: "Het team bezorgt je je lidnummer.",
+    pay_title: "Laatste stap: het lidgeld",
+    pay_qr: "Scan deze code met je bankapp. Het bedrag en de mededeling zijn al ingevuld.",
+    pay_alt: "Of via overschrijving op rekening",
+    pay_comm: "Mededeling:",
+    show: "Toon dit scherm aan een vrijwilliger om je inschrijving af te ronden.",
+    again: "Nieuwe inschrijving"
+  },
+  en: {
+    demo: "TEST MODE: forms sent here do not count",
+    title: "Registration, associate member",
+    mission: "Our mission: to promote the close relationship and communication between the natural environment, humans, and new technologies, by all available means.",
+    s1: "Identity", s2: "Activity", s3: "Membership fee", s4: "Liability",
+    last_name: "Last name", first_name: "First name", email: "Email address", phone: "Phone",
+    is_minor: "I am a minor",
+    guardian_name: "Last name and first name of the responsible person",
+    is_pro: "I am registering as a professional",
+    pro_name: "Company name", vat: "VAT number",
+    is_smart: "I work through Smart",
+    smart: "Activity name and number",
+    interests: "Areas of interest or expertise",
+    optional: "(optional)",
+    fee: "Membership requires payment of a membership fee per calendar year. The membership fee is valid for the current calendar year.",
+    terms_intro: "By submitting this registration:",
+    t1: "I acknowledge having read the internal regulations of ASBL Syntonie and I commit to respecting all its provisions as well as all applicable safety rules.",
+    t2: "I declare that I release ASBL Syntonie from all liability in case of accident, theft of any kind, or damage, without any exception or reservation, caused by myself or by others, persons and generally any objects and property encountered on OpenFab premises.",
+    t3: "I acknowledge that it is my responsibility to personally take out civil liability insurance against all claims, accidents, and thefts of any kind, caused by myself or by third parties on the premises of the association, and that my insurance contract contains no clause contrary to what has been previously declared. In case of damage caused to OpenFab infrastructure and equipment, I will bear the corresponding financial costs. I acknowledge the right of the association to exclude me from its premises and from participation in its activities in case of failure to provide this insurance.",
+    t4: "By joining the association, I grant the right to retain my data and to use it to contact me. Syntonie will NEVER share it with third parties — we don't like spam either.",
+    rules: "Read the internal regulations",
+    accept: "Read and approved",
+    accept_guardian: "Read and approved by the responsible person",
+    done_at: "Done at", version: "form v",
+    submit: "Confirm my registration", sending: "Sending…",
+    required: "This field is needed.",
+    bad_email: "Please check the email address.",
+    must_accept: "Tick the box to confirm the registration.",
+    err_fields: "Some fields above still need to be completed.",
+    err_net: "Sending failed. Check the connection and try again, or ask a volunteer.",
+    ok_title: "Form sent",
+    welcome: "Welcome,",
+    no_note: "The team will send you your member number.",
+    pay_title: "Last step: the membership fee",
+    pay_qr: "Scan this code with your banking app. The amount and the reference are already filled in.",
+    pay_alt: "Alternatively, by bank transfer to account",
+    pay_comm: "Reference:",
+    show: "Show this screen to a volunteer to complete your registration.",
+    again: "New registration"
+  }
+};
+
+const $ = (id) => document.getElementById(id);
+const form = $("form");
+let lang = "fr";
+let last = null; // dernière inscription confirmée
+
+function t(key){ return I18N[lang][key] || I18N.fr[key] || key; }
+
+function setLang(l){
+  lang = I18N[l] ? l : "fr";
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  document.title = t("title") + " — Syntonie asbl";
+  $("today").textContent = CONFIG.PLACE + ", " + new Date().toLocaleDateString(lang + "-BE");
+  if (last) renderDone();
+}
+
+function toggleSub(box){
+  const sub = $(box.dataset.toggle);
+  sub.classList.toggle("on", box.checked);
+  if (!box.checked) sub.querySelectorAll("input").forEach(i => { i.value = ""; mark(i, true); });
+  if (box.id === "is_minor") {
+    $("guardian-agree").style.display = box.checked ? "block" : "none";
+    if (!box.checked) $("guardian_accepted").checked = false;
+  }
+}
+
+function mark(input, ok){
+  input.setAttribute("aria-invalid", String(!ok));
+  const msg = input.closest(".f") && input.closest(".f").querySelector(".msg");
+  if (msg) msg.classList.toggle("on", !ok);
+  return ok;
+}
+
+function validate(){
+  let first = null;
+  const check = (input, ok) => { if (!mark(input, ok) && !first) first = input; };
+  const v = (id) => $(id).value.trim();
+  check($("last_name"), v("last_name") !== "");
+  check($("first_name"), v("first_name") !== "");
+  check($("email"), /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("email")));
+  check($("phone"), v("phone") !== "");
+  if ($("is_minor").checked) check($("guardian_name"), v("guardian_name") !== "");
+  const acc = $("accepted").checked;
+  $("accepted-msg").classList.toggle("on", !acc);
+  if (!acc && !first) first = $("accepted");
+  if ($("is_minor").checked) {
+    const g = $("guardian_accepted").checked;
+    $("guardian-msg").classList.toggle("on", !g);
+    if (!g && !first) first = $("guardian_accepted");
+  }
+  return first;
+}
+
+function payload(){
+  const v = (id) => $(id).value.trim();
+  return {
+    lang,
+    last_name: v("last_name"), first_name: v("first_name"),
+    email: v("email").toLowerCase(), phone: v("phone"),
+    is_minor: $("is_minor").checked, guardian_name: v("guardian_name"),
+    pro_name: v("pro_name"), vat: v("vat"), smart: v("smart"),
+    interests: v("interests"),
+    accepted: $("accepted").checked, guardian_accepted: $("guardian_accepted").checked,
+    terms_version: CONFIG.TERMS_VERSION, place: CONFIG.PLACE,
+    website: form.elements.website.value
+  };
+}
+
+async function send(data){
+  const res = await fetch(CONFIG.API_URL, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return res.json();
+}
+
+// Communication du virement : toujours la même forme, pour retrouver le paiement.
+function comm(){ return ("Cotisation " + last.year + " " + last.last_name + " " + last.first_name).slice(0, 140); }
+
+// QR de virement SEPA (norme EPC069-12, version 002) : lu par les applications bancaires.
+function epc(){
+  return ["BCD", "002", "1", "SCT", "", CONFIG.PAYEE.slice(0, 70), CONFIG.IBAN.replace(/\s/g, ""),
+    "EUR" + CONFIG.FEE.toFixed(2), "", "", comm(), ""].join("\n");
+}
+
+function renderDone(){
+  $("ok-name").textContent = t("welcome") + " " + last.first_name + " " + last.last_name + ".";
+  $("ok-comm").textContent = comm();
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+  const qr = qrcode(0, "M");
+  qr.addData(epc(), "Byte");
+  qr.make();
+  $("qr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const err = $("formerr");
+  err.classList.remove("on");
+  const bad = validate();
+  if (bad) {
+    err.textContent = t("err_fields"); err.classList.add("on");
+    bad.focus(); bad.scrollIntoView({ block: "center" });
+    return;
+  }
+  const btn = $("submit");
+  btn.disabled = true; btn.textContent = t("sending");
+  const data = payload();
+  try {
+    const out = await send(data);
+    last = { year: out.year, first_name: data.first_name, last_name: data.last_name };
+    renderDone();
+    form.style.display = "none";
+    $("done").style.display = "block";
+    $("done").focus();
+    window.scrollTo(0, 0);
+  } catch (ex) {
+    err.textContent = t("err_net"); err.classList.add("on");
+  } finally {
+    btn.disabled = false; btn.textContent = t("submit");
+  }
+});
+
+$("again").addEventListener("click", () => {
+  last = null;
+  form.reset();
+  document.querySelectorAll("[data-toggle]").forEach(toggleSub);
+  document.querySelectorAll("[aria-invalid]").forEach(i => mark(i, true));
+  document.querySelectorAll(".msg.on").forEach(m => m.classList.remove("on"));
+  $("done").style.display = "none";
+  form.style.display = "block";
+  window.scrollTo(0, 0);
+  $("last_name").focus();
+});
+
+document.querySelectorAll("[data-toggle]").forEach(b => b.addEventListener("change", () => toggleSub(b)));
+document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+form.querySelectorAll("input[required], #guardian_name").forEach(i => i.addEventListener("input", () => {
+  if (i.getAttribute("aria-invalid") === "true") mark(i, true);
+}));
+
+[["accepted", "accepted-msg"], ["guardian_accepted", "guardian-msg"]].forEach(([box, msg]) => {
+  $(box).addEventListener("change", () => { if ($(box).checked) $(msg).classList.remove("on"); });
+});
+form.addEventListener("input", () => $("formerr").classList.remove("on"));
+
+// Initialisation
+document.querySelectorAll(".fee-amount").forEach(el => { el.textContent = CONFIG.FEE; });
+document.querySelectorAll(".iban").forEach(el => { el.textContent = CONFIG.IBAN; });
+document.querySelectorAll(".terms-version").forEach(el => { el.textContent = CONFIG.TERMS_VERSION; });
+if (CONFIG.TEST_MODE) $("demo").style.display = "block";
+if (CONFIG.RULES_URL) { $("rules").style.display = "block"; $("rules-link").href = CONFIG.RULES_URL; }
+const urlLang = new URLSearchParams(location.search).get("lang");
+setLang(urlLang || (navigator.language || "fr").slice(0, 2));
+</script>
+</body>
+</html>

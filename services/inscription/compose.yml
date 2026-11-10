@@ -1,0 +1,25 @@
+# Fiche d'inscription des membres, derrière la passerelle Caddy du VPS
+# (openfab-lab/syntonie-gateway, site members.caddy). Aucun port publié.
+services:
+  inscription:
+    build:
+      context: .
+      dockerfile: Containerfile
+    image: syntonie-inscription:latest
+    container_name: members-inscription
+    restart: unless-stopped
+    mem_limit: 64m
+    read_only: true
+    env_file:
+      - .env
+    networks:
+      - gateway
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  gateway:
+    external: true

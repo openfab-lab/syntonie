@@ -1,0 +1,9 @@
+FROM docker.io/library/python:3.12-alpine
+RUN apk add --no-cache tzdata && adduser -D -u 10001 app
+USER app
+WORKDIR /app
+COPY app.py .
+COPY www ./www
+ENV PORT=8080 PYTHONUNBUFFERED=1 TZ=Europe/Brussels
+EXPOSE 8080
+CMD ["python", "app.py"]
