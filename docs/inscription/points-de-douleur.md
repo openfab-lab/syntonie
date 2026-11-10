@@ -55,3 +55,13 @@ Le coût n'est pas un frein : le VPS et les services en ligne existent déjà.
   machine dépend de l'adhésion et de la formation reçue.
 - **Plus loin** : temps machine prépayé, accès dans d'autres fablabs du
   réseau, reconnaissance des compétences.
+
+## Décisions et questions ouvertes
+
+- **Pas de cash pour la cotisation** (décidé) : virement ou carte au terminal
+  uniquement. La trace bancaire sert de preuve supplémentaire.
+- **À décider : confirmation à la personne.** Envoyer une copie de la fiche à
+  l'adresse renseignée dès l'envoi, ou attendre que la fiche soit encodée dans
+  Zoho pour envoyer une vraie confirmation d'inscription ? La seconde option
+  évite de confirmer une inscription dont le paiement n'est pas encore vu.
+  Aujourd'hui, rien n'est envoyé à la personne.

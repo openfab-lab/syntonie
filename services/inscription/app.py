@@ -39,7 +39,7 @@ MAIL_FROM = os.environ.get("MAIL_FROM", "Inscriptions Syntonie <inscription@synt
 TEST_MODE = os.environ.get("TEST_MODE", "") == "1"
 ACCESS_CODE = " ".join(os.environ.get("ACCESS_CODE", "").split()).lower()
 PAYMENTS = {"transfer": "virement bancaire, déclaré fait par la personne : à vérifier sur le compte",
-            "desk": "à l'accueil (terminal ou cash), déclaré par la personne : à confirmer par le ou la bénévole"}
+            "desk": "par carte au terminal de l'accueil, déclaré par la personne : à vérifier sur le compte"}
 PORT = int(os.environ.get("PORT", "8080"))
 WWW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "www")
 MAX_BODY = 16 * 1024
