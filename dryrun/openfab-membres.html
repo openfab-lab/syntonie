@@ -1,0 +1,735 @@
+<title>OpenFab Membres</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<style>
+/* Layout: one shared story told from three desks (person, front desk, treasury) side by side on a projector, tabs on a phone; the pitch above, the data files below. Syntonie's form palette: navy ink on graph paper, one orange. */
+:root{
+  --paper:#F3EEE3; --sheet:#FBF8F1; --sunk:#ECE6D8;
+  --ink:#1B2A40; --navy:#14233A; --mid:#52607A; --line:#C9C2B2; --grid:rgba(20,35,58,.06);
+  --orange:#E8831A; --orange-ink:#9A4E06; --orange-soft:#FBE8D3;
+  --ok:#2F6B3A; --ok-soft:#E3EFE3; --wait:#9A4E06; --wait-soft:#FBEBD8; --stop:#A8321F; --stop-soft:#F8E4DF;
+  --fog:#E6E0D2; --fog-line:#D8D1C0;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-display:Georgia,"Times New Roman",serif;
+  --f-mono:ui-monospace,"SF Mono","Cascadia Mono","DejaVu Sans Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1724; --sheet:#162133; --sunk:#0B121D;
+    --ink:#E8E2D4; --navy:#D9D2C2; --mid:#A3AABA; --line:#2E3B52; --grid:rgba(232,226,212,.05);
+    --orange:#F0953A; --orange-ink:#F4AE66; --orange-soft:rgba(240,149,58,.16);
+    --ok:#8FC79A; --ok-soft:rgba(143,199,154,.14); --wait:#F4AE66; --wait-soft:rgba(244,174,102,.14); --stop:#EE9583; --stop-soft:rgba(238,149,131,.14);
+    --fog:#1A2536; --fog-line:#243248;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1724; --sheet:#162133; --sunk:#0B121D;
+  --ink:#E8E2D4; --navy:#D9D2C2; --mid:#A3AABA; --line:#2E3B52; --grid:rgba(232,226,212,.05);
+  --orange:#F0953A; --orange-ink:#F4AE66; --orange-soft:rgba(240,149,58,.16);
+  --ok:#8FC79A; --ok-soft:rgba(143,199,154,.14); --wait:#F4AE66; --wait-soft:rgba(244,174,102,.14); --stop:#EE9583; --stop-soft:rgba(238,149,131,.14);
+  --fog:#1A2536; --fog-line:#243248;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background-color:var(--paper);color:var(--ink);font:1rem/1.55 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:60px 60px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:92rem;margin:0 auto}
+a{color:var(--orange-ink)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+button{font:inherit;cursor:pointer}
+h1,h2,h3{text-wrap:balance}
+
+/* top bar */
+.top{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;padding:14px 0 12px;border-bottom:2px solid var(--navy)}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.brand b{font-size:1.15rem}
+.brand span{font:.72rem/1 var(--f-mono);letter-spacing:.12em;color:var(--mid);text-transform:uppercase}
+.tag{font:.68rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;border:1px dashed var(--mid);color:var(--mid);padding:4px 7px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;border:1.5px solid var(--navy)}
+.seg button{background:transparent;color:var(--ink);border:0;padding:7px 12px;font:.8rem/1 var(--f-mono);letter-spacing:.06em}
+.seg button+button{border-left:1.5px solid var(--navy)}
+.seg button[aria-pressed="true"]{background:var(--navy);color:var(--paper)}
+.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);padding:7px 12px;font-size:.85rem}
+.ghost:hover{border-color:var(--navy)}
+
+/* pitch */
+.pitch{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;padding:22px 0 18px;align-items:end}
+@media (max-width:56rem){.pitch{grid-template-columns:1fr}}
+.pitch h1{font:400 clamp(1.7rem,3.4vw,2.5rem)/1.1 var(--f-display);margin:0 0 10px;color:var(--navy)}
+.pitch p{margin:0;max-width:62ch;color:var(--mid)}
+.deliberate{font-size:.9rem;border-left:4px solid var(--orange);padding:6px 0 6px 12px;background:var(--sheet);color:var(--ink)!important}
+.story{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.92rem}
+.story li{display:grid;grid-template-columns:1.7rem 1fr;gap:8px;align-items:baseline;color:var(--mid)}
+.story i{font:normal 600 .75rem/1.5rem var(--f-mono);width:1.5rem;height:1.5rem;text-align:center;border:1.5px solid var(--line);border-radius:50%}
+.story li.ok{color:var(--ink)} .story li.ok i{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.story li.now{color:var(--ink);font-weight:700} .story li.now i{border:2.5px solid var(--orange);color:var(--ink)}
+
+/* role tabs (narrow screens) */
+.tabs{display:none;gap:0;margin:6px 0 10px;border:1.5px solid var(--navy)}
+.tabs button{flex:1;background:var(--sheet);color:var(--ink);border:0;padding:10px 6px;font-size:.88rem;position:relative}
+.tabs button+button{border-left:1.5px solid var(--navy)}
+.tabs button[aria-selected="true"]{background:var(--navy);color:var(--paper);font-weight:700}
+.tabs .dot{position:absolute;top:6px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--orange)}
+@media (max-width:72rem){.tabs{display:flex}}
+
+/* desks */
+.desks{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:72rem){.desks{grid-template-columns:1fr}.desk:not(.shown){display:none}}
+.desk{background:var(--sheet);border:1.5px solid var(--navy);box-shadow:6px 6px 0 var(--navy);min-width:0;display:flex;flex-direction:column}
+.desk-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1.5px solid var(--navy)}
+.desk-h h2{margin:0;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
+.desk-h small{font:.72rem/1.3 var(--f-mono);color:var(--mid)}
+.desk-h .badge{margin-left:auto}
+.desk-b{padding:14px 16px 18px;display:grid;gap:14px;min-width:0}
+.badge{font:700 .7rem/1 var(--f-mono);background:var(--orange);color:#14233A;padding:4px 7px}
+.flash{animation:flash 1.2s ease-out}
+@keyframes flash{from{box-shadow:6px 6px 0 var(--orange),0 0 0 4px var(--orange)}to{box-shadow:6px 6px 0 var(--navy),0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.flash{animation:none}}
+
+/* hex map */
+svg.map{display:block;width:100%;height:auto;max-height:19rem}
+.hex{cursor:pointer}
+.hex polygon{stroke-width:1.5}
+.hex text{font:600 10.5px var(--f-body);pointer-events:none;fill:var(--ink)}
+.h-done polygon{fill:var(--ok-soft);stroke:var(--ok)}
+.h-open polygon{fill:var(--sheet);stroke:var(--orange);stroke-width:2.6}
+.h-wait polygon{fill:var(--wait-soft);stroke:var(--wait);stroke-dasharray:5 4}
+.h-cue polygon{fill:var(--sunk);stroke:var(--mid);stroke-dasharray:4 4}
+.h-cue text,.h-fog text{fill:var(--mid);font-weight:400}
+.h-fog{cursor:default}
+.h-fog polygon{fill:var(--fog);stroke:var(--fog-line)}
+.h-stop polygon{fill:var(--stop-soft);stroke:var(--stop);stroke-dasharray:3 3}
+.hex.sel polygon{stroke:var(--navy);stroke-width:4;stroke-dasharray:none}
+.hex:focus{outline:none}.hex:focus-visible polygon{stroke:var(--orange);stroke-width:4}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.75rem;color:var(--mid)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:11px;height:11px;display:inline-block;border:1.5px solid}
+.sw.done{background:var(--ok-soft);border-color:var(--ok)} .sw.open{background:var(--sheet);border-color:var(--orange)}
+.sw.wait{background:var(--wait-soft);border:1.5px dashed var(--wait)} .sw.cue{background:var(--sunk);border:1.5px dashed var(--mid)} .sw.fog{background:var(--fog);border-color:var(--fog-line)}
+
+/* panels */
+.panel{border-top:1px dashed var(--line);padding-top:12px;display:grid;gap:10px}
+.panel h3{margin:0;font-size:1.05rem}
+.panel p{margin:0}
+.hint{font-size:.84rem;color:var(--mid);margin:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:30rem){.pair{grid-template-columns:1fr}}
+.f{display:grid;gap:3px;min-width:0}
+.f label{font-weight:700;font-size:.85rem}
+.f input,.f select{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--navy);padding:8px 10px;width:100%;border-radius:0}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem}
+.check input{width:20px;height:20px;flex:none;accent-color:var(--navy);margin-top:2px}
+.btn{background:var(--orange);color:#14233A;border:2px solid var(--navy);padding:10px 16px;font-weight:700;box-shadow:3px 3px 0 var(--navy)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--navy)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:3px 3px 0 var(--navy)}
+.btn.alt{background:var(--sheet);color:var(--ink)}
+.sim{background:transparent;color:var(--mid);border:1.5px dashed var(--mid);padding:7px 10px;font-size:.82rem}
+.sim::before{content:"⏵ ";}
+@media (prefers-reduced-motion:reduce){.btn:active{transform:none}}
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:30rem){.fork{grid-template-columns:1fr}}
+.fork button{text-align:left;background:var(--paper);color:var(--ink);border:1.5px solid var(--navy);padding:12px;display:grid;gap:4px;line-height:1.35}
+.fork button span{font-size:.8rem;color:var(--mid)}
+.fork button[aria-pressed="true"]{background:var(--orange-soft);border-width:2.5px}
+.say{font-size:.95rem;border-left:3px solid var(--orange);padding-left:10px}
+.addr{font:.82rem/1.4 var(--f-mono);overflow-wrap:anywhere;background:var(--sunk);padding:6px 8px}
+
+/* chips */
+.chip{display:inline-block;font:600 .68rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 7px;border:1.5px solid;white-space:nowrap}
+.c-ok{color:var(--ok);background:var(--ok-soft)}
+.c-wait{color:var(--wait);background:var(--wait-soft);border-style:dashed}
+.c-stop{color:var(--stop);background:var(--stop-soft);border-style:dashed}
+.c-off{color:var(--mid);background:transparent;border-style:dashed}
+
+/* lists (front desk, treasury) */
+.count{display:flex;flex-wrap:wrap;gap:6px 16px;font:.8rem/1.3 var(--f-mono);color:var(--mid);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-size:1.05rem}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;width:100%;text-align:left;background:var(--paper);color:var(--ink);border:1.5px solid var(--line);padding:9px 11px}
+.item:hover{border-color:var(--navy)}
+.item[aria-current="true"]{border-color:var(--navy);border-width:2.5px;background:var(--sheet)}
+.item b{font-size:.95rem}
+.item small{grid-column:1/-1;font-size:.78rem;color:var(--mid)}
+.item.new{box-shadow:inset 4px 0 var(--orange)}
+.conds{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.9rem}
+.conds li{display:grid;grid-template-columns:1.5rem 1fr;gap:8px;align-items:baseline}
+.conds i{font:normal 700 .8rem/1.3rem var(--f-mono);width:1.3rem;height:1.3rem;text-align:center;border:1.5px solid var(--line)}
+.conds .y i{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.conds .n i{border-style:dashed;border-color:var(--wait);color:var(--wait)}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:.88rem}
+.facts li{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:8px}
+.facts span{font:.72rem/1.7 var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--mid)}
+@media (max-width:30rem){.facts li{grid-template-columns:1fr;gap:0}}
+.note{font-size:.84rem;background:var(--sunk);padding:8px 10px;border-left:3px solid var(--mid)}
+.note.good{border-left-color:var(--ok)}
+.gate{border:2px solid var(--navy);padding:12px;display:grid;gap:6px;text-align:center;font:600 .9rem/1.4 var(--f-mono)}
+.gate.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.gate.no{background:var(--stop-soft);border-color:var(--stop);color:var(--stop)}
+.log{font:.75rem/1.5 var(--f-mono);color:var(--mid);margin:0;padding:0;list-style:none;max-height:9rem;overflow:auto;border-top:1px dashed var(--line);padding-top:8px;font-variant-numeric:tabular-nums}
+
+/* below the desks */
+.below{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:34px}
+@media (max-width:56rem){.below{grid-template-columns:1fr}}
+.below section{min-width:0}
+.below h2{font:400 1.45rem/1.2 var(--f-display);color:var(--navy);margin:0 0 10px}
+.pains{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--sheet)}
+.pains th,.pains td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.pains th{background:var(--navy);color:var(--paper);font-weight:700}
+.pains td:first-child{color:var(--mid);font-style:italic}
+.tablebox{overflow-x:auto}
+.keep{list-style:none;margin:0;padding:0;display:grid;gap:0;background:var(--sheet);border:1px solid var(--line)}
+.keep li{padding:10px 12px;border-top:1px solid var(--line);display:grid;gap:2px}
+.keep li:first-child{border-top:0}
+.keep b{font-size:.95rem}
+.keep span{font-size:.86rem;color:var(--mid)}
+details.files{margin-top:28px;background:var(--sheet);border:1.5px solid var(--navy)}
+details.files summary{cursor:pointer;padding:12px 16px;font-weight:700}
+.filegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:12px;padding:0 16px 16px}
+.file{min-width:0;display:grid;gap:6px;align-content:start}
+.file h3{margin:0;font-size:.9rem}
+.file p{margin:0;font-size:.82rem;color:var(--mid)}
+pre{margin:0;font:.74rem/1.5 var(--f-mono);background:var(--sunk);padding:10px;overflow-x:auto;white-space:pre;color:var(--ink)}
+footer{margin-top:28px;font-size:.8rem;color:var(--mid);max-width:70ch}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="brand"><b>OpenFab</b><span>Syntonie asbl · Ixelles</span><span class="tag" data-t="dry"></span></div>
+  <div class="tools">
+    <div class="seg" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button type="button" class="ghost" id="reset" data-t="reset"></button>
+  </div>
+</header>
+
+<div class="pitch">
+  <div>
+    <h1 data-t="h1"></h1>
+    <p data-t="lead"></p>
+  </div>
+  <div style="display:grid;gap:10px">
+    <ol class="story" id="story" aria-label="Story"></ol>
+    <p class="deliberate" data-t="deliberate"></p>
+  </div>
+</div>
+
+<div class="tabs" role="tablist" id="tabs">
+  <button type="button" role="tab" data-desk="person" aria-selected="true"><span data-t="d_person"></span></button>
+  <button type="button" role="tab" data-desk="desk" aria-selected="false"><span data-t="d_desk"></span></button>
+  <button type="button" role="tab" data-desk="treas" aria-selected="false"><span data-t="d_treas"></span></button>
+</div>
+
+<div class="desks">
+  <section class="desk shown" id="desk-person" aria-labelledby="h-person">
+    <div class="desk-h"><h2 id="h-person" data-t="d_person"></h2><small data-t="d_person_s"></small></div>
+    <div class="desk-b" id="person"></div>
+  </section>
+  <section class="desk" id="desk-desk" aria-labelledby="h-desk">
+    <div class="desk-h"><h2 id="h-desk" data-t="d_desk"></h2><small data-t="d_desk_s"></small></div>
+    <div class="desk-b" id="desk"></div>
+  </section>
+  <section class="desk" id="desk-treas" aria-labelledby="h-treas">
+    <div class="desk-h"><h2 id="h-treas" data-t="d_treas"></h2><small data-t="d_treas_s"></small><span class="badge" id="treas-badge" hidden></span></div>
+    <div class="desk-b" id="treas"></div>
+  </section>
+</div>
+
+<div class="below">
+  <section>
+    <h2 data-t="pains_h"></h2>
+    <div class="tablebox"><table class="pains"><thead><tr><th data-t="pains_c1"></th><th data-t="pains_c2"></th></tr></thead><tbody id="pains"></tbody></table></div>
+  </section>
+  <section>
+    <h2 data-t="keep_h"></h2>
+    <ul class="keep" id="keep"></ul>
+  </section>
+</div>
+
+<details class="files" id="files">
+  <summary data-t="files_h"></summary>
+  <div class="filegrid" id="filegrid"></div>
+</details>
+
+<footer data-t="foot"></footer>
+</div>
+
+<script>
+"use strict";
+/* ---------- words ---------- */
+const I18N = {
+fr:{
+  dry:"dry run", reset:"Recommencer",
+  h1:"Devenir membre d'OpenFab, sans farde ni « demande à la trésorerie »",
+  lead:"Une démonstration en trois postes. Une personne s'inscrit, la trésorerie confirme la cotisation et accepte, l'accueil voit qui est en ordre, la porte et les machines suivent. Tout est simulé dans cette page : rien n'est envoyé, rien n'est payé.",
+  deliberate:"Proposition à délibérer au conseil des makers. Rien ne change sans l'accord du collectif.",
+  st1:"La personne remplit sa fiche", st2:"Elle garde ses données dans son espace", st3:"Elle demande à rejoindre OpenFab",
+  st4:"La trésorerie confirme la cotisation", st5:"La trésorerie accepte : membre en ordre", st6:"L'accueil le voit, la porte s'ouvre",
+  d_person:"La personne", d_person_s:"son espace, sur son téléphone", d_desk:"Accueil", d_desk_s:"bénévole, sur place", d_treas:"Trésorerie", d_treas_s:"cotisations et décisions",
+  lg_done:"Fait", lg_open:"Possible maintenant", lg_wait:"En attente d'OpenFab", lg_cue:"Ensuite", lg_fog:"Plus tard",
+  t_fiche:"Remplir la fiche", t_pod:"Garder mes données", t_join:"Rejoindre OpenFab", t_door:"Ouvrir la porte", t_print:"Imprimer en 3D", t_laser:"Découper au laser", t_prepaid:"Réserver du temps machine", t_network:"Travailler dans un autre fablab",
+  fiche_h:"La fiche d'inscription", fiche_p:"La même que sur members.syntonie.be : nom, contact, centres d'intérêt, règlement.",
+  first:"Prénom", last:"Nom", email:"E-mail", interests:"Centres d'intérêt",
+  rules:"J'ai lu le règlement intérieur et je l'accepte (version 2026-01).",
+  fiche_btn:"Envoyer ma fiche", fiche_done:"Fiche remplie. Plus de scan, plus de copie à transférer : la fiche arrive complète.",
+  pod_h:"Où garder mes données ?", pod_p:"Mes coordonnées restent chez moi. OpenFab les lit avec ma permission et ne garde que mon statut de membre.",
+  pod_self:"J'ai déjà un espace", pod_self_s:"un pod Solid, chez moi ou ailleurs", pod_sy:"Créer mon espace chez Syntonie", pod_sy_s:"rien à installer, je peux le déplacer plus tard",
+  pod_test:"À tester au conseil : ce choix aide-t-il ou embrouille-t-il ?",
+  webid:"Mon adresse (WebID)", pod_ok:"Espace prêt :", pod_btn:"Continuer",
+  join_h:"Rejoindre OpenFab", join_p:"OpenFab publie ses conditions : informations de base, règlement accepté, cotisation de l'année civile.",
+  c_info:"Informations de base", c_rules:"Règlement intérieur accepté", c_fee:"Cotisation {y} (25 €) reçue",
+  join_btn:"Envoyer ma demande", join_wait:"Demande envoyée. C'est la trésorerie qui répond.",
+  pay_h:"Payer la cotisation", pay_p:"Virement avec le QR de la fiche, ou au terminal de l'accueil.",
+  join_ok:"OpenFab a dit oui. La porte et les machines sont dans votre espace.",
+  join_renew:"Adhésion {y} à renouveler : la cotisation est attendue. Rien n'est effacé, tout revient dès le paiement.",
+  join_lapsed:"Demande expirée : aucun paiement en 30 jours. Rien n'a été facturé. Vous pouvez recommencer quand vous voulez.",
+  door_h:"La porte", door_p:"Le téléphone à la porte : elle demande à OpenFab si l'adhésion est en ordre. Le boîtier existe déjà, en test (doorgate).",
+  door_btn:"Présenter mon téléphone", door_ok:"Ouvert. Bonne session !", door_no:"Fermé : l'adhésion {y} n'est pas en ordre. Rien n'est effacé ; elle revient dès la cotisation reçue.",
+  print_h:"Imprimer en 3D", print_p:"Ouvert à tout membre en ordre. Le tarif au gramme est sur la page tarifs d'OpenFab.",
+  laser_h:"Découper au laser", laser_need:"Il faut une formation laser. Un·e animateur·rice la valide à l'accueil après la séance.", laser_ok:"Formation validée le {d}. La découpeuse vous attend.",
+  prepaid_h:"Réserver du temps machine", prepaid_p:"Plus tard : acheter des heures à l'avance, réservées dans l'agenda de la machine.",
+  network_h:"Travailler dans un autre fablab", network_p:"Plus tard : OpenFab rejoint un réseau (Maps of Making, Vulca…). Votre adhésion et vos formations y sont reconnues sans tout refaire.",
+  locked_hs:"Disponible quand OpenFab aura accepté votre demande.",
+  desk_count:"{ok} en ordre · {wait} en attente · {off} à renouveler",
+  desk_p:"L'accueil voit le statut et les formations. Pas les montants, pas les adresses.",
+  desk_pick:"Choisissez une personne pour voir son statut.",
+  f_status:"Statut", f_until:"Valable jusqu'au", f_skills:"Formations", f_since:"Membre depuis",
+  s_ok:"en ordre", s_wait:"en attente", s_off:"à renouveler", s_lapsed:"expirée", s_new:"nouvelle demande",
+  none:"aucune", skill_laser:"laser", skill_cnc:"CNC",
+  train_btn:"Valider la formation laser", train_done:"Formation laser validée par l'animateur·rice.",
+  desk_wait:"Pas encore membre : la trésorerie attend la cotisation.", desk_off:"Adhésion {y} pas encore payée. On peut l'orienter vers le QR.",
+  treas_count:"Cotisations {y} : {paid} reçues sur {all}",
+  treas_p:"Une demande reste en attente tant que la cotisation n'est pas reçue. Pas de facture, pas de compte à annuler.",
+  treas_pick:"Choisissez une demande ou un membre.",
+  q_zoho:"Question pour la trésorerie : créer la facture Zoho seulement une fois le paiement reçu ?",
+  paid_btn:"Cotisation reçue", method:"Moyen", m_qr:"virement (QR)", m_term:"terminal", m_cash:"cash",
+  accept_btn:"Accepter dans OpenFab", accept_need:"Les trois conditions doivent être remplies.",
+  zoho_note:"Facture Zoho à créer maintenant, déjà payée. Rien à relancer.",
+  sim_30:"Simuler : 30 jours sans paiement", sim_year:"Simuler : passer au 1er janvier {y}",
+  lapsed_note:"Demande expirée. Aucune facture n'avait été créée : rien à annuler.",
+  year_note:"1er janvier {y} : chaque adhésion attend sa cotisation. Rien n'est effacé, l'accès revient dès le paiement.",
+  pending_days:"promesse de virement il y a {n} jours",
+  log_req:"{name} demande à rejoindre", log_paid:"cotisation {y} de {name} reçue ({m})", log_acc:"{name} accepté·e dans OpenFab", log_train:"formation laser de {name} validée", log_lapse:"demande de {name} expirée", log_year:"passage à {y}", log_door:"porte : {name} {r}", r_ok:"ouverte", r_no:"refusée",
+  new_badge:"{n} nouvelle",
+  pains_h:"Ce que ça change", pains_c1:"Aujourd'hui (vos mots)", pains_c2:"Dans cette proposition",
+  keep_h:"Ce qui ne change pas",
+  files_h:"Où vivent les données (pour les curieux)",
+  foot:"Personnes fictives. Le vocabulaire des fichiers est un brouillon. Page faite pour le conseil des makers d'OpenFab, novembre 2026.",
+},
+en:{
+  dry:"dry run", reset:"Start over",
+  h1:"Joining OpenFab, without a binder or \"ask the treasurer\"",
+  lead:"A walkthrough from three desks. A person signs up, the treasurer confirms the fee and accepts, the front desk sees who is in good standing, the door and machines follow. Everything is simulated on this page: nothing is sent, nothing is paid.",
+  deliberate:"A proposal for the makers' council to deliberate. Nothing changes without the collective's agreement.",
+  st1:"The person fills in the form", st2:"They keep their data in their own space", st3:"They ask to join OpenFab",
+  st4:"The treasurer confirms the fee", st5:"The treasurer accepts: member in good standing", st6:"The front desk sees it, the door opens",
+  d_person:"The person", d_person_s:"their space, on their phone", d_desk:"Front desk", d_desk_s:"volunteer, on site", d_treas:"Treasurer", d_treas_s:"fees and decisions",
+  lg_done:"Done", lg_open:"Possible now", lg_wait:"Waiting for OpenFab", lg_cue:"Next", lg_fog:"Later",
+  t_fiche:"Fill in the form", t_pod:"Keep my data", t_join:"Join OpenFab", t_door:"Open the door", t_print:"3D print", t_laser:"Laser cut", t_prepaid:"Book machine time", t_network:"Work at another fablab",
+  fiche_h:"The membership form", fiche_p:"The same as on members.syntonie.be: name, contact, interests, house rules.",
+  first:"First name", last:"Last name", email:"Email", interests:"Interests",
+  rules:"I have read the house rules and accept them (version 2026-01).",
+  fiche_btn:"Send my form", fiche_done:"Form filled in. No scanning, no copies to forward: the form arrives complete.",
+  pod_h:"Where do I keep my data?", pod_p:"My contact details stay with me. OpenFab reads them with my permission and keeps only my membership status.",
+  pod_self:"I already have a space", pod_self_s:"a Solid pod, at home or elsewhere", pod_sy:"Create my space at Syntonie", pod_sy_s:"nothing to install, I can move it later",
+  pod_test:"To test at the council: does this choice help or confuse?",
+  webid:"My address (WebID)", pod_ok:"Space ready:", pod_btn:"Continue",
+  join_h:"Join OpenFab", join_p:"OpenFab publishes its conditions: basic details, house rules accepted, fee for the calendar year.",
+  c_info:"Basic details", c_rules:"House rules accepted", c_fee:"{y} fee (€25) received",
+  join_btn:"Send my request", join_wait:"Request sent. The treasurer answers.",
+  pay_h:"Pay the fee", pay_p:"Bank transfer with the form's QR code, or at the front-desk terminal.",
+  join_ok:"OpenFab said yes. The door and machines are in your space.",
+  join_renew:"{y} membership to renew: the fee is due. Nothing is deleted; everything returns once it's paid.",
+  join_lapsed:"Request expired: no payment in 30 days. Nothing was invoiced. You can start again any time.",
+  door_h:"The door", door_p:"Phone at the door: it asks OpenFab whether the membership is in good standing. The box exists already, in testing (doorgate).",
+  door_btn:"Show my phone", door_ok:"Open. Enjoy the session!", door_no:"Closed: the {y} membership isn't paid. Nothing is deleted; it comes back as soon as the fee arrives.",
+  print_h:"3D print", print_p:"Open to every member in good standing. The per-gram price is on OpenFab's pricing page.",
+  laser_h:"Laser cut", laser_need:"Needs a laser induction. A facilitator records it at the front desk after the session.", laser_ok:"Induction recorded on {d}. The cutter is yours.",
+  prepaid_h:"Book machine time", prepaid_p:"Later: buy hours in advance, booked in the machine's calendar.",
+  network_h:"Work at another fablab", network_p:"Later: OpenFab joins a network (Maps of Making, Vulca…). Your membership and inductions are recognised there without starting over.",
+  locked_hs:"Available once OpenFab has accepted your request.",
+  desk_count:"{ok} in good standing · {wait} waiting · {off} to renew",
+  desk_p:"The front desk sees status and inductions. No amounts, no addresses.",
+  desk_pick:"Pick someone to see their status.",
+  f_status:"Status", f_until:"Valid until", f_skills:"Inductions", f_since:"Member since",
+  s_ok:"in good standing", s_wait:"waiting", s_off:"to renew", s_lapsed:"expired", s_new:"new request",
+  none:"none", skill_laser:"laser", skill_cnc:"CNC",
+  train_btn:"Record the laser induction", train_done:"Laser induction recorded by the facilitator.",
+  desk_wait:"Not a member yet: the treasurer is waiting for the fee.", desk_off:"{y} membership not paid yet. Point them to the QR code.",
+  treas_count:"{y} fees: {paid} received out of {all}",
+  treas_p:"A request stays pending until the fee arrives. No invoice, no account to cancel.",
+  treas_pick:"Pick a request or a member.",
+  q_zoho:"Question for the treasurer: create the Zoho invoice only once the payment is in?",
+  paid_btn:"Fee received", method:"Method", m_qr:"transfer (QR)", m_term:"terminal", m_cash:"cash",
+  accept_btn:"Accept into OpenFab", accept_need:"All three conditions must be met.",
+  zoho_note:"Zoho invoice to create now, already paid. Nothing to chase.",
+  sim_30:"Simulate: 30 days without payment", sim_year:"Simulate: move to 1 January {y}",
+  lapsed_note:"Request expired. No invoice had been created: nothing to cancel.",
+  year_note:"1 January {y}: every membership waits for its fee. Nothing is deleted; access returns as soon as it's paid.",
+  pending_days:"promised a transfer {n} days ago",
+  log_req:"{name} asks to join", log_paid:"{y} fee from {name} received ({m})", log_acc:"{name} accepted into OpenFab", log_train:"laser induction for {name} recorded", log_lapse:"request from {name} expired", log_year:"moved to {y}", log_door:"door: {name} {r}", r_ok:"opened", r_no:"refused",
+  new_badge:"{n} new",
+  pains_h:"What this changes", pains_c1:"Today (your words)", pains_c2:"In this proposal",
+  keep_h:"What doesn't change",
+  files_h:"Where the data lives (for the curious)",
+  foot:"Fictional people. The file vocabulary is a draft. Made for OpenFab's makers' council, November 2026.",
+}};
+const PAINS = {
+fr:[
+  ["La fiche papier est scannée, copiée à la personne et à contact@, puis classée dans une farde.","La fiche en ligne arrive complète. En test depuis le 10 novembre sur members.syntonie.be."],
+  ["La facture et le compte sont créés avant le paiement ; si la personne ne vire jamais, il faut annuler.","La demande attend la cotisation. Sans paiement, elle expire seule : rien à annuler."],
+  ["Personne ne sait vérifier seul si un membre est en ordre : on demande à la trésorerie.","L'accueil voit le statut de chacun, sans voir les montants."],
+  ["Toute l'information passe par une seule personne ; on ne connaît pas le nombre de membres.","Le décompte est visible par l'accueil et le conseil. La trésorerie garde les décisions."],
+  ["L'accès aux machines se fait par confiance.","Chaque machine demande l'adhésion en ordre, et la formation quand il en faut une."],
+  ["La vérification des cotisations se fait une fois par an.","La règle de l'année civile est publiée ; au 1er janvier, chaque adhésion attend sa cotisation, sans rien effacer."],
+],
+en:[
+  ["The paper form is scanned, copied to the person and to contact@, then filed in a binder.","The online form arrives complete. In testing since 10 November at members.syntonie.be."],
+  ["The invoice and account are created before payment; if the transfer never comes, they must be cancelled.","The request waits for the fee. Without payment it expires by itself: nothing to cancel."],
+  ["Nobody can check alone whether a member is in good standing: we ask the treasurer.","The front desk sees everyone's status, without the amounts."],
+  ["All information goes through one person; nobody knows the member count.","The count is visible to the front desk and the council. The treasurer keeps the decisions."],
+  ["Machine access works on trust.","Each machine asks for a valid membership, and an induction where one is needed."],
+  ["Fees are checked once a year.","The calendar-year rule is published; on 1 January each membership waits for its fee, nothing deleted."],
+]};
+const KEEP = {
+fr:[
+  ["Zoho Books reste la comptabilité.","Aucun lien automatique avec Zoho dans cette étape. S'il vient un jour, il se construit avec la trésorerie."],
+  ["La trésorerie décide.","Confirmer un paiement et accepter un membre restent des gestes humains."],
+  ["Le papier reste possible.","Une fiche papier peut toujours être encodée à la main."],
+  ["L'année civile et la cotisation de 25 €.","La règle actuelle du collectif, écrite telle quelle."],
+  ["Les données personnelles ne circulent pas plus.","Les coordonnées restent dans l'espace du membre ; OpenFab garde le statut."],
+  ["Personne n'est seul à comprendre.","Chaque poste a son mode d'emploi, écrit pour les bénévoles."],
+],
+en:[
+  ["Zoho Books stays the books.","No automatic link to Zoho at this stage. If one ever comes, it is built with the treasurer."],
+  ["The treasurer decides.","Confirming a payment and accepting a member stay human actions."],
+  ["Paper stays possible.","A paper form can still be entered by hand."],
+  ["Calendar year and the €25 fee.","The collective's current rule, written down as it is."],
+  ["Personal data doesn't travel further.","Contact details stay in the member's space; OpenFab keeps the status."],
+  ["Nobody is the only one who understands.","Each desk has its own guide, written for volunteers."],
+]};
+
+/* ---------- state ---------- */
+const YEAR0 = 2026;
+function fresh(){
+  return {
+    year: YEAR0, sel: "fiche", deskSel: null, treasSel: null, tab: "person", files: false,
+    p: { first:"Inès", last:"Moreau", email:"ines@example.org", interests:"bois, laser, réparation", rules:false },
+    fiche:false, pod:null, webid:"", req:null, door:null, log:[],
+    members:[
+      { id:"amaury", name:"Amaury Lenoir", since:2023, paid:{2026:"virement"}, accepted:true, skills:[["laser","2025-03-12"],["cnc","2025-09-02"]] },
+      { id:"sofia", name:"Sofia Ruiz", since:2025, paid:{2026:"terminal"}, accepted:true, skills:[] },
+      { id:"jonas", name:"Jonas Peeters", since:2024, paid:{2026:"cash"}, accepted:true, skills:[["laser","2024-11-20"]] },
+      { id:"lina", name:"Lina Haddad", since:YEAR0, paid:{}, accepted:false, skills:[], pendingDays:12, isReq:true },
+    ],
+  };
+}
+let S = fresh();
+let lang = "fr";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function t(k, v){ let s = (I18N[lang][k] ?? I18N.fr[k] ?? k); if (v) s = s.replace(/\{(\w+)\}/g, (m, x) => v[x] ?? m); return s; }
+const today = () => new Date(Date.UTC(S.year === YEAR0 ? 2026 : S.year, S.year === YEAR0 ? 10 : 0, S.year === YEAR0 ? 10 : 2)).toISOString().slice(0, 10);
+const me = () => S.members.find(m => m.id === "new");
+function status(m){
+  if (m.lapsed) return "lapsed";
+  if (m.paid[S.year] && m.accepted) return "ok";
+  if (!m.accepted) return "wait";
+  return "off";
+}
+const CHIP = { ok:"c-ok", wait:"c-wait", off:"c-stop", lapsed:"c-off" };
+const SNAME = { ok:"s_ok", wait:"s_wait", off:"s_off", lapsed:"s_lapsed" };
+const chip = st => `<span class="chip ${CHIP[st]}">${esc(t(SNAME[st]))}</span>`;
+function log(k, v){ S.log.unshift(`${today()}  ${t(k, v)}`); }
+const hasSkill = (m, s) => m && m.skills.some(x => x[0] === s);
+const inGood = () => { const m = me(); return !!m && status(m) === "ok"; };
+
+/* ---------- the person's tiles ---------- */
+const TILES = [
+  { id:"fiche", q:0, r:0 }, { id:"pod", q:1, r:0 }, { id:"join", q:2, r:-1 },
+  { id:"door", q:2, r:0 }, { id:"print", q:3, r:-1 }, { id:"laser", q:3, r:0 },
+  { id:"prepaid", q:4, r:-1 }, { id:"network", q:4, r:0 },
+];
+function tileState(id){
+  const m = me(), good = inGood();
+  switch (id){
+    case "fiche": return S.fiche ? "done" : "open";
+    case "pod": return S.pod && S.webid ? "done" : S.fiche ? "open" : "cue";
+    case "join":
+      if (!S.pod || !S.webid) return S.fiche ? "cue" : "fog";
+      if (!m) return "open";
+      if (m.lapsed) return "stop";
+      return good ? "done" : m.accepted ? "stop" : "wait";
+    case "door": return good ? (S.door === "ok" ? "done" : "open") : (m && !m.lapsed) ? "wait" : (S.pod ? "cue" : "fog");
+    case "print": return good ? "open" : (m && !m.lapsed) ? "cue" : "fog";
+    case "laser": return good ? (hasSkill(m, "laser") ? "open" : "wait") : (m && !m.lapsed) ? "cue" : "fog";
+    case "prepaid": case "network": return good ? "cue" : "fog";
+  }
+}
+const HS = 46, R3 = Math.sqrt(3);
+const pos = tl => [HS * R3 * (tl.q + tl.r / 2), HS * 1.5 * tl.r];
+function hexPts(cx, cy){ const p = []; for (let i = 0; i < 6; i++){ const a = Math.PI / 180 * (60 * i - 30); p.push((cx + (HS - 3) * Math.cos(a)).toFixed(1) + "," + (cy + (HS - 3) * Math.sin(a)).toFixed(1)); } return p.join(" "); }
+function wrapWords(s, max){ const w = s.split(" "), out = []; let line = ""; w.forEach(x => { if ((line + " " + x).trim().length > max && line){ out.push(line); line = x; } else line = (line + " " + x).trim(); }); if (line) out.push(line); return out; }
+function mapSvg(){
+  const pts = TILES.map(pos), xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const minx = Math.min(...xs) - HS, maxx = Math.max(...xs) + HS, miny = Math.min(...ys) - HS, maxy = Math.max(...ys) + HS;
+  const g = TILES.map((tl, i) => {
+    const st = tileState(tl.id), [cx, cy] = pts[i], fog = st === "fog";
+    const label = fog ? "" : wrapWords(t("t_" + tl.id), 12).map((l, j, a) => `<text x="${cx.toFixed(1)}" y="${(cy + (j - (a.length - 1) / 2) * 12 + 3).toFixed(1)}" text-anchor="middle">${esc(l)}</text>`).join("");
+    const mark = st === "done" ? `<text x="${cx.toFixed(1)}" y="${(cy - 22).toFixed(1)}" text-anchor="middle" style="fill:var(--ok);font-size:13px">✓</text>` : "";
+    const attrs = fog ? `aria-hidden="true"` : `role="button" tabindex="0" aria-label="${esc(t("t_" + tl.id))}" data-tile="${tl.id}"`;
+    return `<g class="hex h-${st}${S.sel === tl.id ? " sel" : ""}" ${attrs}><polygon points="${hexPts(cx, cy)}"/>${label}${mark}</g>`;
+  }).join("");
+  return `<svg class="map" viewBox="${minx.toFixed(0)} ${miny.toFixed(0)} ${(maxx - minx).toFixed(0)} ${(maxy - miny).toFixed(0)}" role="group" aria-label="${esc(t("d_person"))}">${g}</svg>
+  <div class="legend"><span><i class="sw done"></i>${esc(t("lg_done"))}</span><span><i class="sw open"></i>${esc(t("lg_open"))}</span><span><i class="sw wait"></i>${esc(t("lg_wait"))}</span><span><i class="sw cue"></i>${esc(t("lg_cue"))}</span><span><i class="sw fog"></i>${esc(t("lg_fog"))}</span></div>`;
+}
+function conds(m){
+  const y = S.year, info = !!(S.p.first && S.p.last && S.p.email), rules = S.p.rules, fee = !!(m && m.paid[y]);
+  const li = (ok, k) => `<li class="${ok ? "y" : "n"}"><i>${ok ? "✓" : "…"}</i><span>${esc(t(k, { y }))}</span></li>`;
+  return { html: `<ul class="conds">${li(info, "c_info")}${li(rules, "c_rules")}${li(fee, "c_fee")}</ul>`, all: info && rules && fee };
+}
+function personPanel(){
+  const id = S.sel, m = me(), st = tileState(id), y = S.year;
+  if (id === "fiche"){
+    if (S.fiche) return `<div class="panel"><h3>${esc(t("fiche_h"))}</h3><p class="say">${esc(t("fiche_done"))}</p></div>`;
+    return `<form class="panel" id="f-fiche" novalidate><h3>${esc(t("fiche_h"))}</h3><p class="hint">${esc(t("fiche_p"))}</p>
+      <div class="pair"><div class="f"><label for="p-first">${esc(t("first"))}</label><input id="p-first" value="${esc(S.p.first)}"></div>
+      <div class="f"><label for="p-last">${esc(t("last"))}</label><input id="p-last" value="${esc(S.p.last)}"></div></div>
+      <div class="f"><label for="p-email">${esc(t("email"))}</label><input id="p-email" type="email" value="${esc(S.p.email)}"></div>
+      <div class="f"><label for="p-int">${esc(t("interests"))}</label><input id="p-int" value="${esc(S.p.interests)}"></div>
+      <label class="check"><input type="checkbox" id="p-rules"${S.p.rules ? " checked" : ""}><span>${esc(t("rules"))}</span></label>
+      <div class="row"><button class="btn" type="submit" id="fiche-btn"${S.p.rules ? "" : " disabled"}>${esc(t("fiche_btn"))}</button></div></form>`;
+  }
+  if (id === "pod"){
+    if (!S.fiche) return `<div class="panel"><h3>${esc(t("pod_h"))}</h3><p class="hint">${esc(t("pod_p"))}</p></div>`;
+    const auto = `https://${slug(S.p.first + "-" + S.p.last)}.pod.syntonie.be/profile/card#me`;
+    const done = S.pod && S.webid;
+    return `<div class="panel"><h3>${esc(t("pod_h"))}</h3><p class="hint">${esc(t("pod_p"))}</p>
+      <div class="fork"><button type="button" data-pod="syntonie" aria-pressed="${S.pod === "syntonie"}"><b>${esc(t("pod_sy"))}</b><span>${esc(t("pod_sy_s"))}</span></button>
+      <button type="button" data-pod="self" aria-pressed="${S.pod === "self"}"><b>${esc(t("pod_self"))}</b><span>${esc(t("pod_self_s"))}</span></button></div>
+      ${S.pod === "self" && !done ? `<div class="f"><label for="p-webid">${esc(t("webid"))}</label><input id="p-webid" placeholder="https://…/profile/card#me" value="https://ines.solidcommunity.example/profile/card#me"></div><div class="row"><button class="btn" type="button" id="webid-btn">${esc(t("pod_btn"))}</button></div>` : ""}
+      ${S.pod === "syntonie" && !done ? `<div class="row"><button class="btn" type="button" id="sy-btn" data-webid="${esc(auto)}">${esc(t("pod_btn"))}</button></div>` : ""}
+      ${done ? `<p class="say">${esc(t("pod_ok"))}</p><p class="addr">${esc(S.webid)}</p>` : ""}
+      <p class="hint">${esc(t("pod_test"))}</p></div>`;
+  }
+  if (id === "join"){
+    const c = conds(m);
+    let body = `<p class="hint">${esc(t("join_p"))}</p>${c.html}`;
+    if (!m) body += `<div class="row"><button class="btn" type="button" id="join-btn"${S.pod && S.webid ? "" : " disabled"}>${esc(t("join_btn"))}</button></div>`;
+    else if (m.lapsed) body += `<p class="say">${esc(t("join_lapsed"))}</p>`;
+    else if (inGood()) body += `<p class="say">${esc(t("join_ok"))}</p>`;
+    else if (m.accepted) body += `<p class="say">${esc(t("join_renew", { y }))}</p><div class="note"><b>${esc(t("pay_h"))}</b> · ${esc(t("pay_p"))}</div>`;
+    else body += `<p class="say">${esc(t("join_wait"))}</p>${!m.paid[y] ? `<div class="note"><b>${esc(t("pay_h"))}</b> · ${esc(t("pay_p"))}</div>` : ""}`;
+    return `<div class="panel"><h3>${esc(t("join_h"))}</h3>${chipFor(m)}${body}</div>`;
+  }
+  if (id === "door"){
+    const g = S.door ? `<div class="gate ${S.door === "ok" ? "ok" : "no"}" role="status">${esc(S.door === "ok" ? t("door_ok") : t("door_no", { y }))}</div>` : "";
+    return `<div class="panel"><h3>${esc(t("door_h"))}</h3><p class="hint">${esc(t("door_p"))}</p>${m && !m.lapsed ? `<div class="row"><button class="btn" type="button" id="door-btn">${esc(t("door_btn"))}</button></div>` : `<p class="hint">${esc(t("locked_hs"))}</p>`}${g}</div>`;
+  }
+  if (id === "print") return `<div class="panel"><h3>${esc(t("print_h"))}</h3><p>${esc(inGood() ? t("print_p") : t("locked_hs"))}</p></div>`;
+  if (id === "laser"){
+    const sk = m && m.skills.find(x => x[0] === "laser");
+    return `<div class="panel"><h3>${esc(t("laser_h"))}</h3><p>${esc(!inGood() ? t("locked_hs") : sk ? t("laser_ok", { d: sk[1] }) : t("laser_need"))}</p></div>`;
+  }
+  if (id === "prepaid") return `<div class="panel"><h3>${esc(t("prepaid_h"))}</h3><p>${esc(t("prepaid_p"))}</p></div>`;
+  if (id === "network") return `<div class="panel"><h3>${esc(t("network_h"))}</h3><p>${esc(t("network_p"))}</p></div>`;
+  return "";
+}
+function chipFor(m){ return m ? `<div>${chip(status(m))}</div>` : ""; }
+function slug(s){ return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+
+/* ---------- front desk ---------- */
+function counts(){
+  const c = { ok:0, wait:0, off:0 };
+  S.members.forEach(m => { const s = status(m); if (c[s] !== undefined) c[s]++; });
+  return c;
+}
+function deskHtml(){
+  const c = counts(), y = S.year;
+  const items = S.members.filter(m => !m.lapsed).map(m => {
+    const st = status(m), sk = m.skills.map(x => t("skill_" + x[0])).join(", ") || t("none");
+    return `<li><button type="button" class="item${m.id === "new" ? " new" : ""}" data-desk-m="${m.id}" aria-current="${S.deskSel === m.id}"><b>${esc(m.name)}</b>${chip(st)}<small>${esc(t("f_skills"))} : ${esc(sk)}</small></button></li>`;
+  }).join("");
+  let detail = `<p class="hint">${esc(t("desk_pick"))}</p>`;
+  const m = S.members.find(x => x.id === S.deskSel);
+  if (m && !m.lapsed){
+    const st = status(m), sk = m.skills.map(x => `${t("skill_" + x[0])} (${x[1]})`).join(", ") || t("none");
+    detail = `<div class="panel"><h3>${esc(m.name)}</h3><ul class="facts">
+      <li><span>${esc(t("f_status"))}</span><div>${chip(st)}</div></li>
+      ${st === "ok" ? `<li><span>${esc(t("f_until"))}</span><div>31/12/${y}</div></li>` : ""}
+      ${m.accepted ? `<li><span>${esc(t("f_since"))}</span><div>${m.since}</div></li>` : ""}
+      <li><span>${esc(t("f_skills"))}</span><div>${esc(sk)}</div></li></ul>
+      ${st === "wait" ? `<p class="note">${esc(t("desk_wait"))}</p>` : ""}
+      ${st === "off" ? `<p class="note">${esc(t("desk_off", { y }))}</p>` : ""}
+      ${st === "ok" && !hasSkill(m, "laser") ? `<div class="row"><button class="btn alt" type="button" id="train-btn" data-m="${m.id}">${esc(t("train_btn"))}</button></div>` : ""}
+    </div>`;
+  }
+  return `<div class="count">${t("desk_count", { ok:`<b>${c.ok}</b>`, wait:`<b>${c.wait}</b>`, off:`<b>${c.off}</b>` })}</div>
+    <p class="hint">${esc(t("desk_p"))}</p><ul class="list">${items}</ul>${detail}`;
+}
+
+/* ---------- treasury ---------- */
+function treasHtml(){
+  const y = S.year, live = S.members.filter(m => !m.lapsed);
+  const paid = live.filter(m => m.paid[y]).length;
+  const items = S.members.map(m => {
+    const st = status(m);
+    const sub = m.isReq && !m.accepted && !m.lapsed ? (m.pendingDays ? t("pending_days", { n: m.pendingDays }) : t("s_new")) : (m.paid[y] ? `${y} · ${m.paid[y]}` : "");
+    return `<li><button type="button" class="item${m.id === "new" && st === "wait" ? " new" : ""}" data-treas-m="${m.id}" aria-current="${S.treasSel === m.id}"><b>${esc(m.name)}</b>${chip(st)}${sub ? `<small>${esc(sub)}</small>` : ""}</button></li>`;
+  }).join("");
+  let detail = `<p class="hint">${esc(t("treas_pick"))}</p>`;
+  const m = S.members.find(x => x.id === S.treasSel);
+  if (m){
+    const st = status(m);
+    let body = "";
+    if (m.lapsed) body = `<p class="note">${esc(t("lapsed_note"))}</p>`;
+    else {
+      if (m.id === "new") body += conds(m).html;
+      else if (!m.accepted) body += `<ul class="conds"><li class="y"><i>✓</i><span>${esc(t("c_info"))}</span></li><li class="y"><i>✓</i><span>${esc(t("c_rules"))}</span></li><li class="${m.paid[y] ? "y" : "n"}"><i>${m.paid[y] ? "✓" : "…"}</i><span>${esc(t("c_fee", { y }))}</span></li></ul>`;
+      if (!m.paid[y]) body += `<div class="row"><div class="f" style="width:auto"><label for="pay-m">${esc(t("method"))}</label><select id="pay-m"><option value="${esc(t("m_qr"))}">${esc(t("m_qr"))}</option><option value="${esc(t("m_term"))}">${esc(t("m_term"))}</option><option value="${esc(t("m_cash"))}">${esc(t("m_cash"))}</option></select></div><button class="btn" type="button" id="paid-btn" data-m="${m.id}" style="align-self:end">${esc(t("paid_btn"))}</button></div>`;
+      else if (st !== "wait") body += `<p class="note good">${esc(t("zoho_note"))}</p>`;
+      if (!m.accepted){
+        const ready = m.id === "new" ? conds(m).all : !!m.paid[y];
+        body += `<div class="row"><button class="btn" type="button" id="accept-btn" data-m="${m.id}"${ready ? "" : " disabled"}>${esc(t("accept_btn"))}</button></div>${ready ? "" : `<p class="hint">${esc(t("accept_need"))}</p>`}`;
+        if (!m.paid[y]) body += `<div class="row"><button class="sim" type="button" id="lapse-btn" data-m="${m.id}">${esc(t("sim_30"))}</button></div>`;
+      }
+    }
+    detail = `<div class="panel"><h3>${esc(m.name)} ${chip(st)}</h3>${body}</div>`;
+  }
+  return `<div class="count">${t("treas_count", { y, paid:`<b>${paid}</b>`, all:`<b>${live.length}</b>` })}</div>
+    <p class="hint">${esc(t("treas_p"))}</p><p class="note">${esc(t("q_zoho"))}</p>
+    <ul class="list">${items}</ul>${detail}
+    <div class="row"><button class="sim" type="button" id="year-btn">${esc(t("sim_year", { y: S.year + 1 }))}</button></div>
+    ${S.year > YEAR0 ? `<p class="note">${esc(t("year_note", { y: S.year }))}</p>` : ""}
+    ${S.log.length ? `<ul class="log" aria-label="Journal">${S.log.map(l => `<li>${esc(l)}</li>`).join("")}</ul>` : ""}`;
+}
+
+/* ---------- story, pains, files ---------- */
+function storyHtml(){
+  const m = me(), good = inGood();
+  const done = [S.fiche, !!(S.pod && S.webid), !!m, !!(m && m.paid[S.year]), good, good && S.door === "ok"];
+  const now = done.indexOf(false);
+  return done.map((d, i) => `<li class="${d ? "ok" : i === now ? "now" : ""}"><i>${d ? "✓" : i + 1}</i><span>${esc(t("st" + (i + 1)))}</span></li>`).join("");
+}
+function filesHtml(){
+  const m = me(), y = S.year, web = S.webid || "https://ines-moreau.pod.syntonie.be/profile/card#me";
+  const claim = m && !m.lapsed ? `
+<${web}>
+    org:memberOf <https://openfab.pod.syntonie.be/profile/card#org> .` : `
+# (pas encore de demande)`;
+  const member = `@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+
+<${web}>
+    foaf:name "${S.p.first} ${S.p.last}" ;
+    vcard:hasEmail <mailto:${S.p.email}> .   # lisible par OpenFab seulement
+${claim}`;
+  const config = `@prefix sy: <https://syntonie.be/ns/membership#> .   # brouillon
+@prefix schema: <https://schema.org/> .
+
+<#openfab> sy:joinConditions
+    sy:BasicDetails ,
+    [ sy:houseRules <reglement-2026-01.md> ] ,
+    [ sy:fee [ schema:price 25 ; schema:priceCurrency "EUR" ] ;
+      sy:period sy:CalendarYear ] .
+<#openfab> sy:decidedBy <#tresorerie> .`;
+  const roster = `@prefix org: <http://www.w3.org/ns/org#> .
+@prefix sy: <https://syntonie.be/ns/membership#> .
+# Statut seulement : ni montant, ni adresse.
+` + S.members.filter(x => x.accepted && !x.lapsed).map(x => {
+    const id = x.id === "new" ? web : `https://${slug(x.name)}.pod.syntonie.be/profile/card#me`;
+    const sk = x.skills.length ? ` ;\n    sy:inducted ${x.skills.map(s => "sy:" + s[0]).join(", ")}` : "";
+    return `
+[] a org:Membership ;
+    org:member <${id}> ;
+    sy:status sy:${status(x) === "ok" ? "InGoodStanding" : "ToRenew"} ;
+    sy:paidFor ${x.paid[y] ? y : "—"}${sk} .`;
+  }).join("\n");
+  const f = (h, p, code) => `<div class="file"><h3>${esc(h)}</h3><p>${esc(p)}</p><pre>${esc(code)}</pre></div>`;
+  return lang === "fr"
+    ? f("Espace de la personne · profile/card", "Ses coordonnées et sa demande. Elle peut tout reprendre ou fermer.", member)
+      + f("Espace d'OpenFab · config.ttl", "Les conditions d'adhésion, publiées. Décidées par le collectif.", config)
+      + f("Espace d'OpenFab · membres.ttl", "Le registre que lit l'accueil, et que la porte consulte.", roster)
+    : f("The person's space · profile/card", "Their details and their request. They can take everything back or close it.", member)
+      + f("OpenFab's space · config.ttl", "Membership conditions, published. Decided by the collective.", config)
+      + f("OpenFab's space · membres.ttl", "The register the front desk reads and the door checks.", roster);
+}
+
+/* ---------- render ---------- */
+let lastNew = 0;
+function render(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  $("story").innerHTML = storyHtml();
+  $("person").innerHTML = mapSvg() + personPanel();
+  $("desk").innerHTML = deskHtml();
+  $("treas").innerHTML = treasHtml();
+  const nNew = S.members.filter(m => m.id === "new" && status(m) === "wait").length;
+  const badge = $("treas-badge"); badge.hidden = !nNew; badge.textContent = t("new_badge", { n: nNew });
+  document.querySelectorAll("#tabs button").forEach(b => {
+    const on = b.dataset.desk === S.tab; b.setAttribute("aria-selected", String(on));
+    const dot = b.dataset.desk === "treas" && nNew && !on;
+    let d = b.querySelector(".dot"); if (dot && !d){ d = document.createElement("i"); d.className = "dot"; d.setAttribute("aria-hidden", "true"); b.appendChild(d); } if (!dot && d) d.remove();
+  });
+  ["person", "desk", "treas"].forEach(k => $("desk-" + k).classList.toggle("shown", S.tab === k));
+  $("pains").innerHTML = PAINS[lang].map(([a, b]) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join("");
+  $("keep").innerHTML = KEEP[lang].map(([a, b]) => `<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("");
+  $("filegrid").innerHTML = filesHtml();
+  if (nNew > lastNew){ const d = $("desk-treas"); d.classList.remove("flash"); void d.offsetWidth; d.classList.add("flash"); }
+  lastNew = nNew;
+}
+function keepFocus(fn){ const id = document.activeElement && document.activeElement.id; fn(); if (id && $(id)) $(id).focus(); }
+
+/* ---------- actions ---------- */
+document.addEventListener("click", e => {
+  const el = e.target.closest("button,[data-tile]");
+  if (!el) return;
+  if (el.dataset.lang){ lang = el.dataset.lang; return render(); }
+  if (el.id === "reset"){ S = fresh(); lastNew = 0; return render(); }
+  if (el.dataset.desk){ S.tab = el.dataset.desk; return render(); }
+  if (el.dataset.tile){ S.sel = el.dataset.tile; return render(); }
+  if (el.dataset.pod){ S.pod = el.dataset.pod; S.webid = ""; return render(); }
+  if (el.id === "sy-btn"){ S.webid = el.dataset.webid; S.sel = "join"; return render(); }
+  if (el.id === "webid-btn"){ const v = $("p-webid").value.trim(); if (!/^https:\/\/\S+#\S+$/.test(v)){ $("p-webid").setAttribute("aria-invalid", "true"); $("p-webid").focus(); return; } S.webid = v; S.sel = "join"; return render(); }
+  if (el.id === "join-btn"){
+    S.members.push({ id:"new", name:`${S.p.first} ${S.p.last}`, since:S.year, paid:{}, accepted:false, skills:[], isReq:true });
+    S.treasSel = "new"; log("log_req", { name:`${S.p.first} ${S.p.last}` }); return render();
+  }
+  if (el.dataset.deskM){ S.deskSel = el.dataset.deskM; return render(); }
+  if (el.dataset.treasM){ S.treasSel = el.dataset.treasM; return render(); }
+  const target = el.dataset.m && S.members.find(x => x.id === el.dataset.m);
+  if (el.id === "paid-btn" && target){ const how = $("pay-m").value; target.paid[S.year] = how; target.pendingDays = 0; log("log_paid", { y:S.year, name:target.name, m:how }); return keepFocus(render); }
+  if (el.id === "accept-btn" && target){ target.accepted = true; target.since = S.year; log("log_acc", { name:target.name }); if (target.id === "new"){ S.sel = "door"; S.deskSel = "new"; } return render(); }
+  if (el.id === "lapse-btn" && target){ target.lapsed = true; log("log_lapse", { name:target.name }); if (S.deskSel === target.id) S.deskSel = null; if (target.id === "new") S.door = null; return render(); }
+  if (el.id === "train-btn" && target){ target.skills.push(["laser", today()]); log("log_train", { name:target.name }); return render(); }
+  if (el.id === "door-btn"){ const ok = inGood(); S.door = ok ? "ok" : "no"; log("log_door", { name:`${S.p.first} ${S.p.last}`, r: t(ok ? "r_ok" : "r_no") }); return render(); }
+  if (el.id === "year-btn"){ S.year += 1; S.door = null; S.members.forEach(m => { if (m.isReq && !m.accepted && !m.lapsed) m.pendingDays = (m.pendingDays || 0) + 50; }); log("log_year", { y:S.year }); return render(); }
+});
+document.addEventListener("keydown", e => {
+  const g = e.target.closest && e.target.closest("[data-tile]");
+  if (g && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); S.sel = g.dataset.tile; render(); const n = document.querySelector(`[data-tile="${g.dataset.tile}"]`); if (n) n.focus(); }
+});
+document.addEventListener("input", e => {
+  const map = { "p-first":"first", "p-last":"last", "p-email":"email", "p-int":"interests" };
+  if (map[e.target.id]) S.p[map[e.target.id]] = e.target.value;
+});
+document.addEventListener("change", e => {
+  if (e.target.id === "p-rules"){ S.p.rules = e.target.checked; $("fiche-btn").disabled = !S.p.rules; }
+});
+document.addEventListener("submit", e => {
+  if (e.target.id !== "f-fiche") return;
+  e.preventDefault();
+  const bad = ["p-first", "p-last", "p-email"].find(id => !$(id).value.trim() || (id === "p-email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($(id).value.trim())));
+  if (bad){ $(bad).setAttribute("aria-invalid", "true"); $(bad).focus(); return; }
+  if (!S.p.rules) return;
+  S.fiche = true; S.sel = "pod"; render();
+});
+render();
+</script>
