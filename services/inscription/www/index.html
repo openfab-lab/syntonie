@@ -96,6 +96,34 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
 .qr{width:220px;max-width:100%;background:#fff;border:1.5px solid var(--navy);padding:6px;margin:4px 0 14px;}
 .qr svg{display:block;width:100%;height:auto;}
 .show{background:var(--paper);border-left:4px solid var(--orange);padding:12px 16px;margin-top:24px;font-weight:700;}
+.show.paid{border-left-color:var(--ok);}
+/* Citizen Pay : le QR de la commande et son état, comme sur le terminal */
+#cp,.other-h{display:none;}
+.cp-on #cp,.cp-on .other-h{display:block;}
+.cp-on .sepa{display:none;}
+#cp{border-width:2px;box-shadow:4px 4px 0 var(--navy);}
+#cp .qr{width:240px;transition:opacity .3s;}
+#cp.expired .qr{opacity:0.2;filter:grayscale(1);}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0 10px;}
+.steps li{font-family:var(--f-mono);font-size:0.72rem;line-height:1.3;letter-spacing:0.5px;color:var(--mid);border-top:5px solid var(--line);padding-top:6px;}
+.steps li.past{border-top-color:var(--navy);color:var(--ink);}
+.steps li.on{border-top-color:var(--orange);color:var(--navy);font-weight:700;}
+.steps li.on.paid{border-top-color:var(--ok);color:var(--ok);}
+.cp-now{font-weight:700;color:var(--navy);margin-bottom:14px;}
+.cp-now::before{content:"";display:inline-block;width:10px;height:10px;background:var(--orange);margin-right:10px;vertical-align:1px;animation:blink 1.4s steps(2,start) infinite;}
+.cp-now.paid::before{background:var(--ok);animation:none;}
+.cp-now.stop::before{background:var(--mid);animation:none;}
+@keyframes blink{to{visibility:hidden;}}
+#cp .opt{margin-top:8px;max-width:60ch;}
+#cp-again,#cp-retry{display:none;}
+#cp.expired #cp-again{display:inline-block;}
+#cp.expired #cp-open,#cp.expired .cp-open-hint,#cp.paid #cp-open,#cp.paid .cp-open-hint{display:none;}
+.other-h{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);margin-top:32px;}
+.cp-on #classic .step{border:1px dashed var(--line);background:transparent;margin-top:10px;padding:14px 16px;}
+.cp-on #classic .alt{border-top:0;margin-top:0;padding-top:0;}
+.cp-on #classic .actions{margin-top:16px;gap:12px;}
+.cp-on [data-pay]{background:transparent;box-shadow:none;font-weight:400;font-size:0.92rem;padding:10px 16px;min-height:48px;}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 @media (max-width:600px){
   .row{grid-template-columns:1fr;gap:0;}
   .sheet{padding:24px 18px;box-shadow:5px 5px 0 var(--navy);}
@@ -104,7 +132,10 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
   .fee{flex-direction:column;align-items:flex-start;gap:6px;}
   .num{font-size:2.6rem;}
 }
-@media (prefers-reduced-motion:reduce){.btn:active{transform:none;}}
+@media (max-width:420px){
+  .steps{grid-template-columns:1fr 1fr;row-gap:10px;}
+}
+@media (prefers-reduced-motion:reduce){.btn:active{transform:none;}.cp-now::before{animation:none;}#cp .qr{transition:none;}}
 </style>
 </head>
 <body>
@@ -236,18 +267,41 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
   <!-- ============ PAIEMENT (avant l'envoi) ============ -->
   <div class="sheet" id="pay" tabindex="-1">
     <h1><span data-i18n="pay_title"></span> — <span class="fee-amount"></span> €</h1>
-    <p data-i18n="pay_intro"></p>
+    <p id="pay-intro" data-i18n="pay_intro"></p>
 
-    <div class="step">
-      <p data-i18n="pay_qr"></p>
-      <div class="qr" id="qr" role="img" aria-label="QR SEPA"></div>
-      <p class="alt"><span data-i18n="pay_alt"></span> <code class="iban"></code><br><span data-i18n="pay_comm"></span> <code id="ok-comm"></code></p>
+    <!-- Citizen Pay : QR de la commande, puis la fiche part seule une fois payé -->
+    <div class="step" id="cp">
+      <p data-i18n="cp_qr"></p>
+      <div class="qr" id="cp-qr" role="img" aria-label="QR Citizen Pay"></div>
+      <ol class="steps" id="cp-steps" aria-hidden="true">
+        <li data-st="waiting" data-i18n="st_waiting"></li>
+        <li data-st="scanned" data-i18n="st_scanned"></li>
+        <li data-st="confirming" data-i18n="st_confirming"></li>
+        <li data-st="paid" data-i18n="st_paid"></li>
+      </ol>
+      <p class="cp-now" id="cp-now" aria-live="polite"></p>
+      <p class="formerr" id="cp-err" role="alert"></p>
+      <div class="actions" style="margin-top:0">
+        <a class="btn ghost" id="cp-open" target="_blank" rel="noopener" data-i18n="cp_open"></a>
+        <button class="btn" type="button" id="cp-again" data-i18n="cp_again"></button>
+        <button class="btn" type="button" id="cp-retry" data-i18n="cp_retry"></button>
+      </div>
+      <p class="opt cp-open-hint" data-i18n="cp_open_hint"></p>
     </div>
 
-    <p class="formerr" id="payerr" role="alert"></p>
-    <div class="actions">
-      <button class="btn" type="button" data-pay="transfer" data-i18n="paid_transfer"></button>
-      <button class="btn" type="button" data-pay="desk" data-i18n="paid_desk"></button>
+    <div id="classic">
+      <h3 class="other-h" data-i18n="other_title"></h3>
+      <div class="step">
+        <p class="sepa" data-i18n="pay_qr"></p>
+        <div class="qr sepa" id="qr" role="img" aria-label="QR SEPA"></div>
+        <p class="alt"><span id="pay-alt" data-i18n="pay_alt"></span> <code class="iban"></code><br><span data-i18n="pay_comm"></span> <code id="ok-comm"></code></p>
+      </div>
+
+      <p class="formerr" id="payerr" role="alert"></p>
+      <div class="actions">
+        <button class="btn" type="button" data-pay="transfer" data-i18n="paid_transfer"></button>
+        <button class="btn" type="button" data-pay="desk" data-i18n="paid_desk"></button>
+      </div>
     </div>
     <div class="actions" style="margin-top:16px">
       <button class="btn ghost" type="button" id="back" data-i18n="back"></button>
@@ -259,7 +313,7 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
     <h1 data-i18n="ok_title"></h1>
     <p><span id="ok-name"></span></p>
     <p style="margin-top:10px" data-i18n="no_note"></p>
-    <p class="show" data-i18n="show"></p>
+    <p class="show" id="show"></p>
     <div class="actions">
       <button class="btn ghost" type="button" id="again" data-i18n="again"></button>
     </div>
@@ -277,10 +331,15 @@ ol.terms li::before{content:counter(t);position:absolute;left:0;top:0;width:26px
    PAYEE         : titulaire du compte, tel que la banque le connaît (les
                    banques comparent ce nom à l'IBAN).
    TEST_MODE     : rempli par le service (variable TEST_MODE).
+   CITIZENPAY    : rempli par le service (variable CITIZENPAY_PLACE). Sans
+                   lui, virement et accueil seulement.
    ------------------------------------------------------------------ */
 const CONFIG = {
   CHECK_URL: "api/verifier",
   API_URL: "api/inscriptions",
+  PAY_URL: "api/paiements",
+  PAY_POLL: 2000,             // état de la commande toutes les 2 s
+  PAY_EXPIRY: 14 * 60 * 1000, // Citizen Pay annule une commande impayée après ~15 min
   RULES_URL: "",
   TERMS_VERSION: "2026-01",
   FEE: 25,
@@ -288,7 +347,8 @@ const CONFIG = {
   PAYEE: "Syntonie ASBL",
   PLACE: "Ixelles",
   TEST_MODE: "__TEST_MODE__" === "1",
-  NEED_CODE: "__NEED_CODE__" === "1"
+  NEED_CODE: "__NEED_CODE__" === "1",
+  CITIZENPAY: "__CITIZENPAY__" === "1"
 };
 
 const I18N = {
@@ -335,7 +395,23 @@ const I18N = {
     pay_intro: "Votre fiche n'est pas encore envoyée. Elle part à l'équipe quand vous confirmez votre paiement ci-dessous. Virement ou carte uniquement, pas de cash : la trace bancaire sert de preuve.",
     paid_transfer: "J'ai fait le virement", paid_desk: "J'ai payé par carte à l'accueil",
     back: "Modifier ma fiche",
-    again: "Nouvelle inscription"
+    again: "Nouvelle inscription",
+    cp_intro: "Votre fiche n'est pas encore envoyée. Elle part toute seule à l'équipe dès que votre paiement est reçu.",
+    cp_qr: "Scannez ce code avec l'appareil photo de votre téléphone : la page de paiement Citizen Pay s'ouvre.",
+    st_waiting: "En attente du scan", st_scanned: "Scanné, choix du paiement", st_confirming: "Confirmation en cours", st_paid: "Payé",
+    now_waiting: "En attente du scan du code.",
+    now_scanned: "Code scanné. Choisissez comment payer sur votre téléphone.",
+    now_confirming: "Paiement en cours de confirmation…",
+    now_paid: "Paiement reçu.",
+    now_expired: "Ce code a expiré, aucun paiement n'a été reçu.",
+    cp_open: "Payer sur cet ordinateur",
+    cp_open_hint: "La page de paiement s'ouvre dans un nouvel onglet. Revenez ensuite sur cet onglet : il se met à jour tout seul.",
+    cp_again: "Nouveau code",
+    cp_retry: "Réessayer l'envoi",
+    err_sent_paid: "Votre paiement est bien reçu, mais la fiche n'est pas partie. Réessayez l'envoi : ne payez pas une deuxième fois.",
+    other_title: "Autre possibilité",
+    pay_iban: "Par virement sur le compte",
+    show_paid: "Paiement confirmé (Citizen Pay, commande n° {n}). Votre inscription est complète."
   },
   nl: {
     demo: "TESTMODUS: formulieren die hier verzonden worden tellen niet mee",
@@ -380,7 +456,23 @@ const I18N = {
     pay_intro: "Je formulier is nog niet verzonden. Het vertrekt naar het team zodra je hieronder je betaling bevestigt. Alleen overschrijving of kaart, geen cash: het bankspoor geldt als bewijs.",
     paid_transfer: "Ik heb overgeschreven", paid_desk: "Ik heb met de kaart aan het onthaal betaald",
     back: "Mijn formulier aanpassen",
-    again: "Nieuwe inschrijving"
+    again: "Nieuwe inschrijving",
+    cp_intro: "Je formulier is nog niet verzonden. Het vertrekt vanzelf naar het team zodra je betaling ontvangen is.",
+    cp_qr: "Scan deze code met de camera van je telefoon: de betaalpagina van Citizen Pay gaat open.",
+    st_waiting: "Wachten op scan", st_scanned: "Gescand, betaalwijze kiezen", st_confirming: "Bevestiging bezig", st_paid: "Betaald",
+    now_waiting: "Wachten tot de code gescand wordt.",
+    now_scanned: "Code gescand. Kies op je telefoon hoe je betaalt.",
+    now_confirming: "Betaling wordt bevestigd…",
+    now_paid: "Betaling ontvangen.",
+    now_expired: "Deze code is verlopen, er is geen betaling ontvangen.",
+    cp_open: "Betalen op deze computer",
+    cp_open_hint: "De betaalpagina gaat open in een nieuw tabblad. Kom daarna terug naar dit tabblad: het werkt zichzelf bij.",
+    cp_again: "Nieuwe code",
+    cp_retry: "Opnieuw verzenden",
+    err_sent_paid: "Je betaling is goed ontvangen, maar het formulier is niet vertrokken. Probeer opnieuw te verzenden: betaal geen tweede keer.",
+    other_title: "Andere mogelijkheid",
+    pay_iban: "Via overschrijving op rekening",
+    show_paid: "Betaling bevestigd (Citizen Pay, bestelling nr. {n}). Je inschrijving is rond."
   },
   en: {
     demo: "TEST MODE: forms sent here do not count",
@@ -425,15 +517,39 @@ const I18N = {
     pay_intro: "Your form hasn't been sent yet. It goes to the team when you confirm your payment below. Transfer or card only, no cash: the bank record is the proof.",
     paid_transfer: "I have made the transfer", paid_desk: "I have paid by card at the front desk",
     back: "Edit my form",
-    again: "New registration"
+    again: "New registration",
+    cp_intro: "Your form hasn't been sent yet. It goes to the team by itself as soon as your payment is received.",
+    cp_qr: "Scan this code with your phone's camera: the Citizen Pay payment page opens.",
+    st_waiting: "Waiting for scan", st_scanned: "Scanned, choosing how to pay", st_confirming: "Confirming", st_paid: "Paid",
+    now_waiting: "Waiting for the code to be scanned.",
+    now_scanned: "Code scanned. Choose how to pay on your phone.",
+    now_confirming: "Confirming the payment…",
+    now_paid: "Payment received.",
+    now_expired: "This code has expired, no payment was received.",
+    cp_open: "Pay on this computer",
+    cp_open_hint: "The payment page opens in a new tab. Then come back to this tab: it updates by itself.",
+    cp_again: "New code",
+    cp_retry: "Try sending again",
+    err_sent_paid: "Your payment was received, but the form wasn't sent. Try sending again: do not pay a second time.",
+    other_title: "Other option",
+    pay_iban: "By bank transfer to account",
+    show_paid: "Payment confirmed (Citizen Pay, order no. {n}). Your registration is complete."
   }
 };
 
 const $ = (id) => document.getElementById(id);
 const form = $("form");
+const payBtns = document.querySelectorAll("[data-pay]");
 let lang = "fr";
 let last = null;    // personne en cours d'inscription (nom, année)
 let pending = null; // fiche vérifiée, pas encore envoyée
+// Commande Citizen Pay en cours : { order, token, url, status, at, expired }.
+// Elle survit à « Modifier ma fiche » et au changement de langue. Vide = pas
+// de Citizen Pay (coupé, ou en panne) : virement et accueil, comme avant.
+let cp = null;
+let polling = null, pollBusy = false;
+let sending = false; // une fiche part en ce moment : jamais deux envois
+const STEPS = ["waiting", "scanned", "confirming", "paid"];
 
 function t(key){ return I18N[lang][key] || I18N.fr[key] || key; }
 
@@ -516,23 +632,139 @@ function epc(){
     "EUR" + CONFIG.FEE.toFixed(2), "", "", comm(), ""].join("\n");
 }
 
-function renderPay(){
-  $("ok-comm").textContent = comm();
+function qrSvg(text){
   qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
   const qr = qrcode(0, "M");
-  qr.addData(epc(), "Byte");
+  qr.addData(text, "Byte");
   qr.make();
-  $("qr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
+  return qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
+}
+
+// Texte traduit dont la clé change selon l'état : setLang le retraduit.
+function setKey(el, key){ el.dataset.i18n = key; el.textContent = t(key); }
+
+function renderPay(){
+  const on = !!cp;
+  $("pay").classList.toggle("cp-on", on);
+  setKey($("pay-intro"), on ? "cp_intro" : "pay_intro");
+  setKey($("pay-alt"), on ? "pay_iban" : "pay_alt");
+  $("ok-comm").textContent = comm();
+  // Un seul QR à l'écran : celui de Citizen Pay, sinon celui du virement.
+  if (on) renderCp(); else $("qr").innerHTML = qrSvg(epc());
+  payBtns.forEach(b => { b.disabled = sending || (on && cp.status === "paid"); });
+}
+
+function renderCp(){
+  const box = $("cp-qr");
+  if (box.dataset.order !== String(cp.order)) { box.innerHTML = qrSvg(cp.url); box.dataset.order = cp.order; }
+  $("cp-open").href = cp.url;
+  const i = STEPS.indexOf(cp.status), paid = cp.status === "paid";
+  $("cp-steps").querySelectorAll("li").forEach((li, n) => {
+    li.classList.toggle("past", !cp.expired && n < i);
+    li.classList.toggle("on", !cp.expired && n === i);
+    li.classList.toggle("paid", paid);
+  });
+  $("cp").classList.toggle("expired", cp.expired);
+  $("cp").classList.toggle("paid", paid);
+  const now = $("cp-now"), text = t(cp.expired ? "now_expired" : "now_" + cp.status);
+  now.className = "cp-now" + (paid ? " paid" : cp.expired ? " stop" : "");
+  if (now.textContent !== text) now.textContent = text; // annoncé une fois par changement
 }
 
 function renderDone(){
   $("ok-name").textContent = t("welcome") + " " + last.first_name + " " + last.last_name + ".";
+  const s = $("show");
+  s.textContent = last.order ? t("show_paid").replace("{n}", last.order) : t("show");
+  s.classList.toggle("paid", !!last.order);
 }
 
 function show(id){
   ["form", "pay", "done"].forEach(x => { $(x).style.display = x === id ? "block" : "none"; });
   window.scrollTo(0, 0);
   if (id !== "form") $(id).focus();
+}
+
+// ------------------------------------------------------------ Citizen Pay
+// Le service crée la commande et relaie son état : la page ne parle qu'à lui.
+// Il n'y a ni retour ni notification de Citizen Pay : on demande l'état toutes
+// les 2 s tant que l'écran de paiement est affiché.
+
+function cpFresh(){ return !!cp && !cp.expired && Date.now() - cp.at < CONFIG.PAY_EXPIRY; }
+
+async function newOrder(data){
+  const r = await post(CONFIG.PAY_URL, data);
+  cp = { order: r.order, token: r.token, url: r.url, status: "waiting", at: Date.now(), expired: false };
+}
+
+function startPoll(){
+  if (!polling) polling = setInterval(poll, CONFIG.PAY_POLL);
+  poll();
+}
+function stopPoll(){ clearInterval(polling); polling = null; }
+
+async function poll(){
+  if (!cp || pollBusy) return;
+  const mine = cp;
+  pollBusy = true;
+  try {
+    const res = await fetch(CONFIG.PAY_URL + "/" + mine.order + "?token=" + encodeURIComponent(mine.token), { cache: "no-store" });
+    if (cp !== mine) return;
+    if (res.ok) {
+      update((await res.json()).status);
+    } else if (res.status === 403) {
+      // Jeton refusé : le service a redémarré. Retour au virement.
+      stopPoll(); cp = null; renderPay();
+    }
+  } catch (ex) {
+    // réseau coupé : on réessaie au tour suivant
+  } finally {
+    pollBusy = false;
+  }
+  // Après 14 min le QR est grisé. On continue pourtant à suivre la commande
+  // jusqu'à son annulation : un paiement commencé juste avant compte encore.
+  if (cp === mine && mine.status !== "paid" && !mine.expired && Date.now() - mine.at > CONFIG.PAY_EXPIRY) {
+    mine.expired = true; renderPay();
+  }
+}
+
+function update(status){
+  if (status === "cancelled") {
+    stopPoll(); cp.expired = true; cp.status = "waiting"; renderPay();
+    return;
+  }
+  cp.status = STEPS.includes(status) ? status : "waiting";
+  if (cp.status === "paid") { stopPoll(); cp.expired = false; }
+  renderPay();
+  if (cp.status === "paid") finish();
+}
+
+// Payé : la fiche part, avec le numéro de commande. Le service revérifie
+// lui-même le paiement avant d'envoyer l'e-mail.
+async function finish(){
+  if (sending || !pending || !cp || cp.status !== "paid") return;
+  sending = true;
+  $("cp-err").classList.remove("on");
+  $("cp-retry").style.display = "none";
+  const order = cp.order;
+  try {
+    await post(CONFIG.API_URL, Object.assign({}, pending, { payment: "citizenpay", order, token: cp.token }));
+    sending = false;
+    done(order);
+  } catch (ex) {
+    sending = false;
+    if (ex.status === 409) return done(order); // déjà partie (réponse perdue en route)
+    setKey($("cp-err"), "err_sent_paid"); $("cp-err").classList.add("on");
+    $("cp-retry").style.display = "inline-block";
+  }
+}
+
+function done(order){
+  stopPoll();
+  cp = null;
+  pending = null;
+  last.order = order || null;
+  renderDone();
+  show("done");
 }
 
 // Étape 1 : la fiche est vérifiée, rien n'est encore envoyé à l'équipe.
@@ -550,12 +782,25 @@ form.addEventListener("submit", async (e) => {
   btn.disabled = true; btn.textContent = t("sending");
   const data = payload();
   try {
-    await post(CONFIG.CHECK_URL, data);
+    if (CONFIG.CITIZENPAY && !cpFresh()) {
+      // La création de commande valide aussi la fiche et le code d'accueil.
+      try {
+        await newOrder(data);
+      } catch (ex) {
+        if (ex.status !== 404 && !(ex.status >= 500)) throw ex;
+        cp = null; // Citizen Pay injoignable : virement et accueil seulement
+        await post(CONFIG.CHECK_URL, data);
+      }
+    } else {
+      await post(CONFIG.CHECK_URL, data); // fiche modifiée : même commande
+    }
     pending = data;
     last = { year: new Date().getFullYear(), first_name: data.first_name, last_name: data.last_name };
     renderPay(); renderDone();
     $("payerr").classList.remove("on");
+    $("cp-err").classList.remove("on");
     show("pay");
+    if (cp) startPoll();
   } catch (ex) {
     err.textContent = t(ex.status === 403 ? "err_code" : "err_net"); err.classList.add("on");
     if (ex.status === 403) { mark($("code"), false); $("code").focus(); }
@@ -565,24 +810,52 @@ form.addEventListener("submit", async (e) => {
 });
 
 // Étape 2 : la fiche part quand la personne déclare son paiement.
-const payBtns = document.querySelectorAll("[data-pay]");
 payBtns.forEach(b => b.addEventListener("click", async () => {
+  if (sending) return;
   const err = $("payerr");
   err.classList.remove("on");
+  sending = true;
   payBtns.forEach(x => { x.disabled = true; });
   try {
     await post(CONFIG.API_URL, Object.assign({}, pending, { payment: b.dataset.pay }));
-    pending = null;
-    show("done");
+    sending = false;
+    done(null);
   } catch (ex) {
+    sending = false;
     err.textContent = t("err_net"); err.classList.add("on");
-  } finally {
     payBtns.forEach(x => { x.disabled = false; });
+    if (cp && cp.status === "paid") finish(); // payé entre-temps via Citizen Pay
   }
 }));
-$("back").addEventListener("click", () => show("form"));
+$("back").addEventListener("click", () => { stopPoll(); show("form"); });
+
+$("cp-retry").addEventListener("click", finish);
+
+$("cp-again").addEventListener("click", async () => {
+  const btn = $("cp-again");
+  btn.disabled = true;
+  stopPoll();
+  try {
+    await newOrder(pending);
+    renderPay();
+    startPoll();
+  } catch (ex) {
+    cp = null; // Citizen Pay injoignable : virement et accueil seulement
+    renderPay();
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// Retour sur l'onglet (après « Payer sur cet ordinateur », ou téléphone
+// déverrouillé) : l'état est redemandé tout de suite.
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && polling) poll();
+});
 
 $("again").addEventListener("click", () => {
+  stopPoll();
+  cp = null;
   last = null;
   form.reset();
   document.querySelectorAll("[data-toggle]").forEach(toggleSub);
