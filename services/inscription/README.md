@@ -73,14 +73,15 @@ Sur le VPS, `/srv/members/.env` (modèle : `.env.example`) :
 | `TEST_MODE` | `1` : bandeau TEST sur la page, `[TEST]` dans l'objet des e-mails |
 | `CITIZENPAY_PLACE` | Lieu Citizen Pay qui reçoit la cotisation (id ou slug). Vide = pas de Citizen Pay, virement et accueil seulement. |
 | `CITIZENPAY_API_URL` | API Citizen Pay. Défaut `https://api2.citizenpay.xyz` |
-| `CITIZENPAY_CHECKOUT_URL` | Page de paiement Citizen Pay. Défaut `https://checkout.citizenpay.eu` |
 | `FEE_CENTS` | Cotisation en centimes, défaut `2500`. Doit valoir `FEE` du bloc `CONFIG` de la page. |
 
 `TEST_MODE` ne touche pas à Citizen Pay : les commandes et les paiements sont
-réels. Pour tester sans payer pour de vrai, pointer les deux adresses vers
+réels. Pour tester sans payer pour de vrai, pointer l'API vers
 l'environnement de test de Citizen Pay, avec un lieu qui y existe :
-`CITIZENPAY_API_URL=https://api2.staging.citizenpay.eu` et
-`CITIZENPAY_CHECKOUT_URL=https://checkout.staging.citizenpay.eu`.
+`CITIZENPAY_API_URL=https://api2.staging.citizenpay.eu`.
+
+Le lien de paiement mis dans le QR est celui que Citizen Pay renvoie à la
+création de la commande (`checkoutUrl`), pris tel quel.
 
 ## Déployer
 

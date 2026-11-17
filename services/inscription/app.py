@@ -26,7 +26,6 @@ Configuration par variables d'environnement :
   CITIZENPAY_PLACE lieu Citizen Pay qui reçoit la cotisation (id ou slug).
                    Vide = pas de Citizen Pay, virement et accueil seulement.
   CITIZENPAY_API_URL       défaut https://api2.citizenpay.xyz
-  CITIZENPAY_CHECKOUT_URL  défaut https://checkout.citizenpay.eu
   FEE_CENTS        cotisation en centimes (défaut 2500), doit valoir FEE de la page
   PORT             défaut 8080
 """
@@ -53,8 +52,6 @@ PAYMENTS = {"transfer": "virement bancaire, déclaré fait par la personne : à 
             "desk": "par carte au terminal de l'accueil, déclaré par la personne : à vérifier sur le compte"}
 CITIZENPAY_PLACE = os.environ.get("CITIZENPAY_PLACE", "").strip()
 CITIZENPAY_API_URL = os.environ.get("CITIZENPAY_API_URL", "").strip().rstrip("/") or "https://api2.citizenpay.xyz"
-CITIZENPAY_CHECKOUT_URL = (os.environ.get("CITIZENPAY_CHECKOUT_URL", "").strip().rstrip("/")
-                           or "https://checkout.citizenpay.eu")
 FEE_CENTS = int(os.environ.get("FEE_CENTS", "") or "2500")
 # États Citizen Pay → états montrés sur la page. Inconnu = attente.
 STATUS = {"pending": "waiting", "checkout": "scanned", "confirming": "confirming", "paid": "paid",
@@ -190,13 +187,13 @@ def create_order():
     oid = order_id(made.get("orderId") if isinstance(made, dict) else None)
     if oid is None:
         raise ValueError("pas de numéro de commande")
-    # Le lien renvoyé par la création ne mène nulle part : on lit la commande
-    # pour connaître le slug du lieu, qui fait l'adresse de la page de paiement.
-    place = cp_order(oid).get("place") or {}
-    slug = place.get("slug") if isinstance(place, dict) else None
-    if not isinstance(slug, str) or not re.fullmatch(r"[A-Za-z0-9._-]{1,100}", slug):
-        raise ValueError("pas de slug")
-    return oid, "%s/%s?orderId=%d" % (CITIZENPAY_CHECKOUT_URL, slug, oid)
+    # Le lien de paiement est celui que Citizen Pay renvoie, pris tel quel : sa
+    # forme lui appartient. On vérifie seulement que c'est une adresse web,
+    # puisqu'il finit dans un QR et dans un lien de la page.
+    link = made.get("checkoutUrl")
+    if not isinstance(link, str) or len(link) > 500 or not re.fullmatch(r"https?://[^\s\"'<>\\]+", link):
+        raise ValueError("pas de lien de paiement")
+    return oid, link
 
 
 def order_paid(o):
